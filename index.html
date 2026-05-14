@@ -1612,8 +1612,25 @@
                 padding: 60px 20px;
             }
             .card-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 16px;
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                gap: 14px;
+                padding: 0 20px 8px;
+                margin: 0 -20px;
+                /* Hide scrollbar */
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            .card-grid::-webkit-scrollbar { display: none; }
+
+            .card-grid .card {
+                flex-shrink: 0;
+                width: 72vw;
+                max-width: 300px;
+                scroll-snap-align: center;
             }
             .gallery-grid {
                 grid-template-columns: 1fr;
