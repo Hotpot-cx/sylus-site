@@ -5751,8 +5751,9 @@
                 userInteracted = true;
                 audio.muted = false;
                 bgmOverlay.classList.add('hidden');
-                if (playlist[currentTrack].src && audio.paused) {
-                    audio.play().catch(() => {});
+                // Must call play() directly in the click handler for mobile
+                if (playlist[currentTrack].src) {
+                    audio.play().then(() => {}).catch(() => {});
                 }
                 document.removeEventListener('click', onUserInteract);
                 document.removeEventListener('touchstart', onUserInteract);
@@ -5760,8 +5761,9 @@
             }
         }
 
-        // Also hide overlay on click
+        // Also hide overlay on click/touch
         bgmOverlay.addEventListener('click', onUserInteract);
+        bgmOverlay.addEventListener('touchstart', onUserInteract, { once: false });
 
         document.addEventListener('click', onUserInteract);
         document.addEventListener('touchstart', onUserInteract);
