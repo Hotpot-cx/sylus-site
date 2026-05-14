@@ -2181,6 +2181,254 @@
             }
         }
 
+        /* ===== BGM Player ===== */
+        .bgm-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 997;
+            background: rgba(5, 5, 8, 0.75);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .bgm-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .bgm-overlay-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            color: var(--text-primary);
+            text-shadow: 0 0 40px rgba(200, 165, 92, 0.4);
+            animation: bgm-overlay-pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes bgm-overlay-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.03); }
+        }
+
+        .bgm-overlay-icon {
+            width: 48px;
+            height: 48px;
+            background: radial-gradient(circle, rgba(200, 165, 92, 0.2), transparent);
+            border: 1px solid rgba(200, 165, 92, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bgm-overlay-icon::after {
+            content: '♪';
+            font-size: 24px;
+            color: var(--gold);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        /* ===== BGM Player ===== */
+        .bgm-player {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 998;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .bgm-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 2px solid rgba(200, 165, 92, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.35s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .bgm-btn:hover {
+            border-color: var(--gold);
+            box-shadow: 0 6px 24px rgba(200, 165, 92, 0.15);
+        }
+
+        .bgm-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--gold);
+            transition: transform 0.3s ease;
+        }
+
+        .bgm-btn.playing svg {
+            animation: bgm-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bgm-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        .bgm-panel {
+            background: rgba(13, 13, 18, 0.96);
+            border: 1px solid rgba(200, 165, 92, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            min-width: 220px;
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .bgm-panel.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .bgm-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .bgm-panel-title {
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .bgm-panel-close {
+            width: 24px;
+            height: 24px;
+            background: none;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .bgm-panel-close:hover {
+            border-color: var(--light-red);
+            color: var(--light-red);
+        }
+
+        .bgm-track-info {
+            font-size: 13px;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 4px;
+            letter-spacing: 0.03em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bgm-track-artist {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .bgm-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .bgm-ctrl-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            background: transparent;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.25s ease;
+        }
+
+        .bgm-ctrl-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .bgm-ctrl-btn.play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-color: rgba(200, 165, 92, 0.3);
+        }
+
+        .bgm-ctrl-btn.play-btn:hover {
+            background: rgba(200, 165, 92, 0.1);
+            border-color: var(--gold);
+        }
+
+        .bgm-volume {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bgm-volume svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .bgm-volume input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .bgm-volume input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+            border: none;
+        }
+
         /* ===== Story Profile ===== */
         .profile-row {
             display: flex;
@@ -2788,6 +3036,42 @@
 
 </head>
 <body>
+
+    <!-- ===== BGM Player ===== -->
+    <div class="bgm-overlay" id="bgmOverlay">
+        <div class="bgm-overlay-text">
+            <span class="bgm-overlay-icon"></span>
+            <span>点击进入 N109 区</span>
+        </div>
+    </div>
+    <div class="bgm-player" id="bgmPlayer">
+        <div class="bgm-panel" id="bgmPanel">
+            <div class="bgm-panel-header">
+                <span class="bgm-panel-title">♫ 播放列表</span>
+                <button class="bgm-panel-close" id="bgmPanelClose">✕</button>
+            </div>
+            <div class="bgm-track-info" id="bgmTrackName">未选择曲目</div>
+            <div class="bgm-track-artist" id="bgmTrackArtist"></div>
+            <div class="bgm-controls">
+                <button class="bgm-ctrl-btn" id="bgmPrev" title="上一首">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+                </button>
+                <button class="bgm-ctrl-btn play-btn" id="bgmPlay" title="播放">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+                <button class="bgm-ctrl-btn" id="bgmNext" title="下一首">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                </button>
+            </div>
+            <div class="bgm-volume">
+                <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 8.5v7c1.5 0 2.5-1.5 2.5-3.5z"/></svg>
+                <input type="range" id="bgmVolume" min="0" max="1" step="0.05" value="0.5">
+            </div>
+        </div>
+        <button class="bgm-btn" id="bgmBtn" title="音乐">
+            <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </button>
+    </div>
 
     <!-- ===== Mephisto Mascot ===== -->
     <div class="mascot" id="mascot">
@@ -5416,6 +5700,150 @@
         }
 
         animateMascot();
+
+        // ===== BGM Player =====
+        const bgmOverlay = document.getElementById('bgmOverlay');
+        const bgmBtn = document.getElementById('bgmBtn');
+        const bgmPanel = document.getElementById('bgmPanel');
+        const bgmPanelClose = document.getElementById('bgmPanelClose');
+        const bgmPlay = document.getElementById('bgmPlay');
+        const bgmPrev = document.getElementById('bgmPrev');
+        const bgmNext = document.getElementById('bgmNext');
+        const bgmVolume = document.getElementById('bgmVolume');
+        const bgmTrackName = document.getElementById('bgmTrackName');
+        const bgmTrackArtist = document.getElementById('bgmTrackArtist');
+
+        // Playlist – replace with your actual .mp3 files in /music/ folder
+        const playlist = [
+            { name: '有形之锢', artist: '恋与深空 OST', src: 'music/恋与深空-有形之锢-_mqms2_.mp3' },
+            { name: '交错视界', artist: 'Mikelangelo Loconte · 2.0 主题曲', src: 'music/恋与深空-交错视界-_mqms2_.mp3' },
+            { name: '不设防禁区', artist: '恋与深空 OST', src: 'music/恋与深空-不设防禁区-_mqms2_.mp3' },
+            { name: '炽光淋漓', artist: '恋与深空 OST', src: 'music/恋与深空-炽光淋漓-_mqms2_.mp3' },
+            { name: '即兴放逐', artist: '恋与深空 OST', src: 'music/恋与深空-即兴放逐-_mqms2_.mp3' },
+            { name: '久候狂欢之徒', artist: '恋与深空 OST', src: 'music/恋与深空-久候狂欢之徒-_mqms2_.mp3' },
+            { name: '龙谷咏叹', artist: '恋与深空 OST', src: 'music/恋与深空-龙谷咏叹-_mqms2_.mp3' },
+            { name: '无桎绿野', artist: '恋与深空 OST', src: 'music/恋与深空-无桎绿野-_mqms2_.mp3' },
+            { name: '银翼安魂地', artist: '恋与深空 OST', src: 'music/恋与深空-银翼安魂地-_mqms2_.mp3' }
+        ];
+
+        let currentTrack = 0;
+        let isPlaying = false;
+        let userInteracted = false;
+        const audio = new Audio();
+        audio.volume = 0.5;
+        audio.muted = true; // Start muted to bypass autoplay block
+
+        // Try autoplay muted on first load
+        function tryAutoplay() {
+            if (playlist[0].src) {
+                audio.src = playlist[0].src;
+                audio.play().then(() => {
+                    // Successfully playing muted
+                }).catch(() => {
+                    // Even muted autoplay blocked, wait for user click
+                });
+            }
+        }
+
+        // Unmute after any user interaction, hide overlay
+        function onUserInteract() {
+            if (!userInteracted) {
+                userInteracted = true;
+                audio.muted = false;
+                bgmOverlay.classList.add('hidden');
+                if (playlist[currentTrack].src && audio.paused) {
+                    audio.play().catch(() => {});
+                }
+                document.removeEventListener('click', onUserInteract);
+                document.removeEventListener('touchstart', onUserInteract);
+                document.removeEventListener('keydown', onUserInteract);
+            }
+        }
+
+        // Also hide overlay on click
+        bgmOverlay.addEventListener('click', onUserInteract);
+
+        document.addEventListener('click', onUserInteract);
+        document.addEventListener('touchstart', onUserInteract);
+        document.addEventListener('keydown', onUserInteract);
+
+        function loadTrack(index) {
+            if (index < 0) index = playlist.length - 1;
+            if (index >= playlist.length) index = 0;
+            currentTrack = index;
+            const track = playlist[currentTrack];
+            bgmTrackName.textContent = track.name || '未选择曲目';
+            bgmTrackArtist.textContent = track.artist || '';
+            if (track.src) {
+                audio.src = track.src;
+                audio.load();
+                if (isPlaying) audio.play().catch(() => {});
+            } else {
+                bgmTrackName.textContent = '音乐文件待添加';
+                bgmTrackArtist.textContent = '请在 music/ 目录放入 .mp3 文件';
+            }
+        }
+
+        function togglePlay() {
+            if (!playlist[currentTrack].src) return;
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                audio.play().catch(() => {});
+            }
+        }
+
+        audio.addEventListener('play', () => {
+            isPlaying = true;
+            bgmPlay.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+            bgmBtn.classList.add('playing');
+        });
+
+        audio.addEventListener('pause', () => {
+            isPlaying = false;
+            bgmPlay.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+            bgmBtn.classList.remove('playing');
+        });
+
+        audio.addEventListener('ended', () => {
+            loadTrack(currentTrack + 1);
+            if (playlist[currentTrack].src) audio.play().catch(() => {});
+        });
+
+        bgmBtn.addEventListener('click', () => {
+            bgmPanel.classList.toggle('open');
+        });
+
+        bgmPanelClose.addEventListener('click', () => {
+            bgmPanel.classList.remove('open');
+        });
+
+        bgmPlay.addEventListener('click', togglePlay);
+
+        bgmPrev.addEventListener('click', () => {
+            loadTrack(currentTrack - 1);
+            if (playlist[currentTrack].src && isPlaying) audio.play().catch(() => {});
+        });
+
+        bgmNext.addEventListener('click', () => {
+            loadTrack(currentTrack + 1);
+            if (playlist[currentTrack].src && isPlaying) audio.play().catch(() => {});
+        });
+
+        bgmVolume.addEventListener('input', () => {
+            audio.volume = parseFloat(bgmVolume.value);
+        });
+
+        // Close panel on outside click
+        document.addEventListener('click', (e) => {
+            if (!bgmPanel.contains(e.target) && e.target !== bgmBtn && !bgmBtn.contains(e.target)) {
+                bgmPanel.classList.remove('open');
+            }
+        });
+
+        // Initialize first track and try autoplay
+        loadTrack(0);
+        tryAutoplay();
 
         // ===== DIY Tab Switching =====
         const diyTabs = document.querySelectorAll('.diy-tab');
