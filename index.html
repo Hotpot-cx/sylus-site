@@ -510,13 +510,14 @@
             gap: 24px;
         }
 
-        /* ===== Card Design - Clean CSS Border ===== */
+        /* ===== Card Design - Clean CSS Border + 3D Tilt ===== */
         .card {
             position: relative;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: filter 0.3s ease, box-shadow 0.3s ease;
             filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.55))
                     drop-shadow(0 0 16px rgba(200, 165, 92, 0.06));
+            transform-style: preserve-3d;
         }
 
         .card::before {
@@ -540,7 +541,6 @@
         }
 
         .card:hover {
-            transform: translateY(-12px);
             filter: drop-shadow(0 12px 36px rgba(0, 0, 0, 0.65))
                     drop-shadow(0 0 32px rgba(200, 165, 92, 0.18));
         }
@@ -1612,25 +1612,8 @@
                 padding: 60px 20px;
             }
             .card-grid {
-                display: flex;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                scroll-behavior: smooth;
-                -webkit-overflow-scrolling: touch;
-                gap: 14px;
-                padding: 0 20px 8px;
-                margin: 0 -20px;
-                /* Hide scrollbar */
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-            }
-            .card-grid::-webkit-scrollbar { display: none; }
-
-            .card-grid .card {
-                flex-shrink: 0;
-                width: 72vw;
-                max-width: 300px;
-                scroll-snap-align: center;
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 16px;
             }
             .gallery-grid {
                 grid-template-columns: 1fr;
@@ -5417,6 +5400,39 @@
         });
 
         bgSections.forEach(section => bgObserver.observe(section));
+
+        // ===== 3D Tilt + Parallax for Cards =====
+        const cardGridEl = document.getElementById('cardGrid');
+        if (cardGridEl) {
+            cardGridEl.addEventListener('mousemove', (e) => {
+                const cards = cardGridEl.querySelectorAll('.card');
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const cardCenterX = rect.left + rect.width / 2;
+                    const cardCenterY = rect.top + rect.height / 2;
+                    const mouseX = e.clientX - cardCenterX;
+                    const mouseY = e.clientY - cardCenterY;
+                    const distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
+                    const maxDistance = 400;
+
+                    if (distance < maxDistance) {
+                        const intensity = Math.max(0, 1 - distance / maxDistance);
+                        const rotateY = (mouseX / rect.width) * 12 * intensity;
+                        const rotateX = -(mouseY / rect.height) * 10 * intensity;
+                        const lift = -8 * intensity;
+                        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(${lift}px)`;
+                    } else {
+                        card.style.transform = '';
+                    }
+                });
+            });
+
+            cardGridEl.addEventListener('mouseleave', () => {
+                cardGridEl.querySelectorAll('.card').forEach(card => {
+                    card.style.transform = '';
+                });
+            });
+        }
 
         // ===== Card Sorting =====
         const cardGrid = document.getElementById('cardGrid');
