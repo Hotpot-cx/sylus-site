@@ -577,6 +577,27 @@
             transform: scale(1.06);
         }
 
+        /* Glare overlay for 3D tilt */
+        .card-glare {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.06) 40%,
+                transparent 65%
+            );
+            mix-blend-mode: overlay;
+            transition: opacity 0.3s ease;
+        }
+
+        .card.glare-active .card-glare {
+            opacity: 1;
+        }
+
         /* Info Panel - overlays the frame's bottom section */
         .card-info {
             position: absolute;
@@ -1210,6 +1231,170 @@
             opacity: 0;
         }
 
+        /* ===== View Toggle ===== */
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .view-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .view-btn:hover {
+            border-color: var(--border-light);
+            color: var(--text-primary);
+        }
+
+        .view-btn.active {
+            background: rgba(200, 165, 92, 0.1);
+            border-color: var(--gold);
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .view-icon { font-size: 16px; }
+
+        /* ===== Stack View ===== */
+        .card-grid.stack-view {
+            display: block;
+            position: relative;
+            height: 520px;
+            overflow: hidden;
+        }
+
+        .card-grid.stack-view .card {
+            position: absolute;
+            width: 280px;
+            left: 50%;
+            top: 50%;
+            transform-origin: center center;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Active card centered */
+        .card-grid.stack-view .card.stack-active {
+            z-index: 10;
+            opacity: 1;
+            transform: translate(-50%, -55%) rotate(0deg) scale(1);
+        }
+
+        /* Cards behind */
+        .card-grid.stack-view .card.stack-behind-1 {
+            z-index: 9;
+            opacity: 0.7;
+            transform: translate(calc(-50% + 8px), calc(-55% + 12px)) rotate(3deg) scale(0.94);
+        }
+
+        .card-grid.stack-view .card.stack-behind-2 {
+            z-index: 8;
+            opacity: 0.45;
+            transform: translate(calc(-50% + 14px), calc(-55% + 22px)) rotate(6deg) scale(0.88);
+        }
+
+        .card-grid.stack-view .card.stack-behind-3 {
+            z-index: 7;
+            opacity: 0.25;
+            transform: translate(calc(-50% + 18px), calc(-55% + 30px)) rotate(9deg) scale(0.82);
+        }
+
+        /* Buried cards */
+        .card-grid.stack-view .card.stack-buried {
+            z-index: 6;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Swiping state */
+        .card-grid.stack-view .card.stack-swiping {
+            transition: none;
+        }
+
+        /* Swipe left - dismiss */
+        .card-grid.stack-view .card.stack-swipe-left {
+            transform: translate(calc(-50% - 180px), calc(-55% - 40px)) rotate(-15deg) scale(0.7);
+            opacity: 0;
+        }
+
+        /* Swipe right - detail */
+        .card-grid.stack-view .card.stack-swipe-right {
+            transform: translate(calc(-50% + 180px), calc(-55% - 40px)) rotate(15deg) scale(0.7);
+            opacity: 0;
+        }
+
+        .stack-hint {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 24px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .stack-hint-item {
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stack-hint-arrow { font-size: 14px; }
+
+        .stack-empty {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        .stack-empty p {
+            color: var(--text-muted);
+            font-size: 15px;
+            letter-spacing: 0.06em;
+        }
+
+        .stack-progress {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .card-grid.stack-view {
+                height: 460px;
+            }
+            .card-grid.stack-view .card {
+                width: 240px;
+            }
+        }
+
         /* ===== Birthday Section ===== */
         .bday-grid {
             display: grid;
@@ -1301,31 +1486,63 @@
             background: rgba(139, 26, 43, 0.15);
         }
 
-        /* ===== AI Gallery ===== */
-        .ai-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 28px;
-            max-width: 1200px;
+        /* ===== AI Gallery Carousel ===== */
+        .ai-carousel-container {
+            position: relative;
+            max-width: 1100px;
             margin: 0 auto;
+            overflow: hidden;
+            padding: 40px 0;
+        }
+
+        .ai-carousel-track {
+            display: flex;
+            align-items: center;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        .ai-carousel-track.dragging {
+            transition: none;
         }
 
         .ai-item {
+            flex-shrink: 0;
             display: block;
             background: var(--surface);
             border: 1px solid var(--border);
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
             text-decoration: none;
             color: inherit;
+            width: 280px;
+            margin: 0 16px;
+            opacity: 0.45;
+            transform: scale(0.82);
+            filter: blur(0.5px);
+        }
+
+        .ai-item.ai-active {
+            width: 340px;
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+            z-index: 2;
+            border-color: var(--accent-purple);
+            box-shadow: 0 12px 48px rgba(61, 43, 94, 0.25), 0 0 24px rgba(200, 165, 92, 0.08);
+        }
+
+        .ai-item.ai-near {
+            opacity: 0.75;
+            transform: scale(0.9);
+            filter: blur(0);
+            z-index: 1;
         }
 
         .ai-item:hover {
-            transform: translateY(-6px);
             border-color: var(--accent-purple);
-            box-shadow: 0 8px 28px rgba(61, 43, 94, 0.15);
         }
 
         .ai-image-wrapper {
@@ -1362,6 +1579,88 @@
             font-size: 13px;
             color: var(--text-secondary);
             line-height: 1.8;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ai-carousel-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 32px;
+        }
+
+        .ai-carousel-arrow {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .ai-carousel-arrow:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 20px rgba(200, 165, 92, 0.15);
+        }
+
+        .ai-carousel-arrow:active {
+            transform: scale(0.95);
+        }
+
+        .ai-carousel-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .ai-carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .ai-carousel-dot.active {
+            background: var(--gold);
+            box-shadow: 0 0 8px rgba(200, 165, 92, 0.4);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .ai-item {
+                width: 220px;
+                margin: 0 10px;
+                opacity: 0.35;
+                transform: scale(0.78);
+            }
+            .ai-item.ai-active {
+                width: 270px;
+                opacity: 1;
+                transform: scale(1);
+            }
+            .ai-item.ai-near {
+                opacity: 0.7;
+                transform: scale(0.87);
+            }
+            .ai-carousel-container {
+                padding: 24px 0;
+            }
         }
 
         /* ===== Schedule Prediction Section ===== */
@@ -3288,6 +3587,15 @@
                 </button>
             </div>
         </div>
+        <!-- View Toggle -->
+        <div class="view-toggle reveal">
+            <button class="view-btn" data-view="grid" id="viewGrid">
+                <span class="view-icon">▦</span> 网格视图
+            </button>
+            <button class="view-btn active" data-view="stack" id="viewStack">
+                <span class="view-icon">🂠</span> 罗列视图
+            </button>
+        </div>
         <div class="card-grid" id="cardGrid">
             <div class="card reveal" data-card-name="锋尖流连" data-release="2024.07" data-rarity="4" data-rerun="常驻卡池" data-story="你与秦彻在任务中交锋，他游刃有余地游走在危险边缘，而你却在不知不觉中沦陷。直到他转身离开，你才发现那份情感早已深埋心底——那双眼眸深处，藏着让人沉沦的深渊。" data-image="images/card_real_1.jpg">
                 <div class="card-image-wrapper">
@@ -4892,61 +5200,68 @@
             </div>
             <p style="color: var(--text-secondary); font-size: 15px; margin-top: 24px; max-width: 680px; margin-left: auto; margin-right: auto; line-height: 1.8; letter-spacing: 0.02em;">后续会提供小狸花们想要和自家的秦彻更多的可能性，比如给出你的图片和秦彻的图片，进行 DIY 设计。本站保证只为正向宣传，拒绝污名化秦彻。</p>
         </div>
-        <div class="ai-gallery">
-            <a href="ai_work_1.html" class="ai-item reveal">
-                <div class="ai-image-wrapper">
-                    <img loading="lazy" src="images/ai_1.jpg" alt="假如有一款彻&狸的无限游戏？">
-                </div>
-                <div class="ai-content">
-                    <h3 class="ai-title">无限游戏</h3>
-                    <p class="ai-desc">假如存在一款只属于你和秦彻的无限流游戏——每一个副本都是一次全新的冒险，每一次通关都藏着更深的羁绊。在这条没有尽头的旅程中，他是你最危险的队友，也是你唯一的退路。</p>
-                </div>
-            </a>
-            <a href="ai_work_2.html" class="ai-item reveal">
-                <div class="ai-image-wrapper">
-                    <img loading="lazy" src="images/ai_2.jpg" alt="因为——我支配欲望">
-                </div>
-                <div class="ai-content">
-                    <h3 class="ai-title">支配欲望</h3>
-                    <p class="ai-desc">因为——我支配欲望。那不是控制，而是一种深入骨髓的占有。他用那双深不见底的眼睛凝视着你，仿佛在说：你是我的，从头发丝到指尖，每一寸都属于我。</p>
-                </div>
-            </a>
-            <a href="ai_work_3.html" class="ai-item reveal">
-                <div class="ai-image-wrapper">
-                    <img loading="lazy" src="images/ai_3.jpg" alt="下不去了daddy 已经嵌进去了">
-                </div>
-                <div class="ai-content">
-                    <h3 class="ai-title">嵌入</h3>
-                    <p class="ai-desc">下不去了，已经嵌进去了——不是物理意义上的困住，而是两颗心纠缠得太深，早已分不清彼此。他的呼吸、他的温度、他的存在，都已经成为你生命的一部分。</p>
-                </div>
-            </a>
-            <a href="ai_work_4.html" class="ai-item reveal">
-                <div class="ai-image-wrapper">
-                    <img loading="lazy" src="images/ai_4.jpg" alt="批股也是批 厚乳沁心脾">
-                </div>
-                <div class="ai-content">
-                    <h3 class="ai-title">沁心脾</h3>
-                    <p class="ai-desc"> playful 的亲密时刻，厚乳般的温柔沁入心脾。那些看似调皮的互动里，藏着他最柔软的一面——只有在最信任的人面前，才会卸下所有防备，露出真实的笑容。</p>
-                </div>
-            </a>
-            <a href="ai_work_5.html" class="ai-item reveal">
-                <div class="ai-image-wrapper">
-                    <img loading="lazy" src="images/ai_5.jpg" alt="度日如年 浦西已湿 - 上">
-                </div>
-                <div class="ai-content">
-                    <h3 class="ai-title">度日如年</h3>
-                    <p class="ai-desc">等待的日子总是格外漫长。见不到他的每一秒都像是一年，而当他终于出现在你面前，所有的煎熬都化作了眼底的湿润。原来想念一个人，真的可以度日如年。</p>
-                </div>
-            </a>
-            <a href="ai_work_6.html" class="ai-item reveal">
-                <div class="ai-image-wrapper">
-                    <img loading="lazy" src="images/ai_6.jpg" alt="度日如年 浦西已湿 - 下">
-                </div>
-                <div class="ai-content">
-                    <h3 class="ai-title">已湿</h3>
-                    <p class="ai-desc">雨夜、泪水、或是其他什么——总之是湿的。在这个潮湿的夜晚，所有的情绪都被放大了。他伸出手替你擦去眼角的湿润，动作轻柔得像是在触碰一件易碎的珍宝。</p>
-                </div>
-            </a>
+        <div class="ai-carousel-container" id="aiCarousel">
+            <div class="ai-carousel-track" id="aiCarouselTrack">
+                <a href="ai_work_1.html" class="ai-item">
+                    <div class="ai-image-wrapper">
+                        <img loading="lazy" src="images/ai_1.jpg" alt="假如有一款彻&狸的无限游戏？">
+                    </div>
+                    <div class="ai-content">
+                        <h3 class="ai-title">无限游戏</h3>
+                        <p class="ai-desc">假如存在一款只属于你和秦彻的无限流游戏——每一个副本都是一次全新的冒险，每一次通关都藏着更深的羁绊。</p>
+                    </div>
+                </a>
+                <a href="ai_work_2.html" class="ai-item">
+                    <div class="ai-image-wrapper">
+                        <img loading="lazy" src="images/ai_2.jpg" alt="因为——我支配欲望">
+                    </div>
+                    <div class="ai-content">
+                        <h3 class="ai-title">支配欲望</h3>
+                        <p class="ai-desc">因为——我支配欲望。那不是控制，而是一种深入骨髓的占有。他用那双深不见底的眼睛凝视着你，仿佛在说：你是我的。</p>
+                    </div>
+                </a>
+                <a href="ai_work_3.html" class="ai-item">
+                    <div class="ai-image-wrapper">
+                        <img loading="lazy" src="images/ai_3.jpg" alt="下不去了daddy 已经嵌进去了">
+                    </div>
+                    <div class="ai-content">
+                        <h3 class="ai-title">嵌入</h3>
+                        <p class="ai-desc">下不去了，已经嵌进去了——不是物理意义上的困住，而是两颗心纠缠得太深，早已分不清彼此。</p>
+                    </div>
+                </a>
+                <a href="ai_work_4.html" class="ai-item">
+                    <div class="ai-image-wrapper">
+                        <img loading="lazy" src="images/ai_4.jpg" alt="批股也是批 厚乳沁心脾">
+                    </div>
+                    <div class="ai-content">
+                        <h3 class="ai-title">沁心脾</h3>
+                        <p class="ai-desc">playful 的亲密时刻，厚乳般的温柔沁入心脾。那些看似调皮的互动里，藏着他最柔软的一面。</p>
+                    </div>
+                </a>
+                <a href="ai_work_5.html" class="ai-item">
+                    <div class="ai-image-wrapper">
+                        <img loading="lazy" src="images/ai_5.jpg" alt="度日如年 浦西已湿 - 上">
+                    </div>
+                    <div class="ai-content">
+                        <h3 class="ai-title">度日如年</h3>
+                        <p class="ai-desc">等待的日子总是格外漫长。见不到他的每一秒都像是一年，而当他终于出现在你面前，所有的煎熬都化作了眼底的湿润。</p>
+                    </div>
+                </a>
+                <a href="ai_work_6.html" class="ai-item">
+                    <div class="ai-image-wrapper">
+                        <img loading="lazy" src="images/ai_6.jpg" alt="度日如年 浦西已湿 - 下">
+                    </div>
+                    <div class="ai-content">
+                        <h3 class="ai-title">已湿</h3>
+                        <p class="ai-desc">雨夜、泪水、或是其他什么——总之是湿的。在这个潮湿的夜晚，所有的情绪都被放大了。他伸出手替你擦去眼角的湿润。</p>
+                    </div>
+                </a>
+            </div>
+            <div class="ai-carousel-nav">
+                <button class="ai-carousel-arrow" id="aiCarouselPrev" aria-label="上一张">◀</button>
+                <div class="ai-carousel-dots" id="aiCarouselDots"></div>
+                <button class="ai-carousel-arrow" id="aiCarouselNext" aria-label="下一张">▶</button>
+            </div>
         </div>
     </section>
 
@@ -5401,10 +5716,38 @@
 
         bgSections.forEach(section => bgObserver.observe(section));
 
-        // ===== 3D Tilt + Parallax for Cards =====
+        // ===== 3D Tilt + Glare + Floating Cards =====
         const cardGridEl = document.getElementById('cardGrid');
+        let scrollOffset = 0;
+        const cardRotations = new Map();
+
         if (cardGridEl) {
+            // Inject glare overlay into each card
+            cardGridEl.querySelectorAll('.card').forEach((card, i) => {
+                const glare = document.createElement('div');
+                glare.className = 'card-glare';
+                card.appendChild(glare);
+                const baseX = (Math.random() - 0.5) * 4;
+                const baseY = (Math.random() - 0.5) * 4;
+                cardRotations.set(card, { x: baseX, y: baseY, glareEl: glare });
+            });
+
+            // Apply floating rotation on scroll (grid view only)
+            function updateCardFloat() {
+                if (cardGridEl.classList.contains('stack-view')) return;
+                cardGridEl.querySelectorAll('.card').forEach((card, i) => {
+                    const base = cardRotations.get(card) || { x: 0, y: 0 };
+                    const phase = scrollOffset * 0.3 + i * 0.5;
+                    const floatX = Math.sin(phase) * 2;
+                    const floatY = Math.cos(phase * 0.7) * 2;
+                    card.style.transform = `perspective(900px) rotateX(${base.x + floatY}deg) rotateY(${base.y + floatX}deg)`;
+                    card.classList.remove('glare-active');
+                });
+            }
+
+            // Mouse tilt with glare tracking (grid view only)
             cardGridEl.addEventListener('mousemove', (e) => {
+                if (cardGridEl.classList.contains('stack-view')) return;
                 const cards = cardGridEl.querySelectorAll('.card');
                 cards.forEach(card => {
                     const rect = card.getBoundingClientRect();
@@ -5415,24 +5758,238 @@
                     const distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
                     const maxDistance = 400;
 
+                    const data = cardRotations.get(card);
+                    const base = data || { x: 0, y: 0 };
+                    const glareEl = data ? data.glareEl : null;
+
                     if (distance < maxDistance) {
                         const intensity = Math.max(0, 1 - distance / maxDistance);
-                        const rotateY = (mouseX / rect.width) * 12 * intensity;
-                        const rotateX = -(mouseY / rect.height) * 10 * intensity;
-                        const lift = -8 * intensity;
-                        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(${lift}px)`;
+                        const tiltY = (mouseX / rect.width) * 16 * intensity;
+                        const tiltX = -(mouseY / rect.height) * 14 * intensity;
+                        const lift = -12 * intensity;
+                        card.style.transform = `perspective(900px) rotateX(${base.x + tiltX}deg) rotateY(${base.y + tiltY}deg) translateY(${lift}px) translateZ(${8 * intensity}px)`;
+                        card.classList.add('glare-active');
+
+                        if (glareEl) {
+                            const pctX = (e.clientX - rect.left) / rect.width * 100;
+                            const pctY = (e.clientY - rect.top) / rect.height * 100;
+                            glareEl.style.background = `radial-gradient(
+                                ellipse at ${pctX}% ${pctY}%,
+                                rgba(255, 255, 255, ${0.22 * intensity}) 0%,
+                                rgba(255, 255, 255, ${0.08 * intensity}) 35%,
+                                transparent 60%
+                            )`;
+                        }
                     } else {
-                        card.style.transform = '';
+                        const phase = scrollOffset * 0.3 + Array.from(cardGridEl.children).indexOf(card) * 0.5;
+                        card.style.transform = `perspective(900px) rotateX(${base.x + Math.cos(phase * 0.7) * 2}deg) rotateY(${base.y + Math.sin(phase) * 2}deg)`;
+                        card.classList.remove('glare-active');
                     }
                 });
             });
 
             cardGridEl.addEventListener('mouseleave', () => {
-                cardGridEl.querySelectorAll('.card').forEach(card => {
-                    card.style.transform = '';
+                if (!cardGridEl.classList.contains('stack-view')) {
+                    updateCardFloat();
+                }
+            });
+
+            window.addEventListener('scroll', () => {
+                scrollOffset = window.scrollY;
+            }, { passive: true });
+
+            if (!cardGridEl.classList.contains('stack-view')) {
+                updateCardFloat();
+            }
+        }
+
+        // ===== Stack View Toggle =====
+        const viewGridBtn = document.getElementById('viewGrid');
+        const viewStackBtn = document.getElementById('viewStack');
+        const cardGridForView = document.getElementById('cardGrid');
+        let currentView = 'stack';
+        let stackIndex = 0;
+        let isSwiping = false;
+        let swipeStartX = 0, swipeStartY = 0, swipeCurrentX = 0;
+
+        function switchView(view) {
+            currentView = view;
+            if (view === 'stack') {
+                viewGridBtn.classList.remove('active');
+                viewStackBtn.classList.add('active');
+                cardGridForView.classList.add('stack-view');
+                stackIndex = 0;
+                updateStack();
+            } else {
+                viewStackBtn.classList.remove('active');
+                viewGridBtn.classList.add('active');
+                cardGridForView.classList.remove('stack-view');
+                // Reset all cards
+                cardGridForView.querySelectorAll('.card').forEach(c => {
+                    c.className = c.className.replace(/stack-\S+/g, '').trim();
+                    if (!c.classList.contains('card')) c.classList.add('card');
+                    c.style.transform = '';
+                    c.style.opacity = '';
+                    c.style.transition = '';
                 });
+                // Re-apply 3D float in grid view
+                if (typeof updateCardFloat === 'function') {
+                    setTimeout(() => updateCardFloat(), 50);
+                }
+            }
+        }
+
+        function updateStack() {
+            const cards = cardGridForView.querySelectorAll('.card');
+            cards.forEach(c => {
+                c.className = c.className.replace(/stack-\S+/g, '').trim();
+                if (!c.classList.contains('card')) c.classList.add('card');
+                c.classList.add('stack-buried');
+                c.style.removeProperty('transform');
+                c.style.removeProperty('opacity');
+                c.style.removeProperty('transition');
+            });
+
+            if (cards.length === 0 || stackIndex >= cards.length) return;
+
+            // Defer class application to next frame so CSS resets properly
+            requestAnimationFrame(() => {
+                if (cards[stackIndex]) {
+                    cards[stackIndex].classList.remove('stack-buried');
+                    cards[stackIndex].classList.add('stack-active');
+                }
+                for (let i = 1; i <= 3; i++) {
+                    if (cards[stackIndex + i]) {
+                        cards[stackIndex + i].classList.remove('stack-buried');
+                        cards[stackIndex + i].classList.add('stack-behind-' + i);
+                    }
+                }
+                const progressEl = document.getElementById('stackProgress');
+                if (progressEl) {
+                    progressEl.textContent = (stackIndex + 1) + ' / ' + cards.length;
+                }
             });
         }
+
+        function swipeCard(direction) {
+            const cards = cardGridForView.querySelectorAll('.card');
+            if (stackIndex >= cards.length) return;
+            const activeCard = cards[stackIndex];
+
+            if (direction === 'left') {
+                activeCard.classList.add('stack-swipe-left');
+                setTimeout(() => {
+                    activeCard.classList.remove('stack-swipe-left');
+                    stackIndex++;
+                    updateStack();
+                }, 350);
+            } else if (direction === 'right') {
+                activeCard.classList.add('stack-swipe-right');
+                setTimeout(() => {
+                    activeCard.classList.remove('stack-swipe-right');
+                    // Open modal
+                    if (typeof openModal === 'function') openModal(activeCard);
+                    stackIndex++;
+                    updateStack();
+                }, 350);
+            }
+        }
+
+        // Touch/mouse events for stack view
+        if (cardGridForView) {
+            cardGridForView.addEventListener('mousedown', (e) => {
+                if (currentView !== 'stack') return;
+                isSwiping = true;
+                swipeStartX = e.clientX;
+                swipeStartY = e.clientY;
+                swipeCurrentX = e.clientX;
+                const activeCard = cardGridForView.querySelector('.stack-active');
+                if (activeCard) {
+                    activeCard.classList.add('stack-swiping');
+                }
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isSwiping || currentView !== 'stack') return;
+                swipeCurrentX = e.clientX;
+                const dx = swipeCurrentX - swipeStartX;
+                const activeCard = cardGridForView.querySelector('.stack-active');
+                if (activeCard) {
+                    const rotate = dx * 0.05;
+                    const offsetX = dx;
+                    activeCard.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-55% - ${Math.abs(dx) * 0.1}px)) rotate(${rotate}deg) scale(${Math.max(0.7, 1 - Math.abs(dx) * 0.001)})`;
+                    activeCard.style.opacity = Math.max(0.3, 1 - Math.abs(dx) * 0.002);
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (!isSwiping || currentView !== 'stack') return;
+                isSwiping = false;
+                const activeCard = cardGridForView.querySelector('.stack-active');
+                if (activeCard) {
+                    activeCard.classList.remove('stack-swiping');
+                }
+                const dx = swipeCurrentX - swipeStartX;
+                if (dx < -60) {
+                    swipeCard('left');
+                } else if (dx > 60) {
+                    swipeCard('right');
+                } else {
+                    // Spring back to center - force CSS class position
+                    if (activeCard) {
+                        activeCard.style.removeProperty('transform');
+                        activeCard.style.removeProperty('opacity');
+                        // Force browser to apply CSS class transform
+                        void activeCard.offsetWidth;
+                    }
+                }
+            });
+
+            // Touch support
+            cardGridForView.addEventListener('touchstart', (e) => {
+                if (currentView !== 'stack') return;
+                isSwiping = true;
+                swipeStartX = e.touches[0].clientX;
+                swipeStartY = e.touches[0].clientY;
+                swipeCurrentX = e.touches[0].clientX;
+                const activeCard = cardGridForView.querySelector('.stack-active');
+                if (activeCard) activeCard.classList.add('stack-swiping');
+            }, { passive: true });
+
+            cardGridForView.addEventListener('touchmove', (e) => {
+                if (!isSwiping || currentView !== 'stack') return;
+                swipeCurrentX = e.touches[0].clientX;
+                const dx = swipeCurrentX - swipeStartX;
+                const activeCard = cardGridForView.querySelector('.stack-active');
+                if (activeCard) {
+                    const rotate = dx * 0.05;
+                    activeCard.style.transform = `translate(calc(-50% + ${dx}px), calc(-55% - ${Math.abs(dx) * 0.1}px)) rotate(${rotate}deg) scale(${Math.max(0.7, 1 - Math.abs(dx) * 0.001)})`;
+                    activeCard.style.opacity = Math.max(0.3, 1 - Math.abs(dx) * 0.002);
+                }
+            }, { passive: true });
+
+            cardGridForView.addEventListener('touchend', () => {
+                if (!isSwiping || currentView !== 'stack') return;
+                isSwiping = false;
+                const activeCard = cardGridForView.querySelector('.stack-active');
+                if (activeCard) activeCard.classList.remove('stack-swiping');
+                const dx = swipeCurrentX - swipeStartX;
+                if (dx < -50) {
+                    swipeCard('left');
+                } else if (dx > 50) {
+                    swipeCard('right');
+                } else {
+                    if (activeCard) {
+                        activeCard.style.removeProperty('transform');
+                        activeCard.style.removeProperty('opacity');
+                        void activeCard.offsetWidth;
+                    }
+                }
+            });
+        }
+
+        viewGridBtn.addEventListener('click', () => switchView('grid'));
+        viewStackBtn.addEventListener('click', () => switchView('stack'));
 
         // ===== Card Sorting =====
         const cardGrid = document.getElementById('cardGrid');
@@ -5467,8 +6024,15 @@
             }
         }
 
-        // Initialize default sort (date descending)
+        // Sort newest first, then init stack view
         sortCards('date', 'desc');
+        switchView('stack');
+
+        // Add stack hint + progress to stack view
+        const stackHintHTML = '<div class="stack-hint"><span class="stack-hint-item"><span class="stack-hint-arrow">◀</span> 左滑看下一张</span><span class="stack-hint-item">右滑看详情 <span class="stack-hint-arrow">▶</span></span></div>';
+        const stackProgressHTML = '<div class="stack-progress" id="stackProgress"></div>';
+        cardGridForView.insertAdjacentHTML('beforeend', stackHintHTML);
+        cardGridForView.insertAdjacentHTML('beforeend', stackProgressHTML);
 
         sortBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -5494,8 +6058,188 @@
 
                 updateArrow(btn, dir);
                 sortCards(criteria, dir);
+                // Refresh stack view if in stack mode
+                if (cardGridForView.classList.contains('stack-view')) {
+                    stackIndex = 0;
+                    updateStack();
+                }
             });
         });
+
+        // ===== AI Works Carousel =====
+        const aiCarousel = document.getElementById('aiCarousel');
+        if (aiCarousel) {
+            const track = document.getElementById('aiCarouselTrack');
+            const items = track.querySelectorAll('.ai-item');
+            const prevBtn = document.getElementById('aiCarouselPrev');
+            const nextBtn = document.getElementById('aiCarouselNext');
+            const dotsContainer = document.getElementById('aiCarouselDots');
+            let currentIndex = 0;
+            let isDragging = false;
+            let startX = 0;
+            let dragOffset = 0;
+
+            // Create dots
+            items.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'ai-carousel-dot';
+                dot.setAttribute('aria-label', '第' + (i + 1) + '张');
+                dot.addEventListener('click', () => goTo(i));
+                dotsContainer.appendChild(dot);
+            });
+            const dots = dotsContainer.querySelectorAll('.ai-carousel-dot');
+
+            function updateCarousel(animate = true) {
+                if (!animate) track.classList.add('dragging');
+
+                items.forEach((item, i) => {
+                    item.classList.remove('ai-active', 'ai-near');
+                    if (i === currentIndex) {
+                        item.classList.add('ai-active');
+                    } else if (i === currentIndex - 1 || i === currentIndex + 1) {
+                        item.classList.add('ai-near');
+                    }
+                });
+
+                // Calculate offset to center active card
+                const containerWidth = aiCarousel.offsetWidth;
+                const activeCard = items[currentIndex];
+                const cardWidth = activeCard ? activeCard.offsetWidth : 340;
+                const cardMargin = 16;
+                const totalCardWidth = cardWidth + cardMargin * 2;
+
+                const offset = containerWidth / 2 - totalCardWidth / 2 - (currentIndex * totalCardWidth) + dragOffset;
+
+                track.style.transform = `translateX(${offset}px)`;
+
+                // Update dots
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+
+                if (!animate) {
+                    void track.offsetWidth;
+                    track.classList.remove('dragging');
+                }
+            }
+
+            function goTo(index) {
+                if (isDragging) return;
+                currentIndex = Math.max(0, Math.min(index, items.length - 1));
+                dragOffset = 0;
+                updateCarousel();
+            }
+
+            function goPrev() { goTo(currentIndex - 1); }
+            function goNext() { goTo(currentIndex + 1); }
+
+            prevBtn.addEventListener('click', goPrev);
+            nextBtn.addEventListener('click', goNext);
+
+            // Mouse drag
+            track.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                dragOffset = 0;
+                track.classList.add('dragging');
+                track.style.cursor = 'grabbing';
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                dragOffset = e.clientX - startX;
+                updateCarousel(false);
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                track.style.cursor = '';
+
+                const threshold = 80;
+                if (dragOffset < -threshold) {
+                    goTo(Math.min(currentIndex + 1, items.length - 1));
+                } else if (dragOffset > threshold) {
+                    goTo(Math.max(currentIndex - 1, 0));
+                } else {
+                    dragOffset = 0;
+                    updateCarousel();
+                }
+            });
+
+            // Touch support
+            track.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                dragOffset = 0;
+                track.classList.add('dragging');
+            }, { passive: true });
+
+            track.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                dragOffset = e.touches[0].clientX - startX;
+                updateCarousel(false);
+            }, { passive: true });
+
+            track.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                const threshold = 60;
+                if (dragOffset < -threshold) {
+                    goTo(Math.min(currentIndex + 1, items.length - 1));
+                } else if (dragOffset > threshold) {
+                    goTo(Math.max(currentIndex - 1, 0));
+                } else {
+                    dragOffset = 0;
+                    updateCarousel();
+                }
+            });
+
+            // Scroll wheel
+            aiCarousel.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                if (e.deltaX > 30 || e.deltaY > 30) {
+                    goNext();
+                } else if (e.deltaX < -30 || e.deltaY < -30) {
+                    goPrev();
+                }
+            }, { passive: false });
+
+            // Keyboard navigation
+            aiCarousel.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') goPrev();
+                if (e.key === 'ArrowRight') goNext();
+            });
+
+            // Make carousel focusable for keyboard nav
+            aiCarousel.setAttribute('tabindex', '0');
+
+            // Initial setup
+            requestAnimationFrame(() => {
+                updateCarousel();
+            });
+
+            // Recalculate when carousel enters viewport
+            const carouselObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        dragOffset = 0;
+                        updateCarousel();
+                    }
+                });
+            }, { threshold: 0.2 });
+            carouselObserver.observe(aiCarousel);
+
+            // Recalculate on resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    dragOffset = 0;
+                    updateCarousel();
+                }, 150);
+            });
+        }
 
         // ===== Card Modal =====
         const cardModal = document.getElementById('cardModal');
