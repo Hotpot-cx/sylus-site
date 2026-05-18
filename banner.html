@@ -1,735 +1,830 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>最新卡池 | 秦彻 · SYLUS</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --bg: #050508;
-            --surface: #0d0d12;
-            --surface-light: #151520;
-            --primary-red: #8b1a2b;
-            --light-red: #c41e3a;
-            --dark-red: #4a0e18;
-            --gold: #c8a55c;
-            --light-gold: #d4b76a;
-            --text-primary: #e8e6f0;
-            --text-secondary: #8a8498;
-            --text-muted: #5a5468;
-            --border: #2a2338;
-            --accent-purple: #3d2b5e;
-        }
+      :root {
+        --bg: #050508;
+        --surface: #0d0d12;
+        --surface-light: #151520;
+        --primary-red: #8b1a2b;
+        --light-red: #c41e3a;
+        --dark-red: #4a0e18;
+        --gold: #c8a55c;
+        --light-gold: #d4b76a;
+        --text-primary: #e8e6f0;
+        --text-secondary: #8a8498;
+        --text-muted: #5a5468;
+        --border: #2a2338;
+        --accent-purple: #3d2b5e;
+      }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        html { scroll-behavior: smooth; }
+      html {
+        scroll-behavior: smooth;
+      }
 
-        body {
-            font-family: 'LXGW WenKai', 'Noto Serif SC', serif;
-            background: var(--bg);
-            color: var(--text-primary);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
+      body {
+        font-family: "LXGW WenKai", "Noto Serif SC", serif;
+        background: var(--bg);
+        color: var(--text-primary);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
 
-        /* ===== Nav ===== */
+      /* ===== Nav ===== */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 48px;
+        background: rgba(13, 13, 18, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(42, 35, 56, 0.6);
+      }
+
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text-primary);
+      }
+
+      .nav-logo-text {
+        font-family: "ZCOOL XiaoWei", "Ma Shan Zheng", cursive;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--text-primary);
+      }
+
+      @media (max-width: 768px) {
         .nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 64px;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 48px;
-            background: rgba(13, 13, 18, 0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(42, 35, 56, 0.6);
+          padding: 0 20px;
         }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-
-        .nav-logo-text {
-            font-family: 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-        }
-
         .nav-links {
-            display: flex;
-            gap: 28px;
-            list-style: none;
+          display: none;
         }
+      }
 
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.06em;
-            transition: color 0.3s;
+      /* ===== Hero Banner ===== */
+      .banner-hero {
+        position: relative;
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: var(--bg);
+        margin-top: 64px;
+      }
+
+      .banner-hero-bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 50% 30%,
+            rgba(139, 26, 43, 0.12) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 70%,
+            rgba(61, 43, 94, 0.1) 0%,
+            transparent 40%
+          ),
+          var(--bg);
+      }
+
+      .banner-hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 48px 24px;
+        max-width: 900px;
+      }
+
+      .banner-label {
+        display: inline-block;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+        border: 1px solid rgba(200, 165, 92, 0.4);
+        padding: 6px 20px;
+        margin-bottom: 28px;
+      }
+
+      .banner-title {
+        font-family: "ZCOOL XiaoWei", "Ma Shan Zheng", cursive;
+        font-size: clamp(36px, 6vw, 72px);
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        line-height: 1.2;
+        color: var(--text-primary);
+        margin-bottom: 16px;
+      }
+
+      .banner-subtitle {
+        font-size: clamp(13px, 1.8vw, 17px);
+        font-weight: 300;
+        letter-spacing: 0.2em;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+      }
+
+      .banner-date-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(196, 30, 58, 0.15);
+        border: 1px solid rgba(196, 30, 58, 0.3);
+        padding: 10px 28px;
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        color: var(--light-red);
+      }
+
+      .banner-date-badge .dot {
+        width: 6px;
+        height: 6px;
+        background: var(--light-red);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
         }
-
-        .nav-links a:hover { color: var(--text-primary); }
-
-        @media (max-width: 768px) {
-            .nav { padding: 0 20px; }
-            .nav-links { display: none; }
+        50% {
+          opacity: 0.3;
         }
+      }
 
-        /* ===== Hero Banner ===== */
-        .banner-hero {
-            position: relative;
-            min-height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: var(--bg);
-            margin-top: 64px;
-        }
+      /* ===== Card Art Section ===== */
+      .card-art-section {
+        padding: 80px 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
 
-        .banner-hero-bg {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 30%, rgba(139, 26, 43, 0.12) 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 70%, rgba(61, 43, 94, 0.1) 0%, transparent 40%),
-                        var(--bg);
-        }
+      .card-art-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        align-items: start;
+      }
 
-        .banner-hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 48px 24px;
-            max-width: 900px;
-        }
+      .card-art-main {
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        aspect-ratio: 3/4;
+      }
 
-        .banner-label {
-            display: inline-block;
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold);
-            border: 1px solid rgba(200, 165, 92, 0.4);
-            padding: 6px 20px;
-            margin-bottom: 28px;
-        }
+      .card-art-main img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
 
-        .banner-title {
-            font-family: 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
-            font-size: clamp(36px, 6vw, 72px);
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            line-height: 1.2;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-        }
+      .card-art-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          135deg,
+          rgba(21, 21, 32, 0.8),
+          rgba(13, 13, 18, 0.9)
+        );
+        color: var(--text-muted);
+        gap: 16px;
+      }
 
-        .banner-subtitle {
-            font-size: clamp(13px, 1.8vw, 17px);
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-        }
+      .card-art-placeholder svg {
+        width: 48px;
+        height: 48px;
+        stroke: var(--text-muted);
+        opacity: 0.4;
+      }
 
-        .banner-date-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(196, 30, 58, 0.15);
-            border: 1px solid rgba(196, 30, 58, 0.3);
-            padding: 10px 28px;
-            font-size: 14px;
-            letter-spacing: 0.08em;
-            color: var(--light-red);
-        }
+      .card-art-placeholder p {
+        font-size: 13px;
+        letter-spacing: 0.08em;
+      }
 
-        .banner-date-badge .dot {
-            width: 6px;
-            height: 6px;
-            background: var(--light-red);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
+      .card-art-info {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+      .card-art-type {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
 
-        /* ===== Card Art Section ===== */
-        .card-art-section {
-            padding: 80px 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+      .card-art-type::before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: var(--gold);
+        opacity: 0.5;
+      }
 
+      .card-art-name {
+        font-family: "ZCOOL XiaoWei", "Ma Shan Zheng", cursive;
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--text-primary);
+        line-height: 1.3;
+      }
+
+      .card-art-rarity {
+        display: flex;
+        gap: 4px;
+      }
+
+      .card-art-rarity svg {
+        width: 20px;
+        height: 20px;
+        fill: var(--gold);
+      }
+
+      .card-art-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+
+      .card-art-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .card-art-meta-label {
+        color: var(--text-muted);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+      }
+
+      .card-art-divider {
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(to right, var(--primary-red), transparent);
+      }
+
+      @media (max-width: 768px) {
         .card-art-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            align-items: start;
+          grid-template-columns: 1fr;
         }
-
-        .card-art-main {
-            position: relative;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            aspect-ratio: 3/4;
+        .card-art-section {
+          padding: 48px 20px;
         }
+      }
 
-        .card-art-main img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+      /* ===== Story Quote Section ===== */
+      .story-section-page {
+        padding: 80px 24px;
+        background: linear-gradient(
+          to bottom,
+          var(--bg),
+          rgba(61, 43, 94, 0.06),
+          var(--bg)
+        );
+      }
 
-        .card-art-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(21, 21, 32, 0.8), rgba(13, 13, 18, 0.9));
-            color: var(--text-muted);
-            gap: 16px;
-        }
+      .story-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
 
-        .card-art-placeholder svg {
-            width: 48px;
-            height: 48px;
-            stroke: var(--text-muted);
-            opacity: 0.4;
-        }
+      .story-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
 
-        .card-art-placeholder p {
-            font-size: 13px;
-            letter-spacing: 0.08em;
-        }
+      .story-header-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
 
-        .card-art-info {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
+      .story-header-text {
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+        white-space: nowrap;
+      }
 
-        .card-art-type {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold);
-        }
+      .story-quote {
+        font-family: "ZCOOL XiaoWei", "Ma Shan Zheng", cursive;
+        font-size: clamp(18px, 2.5vw, 24px);
+        font-weight: 600;
+        line-height: 1.8;
+        color: var(--text-primary);
+        text-align: center;
+        padding: 36px 24px;
+        border-left: 3px solid var(--primary-red);
+        border-right: 3px solid transparent;
+        background: rgba(139, 26, 43, 0.04);
+        margin-bottom: 32px;
+        letter-spacing: 0.04em;
+      }
 
-        .card-art-type::before {
-            content: '';
-            width: 24px;
-            height: 1px;
-            background: var(--gold);
-            opacity: 0.5;
-        }
+      .story-desc {
+        font-size: 15px;
+        line-height: 2.1;
+        color: var(--text-secondary);
+        text-align: justify;
+        letter-spacing: 0.03em;
+      }
 
-        .card-art-name {
-            font-family: 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            color: var(--text-primary);
-            line-height: 1.3;
-        }
+      /* ===== Material Update Zone ===== */
+      .material-section {
+        padding: 80px 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
 
-        .card-art-rarity {
-            display: flex;
-            gap: 4px;
-        }
+      .section-header {
+        text-align: center;
+        margin-bottom: 48px;
+      }
 
-        .card-art-rarity svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--gold);
-        }
+      .section-title {
+        font-family: "ZCOOL XiaoWei", "Ma Shan Zheng", cursive;
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+      }
 
-        .card-art-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
+      .section-subtitle {
+        font-size: 13px;
+        color: var(--text-muted);
+        letter-spacing: 0.06em;
+      }
 
-        .card-art-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+      .material-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+      }
 
-        .card-art-meta-label {
-            color: var(--text-muted);
-            font-size: 11px;
-            letter-spacing: 0.06em;
-        }
+      .material-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        transition: all 0.35s ease;
+      }
 
-        .card-art-divider {
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(to right, var(--primary-red), transparent);
-        }
+      .material-item:hover {
+        border-color: var(--border-light);
+        transform: translateY(-2px);
+      }
 
-        @media (max-width: 768px) {
-            .card-art-grid {
-                grid-template-columns: 1fr;
-            }
-            .card-art-section {
-                padding: 48px 20px;
-            }
-        }
+      .material-item-image {
+        width: 100%;
+        aspect-ratio: 16/10;
+        background: var(--surface-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        font-size: 12px;
+        letter-spacing: 0.06em;
+      }
 
-        /* ===== Story Quote Section ===== */
-        .story-section-page {
-            padding: 80px 24px;
-            background: linear-gradient(to bottom, var(--bg), rgba(61, 43, 94, 0.06), var(--bg));
-        }
+      .material-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
 
-        .story-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+      .material-item-date {
+        padding: 12px 16px 4px;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        color: var(--gold);
+      }
 
-        .story-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 32px;
-        }
+      .material-item-label {
+        padding: 0 16px 14px;
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
 
-        .story-header-line {
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
+      /* ===== Draw Advice ===== */
+      .advice-section {
+        padding: 80px 24px;
+        background: linear-gradient(
+          to bottom,
+          rgba(61, 43, 94, 0.06),
+          var(--bg)
+        );
+      }
 
-        .story-header-text {
-            font-size: 12px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold);
-            white-space: nowrap;
-        }
+      .advice-container {
+        max-width: 700px;
+        margin: 0 auto;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 40px;
+      }
 
-        .story-quote {
-            font-family: 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
-            font-size: clamp(18px, 2.5vw, 24px);
-            font-weight: 600;
-            line-height: 1.8;
-            color: var(--text-primary);
-            text-align: center;
-            padding: 36px 24px;
-            border-left: 3px solid var(--primary-red);
-            border-right: 3px solid transparent;
-            background: rgba(139, 26, 43, 0.04);
-            margin-bottom: 32px;
-            letter-spacing: 0.04em;
-        }
+      .advice-title {
+        font-family: "ZCOOL XiaoWei", "Ma Shan Zheng", cursive;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: var(--text-primary);
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .story-desc {
-            font-size: 15px;
-            line-height: 2.1;
-            color: var(--text-secondary);
-            text-align: justify;
-            letter-spacing: 0.03em;
-        }
+      .advice-title::before {
+        content: "";
+        width: 4px;
+        height: 20px;
+        background: var(--gold);
+      }
 
-        /* ===== Material Update Zone ===== */
-        .material-section {
-            padding: 80px 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+      .advice-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
+      .advice-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
 
-        .section-title {
-            font-family: 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
+      .advice-num {
+        flex-shrink: 0;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: rgba(200, 165, 92, 0.15);
+        color: var(--gold);
+        font-size: 11px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-        .section-subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-            letter-spacing: 0.06em;
-        }
+      .advice-warning {
+        margin-top: 24px;
+        padding: 16px 20px;
+        background: rgba(196, 30, 58, 0.06);
+        border-left: 3px solid var(--primary-red);
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
 
-        .material-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 16px;
-        }
+      /* ===== Archive Footer ===== */
+      .archive-footer {
+        padding: 60px 24px;
+        text-align: center;
+        border-top: 1px solid var(--border);
+      }
 
-        .material-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            transition: all 0.35s ease;
-        }
+      .archive-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        padding: 12px 28px;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+      }
 
-        .material-item:hover {
-            border-color: var(--border-light);
-            transform: translateY(-2px);
-        }
+      .archive-link:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
 
-        .material-item-image {
-            width: 100%;
-            aspect-ratio: 16/10;
-            background: var(--surface-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 12px;
-            letter-spacing: 0.06em;
-        }
+      .archive-link svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+      }
 
-        .material-item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+      .site-footer {
+        text-align: center;
+        padding: 32px 24px;
+        font-size: 12px;
+        color: var(--text-muted);
+        letter-spacing: 0.06em;
+      }
 
-        .material-item-date {
-            padding: 12px 16px 4px;
-            font-size: 11px;
-            letter-spacing: 0.08em;
-            color: var(--gold);
-        }
+      .site-footer a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
 
-        .material-item-label {
-            padding: 0 16px 14px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* ===== Draw Advice ===== */
-        .advice-section {
-            padding: 80px 24px;
-            background: linear-gradient(to bottom, rgba(61, 43, 94, 0.06), var(--bg));
-        }
-
-        .advice-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 40px;
-        }
-
-        .advice-title {
-            font-family: 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            color: var(--text-primary);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .advice-title::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: var(--gold);
-        }
-
-        .advice-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .advice-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        .advice-num {
-            flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: rgba(200, 165, 92, 0.15);
-            color: var(--gold);
-            font-size: 11px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .advice-warning {
-            margin-top: 24px;
-            padding: 16px 20px;
-            background: rgba(196, 30, 58, 0.06);
-            border-left: 3px solid var(--primary-red);
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        /* ===== Archive Footer ===== */
-        .archive-footer {
-            padding: 60px 24px;
-            text-align: center;
-            border-top: 1px solid var(--border);
-        }
-
-        .archive-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            letter-spacing: 0.08em;
-            padding: 12px 28px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .archive-link:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .archive-link svg {
-            width: 16px;
-            height: 16px;
-            stroke: currentColor;
-        }
-
-        .site-footer {
-            text-align: center;
-            padding: 32px 24px;
-            font-size: 12px;
-            color: var(--text-muted);
-            letter-spacing: 0.06em;
-        }
-
-        .site-footer a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .site-footer a:hover { color: var(--gold); }
+      .site-footer a:hover {
+        color: var(--gold);
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- ===== Nav ===== -->
     <nav class="nav">
-        <a href="index.html" class="nav-logo">
-            <span class="nav-logo-text">彻</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="index.html">← 返回主页</a></li>
-            <li><a href="index.html#cards">卡面图鉴</a></li>
-            <li><a href="index.html#schedule">卡池排期</a></li>
-        </ul>
+      <a href="index.html" class="nav-logo">
+        <span class="nav-logo-text">彻</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">← 返回主页</a></li>
+        <li><a href="index.html#cards">卡面图鉴</a></li>
+        <li><a href="index.html#schedule">卡池排期</a></li>
+      </ul>
     </nav>
 
     <!-- ===== Hero Banner ===== -->
     <section class="banner-hero">
-        <div class="banner-hero-bg"></div>
-        <div class="banner-hero-content">
-            <div class="banner-label">最新卡池预告</div>
-            <h1 class="banner-title">⸻ 待揭晓 ⸻</h1>
-            <p class="banner-subtitle">秦彻 · 单人月卡 ③</p>
-            <div class="banner-date-badge">
-                <span class="dot"></span>
-                2026.05.28 — 2026.06.06
-            </div>
+      <div class="banner-hero-bg"></div>
+      <div class="banner-hero-content">
+        <div class="banner-label">最新卡池预告</div>
+        <h1 class="banner-title">⸻ 待揭晓 ⸻</h1>
+        <p class="banner-subtitle">秦彻 · 单人月卡 ③</p>
+        <div class="banner-date-badge">
+          <span class="dot"></span>
+          2026.05.28 — 2026.06.06
         </div>
+      </div>
     </section>
 
     <!-- ===== Card Art Section ===== -->
     <section class="card-art-section">
-        <div class="card-art-grid">
-            <!-- Main card image -->
-            <div class="card-art-main">
-                <!-- 替换 src 为官方卡面图 -->
-                <div class="card-art-placeholder">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <path d="M21 15l-5-5L5 21"/>
-                    </svg>
-                    <p>卡面大图待官方公开后更新</p>
-                    <p style="font-size:11px;opacity:0.6;">预计 5.21 左右预告释出</p>
-                </div>
-            </div>
-            <!-- Card info -->
-            <div class="card-art-info">
-                <div class="card-art-type">单人月卡 · 限定五星</div>
-                <h2 class="card-art-name">待官方公布</h2>
-                <div class="card-art-rarity">
-                    <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                    <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                    <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                    <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                    <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                </div>
-                <div class="card-art-divider"></div>
-                <div class="card-art-meta">
-                    <div class="card-art-meta-item">
-                        <span class="card-art-meta-label">星谱</span>
-                        <span>待公布</span>
-                    </div>
-                    <div class="card-art-meta-item">
-                        <span class="card-art-meta-label">定位</span>
-                        <span>待公布</span>
-                    </div>
-                    <div class="card-art-meta-item">
-                        <span class="card-art-meta-label">卡池类型</span>
-                        <span>单人月卡限定</span>
-                    </div>
-                </div>
-                <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin-top:8px;">
-                    此为新单人月卡③，接替温泉混池「缭夜魂与」之后的秦彻个人卡池。<br>
-                    按历史规律，单人月卡通常伴随专属剧情约会，限定结束后不进入常驻卡池。
-                </p>
-            </div>
+      <div class="card-art-grid">
+        <!-- Main card image -->
+        <div class="card-art-main">
+          <!-- 替换 src 为官方卡面图 -->
+          <div class="card-art-placeholder">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <path d="M21 15l-5-5L5 21" />
+            </svg>
+            <p>卡面大图待官方公开后更新</p>
+            <p style="font-size: 11px; opacity: 0.6">预计 5.21 左右预告释出</p>
+          </div>
         </div>
+        <!-- Card info -->
+        <div class="card-art-info">
+          <div class="card-art-type">单人月卡 · 限定五星</div>
+          <h2 class="card-art-name">待官方公布</h2>
+          <div class="card-art-rarity">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+              />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+              />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+              />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+              />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+              />
+            </svg>
+          </div>
+          <div class="card-art-divider"></div>
+          <div class="card-art-meta">
+            <div class="card-art-meta-item">
+              <span class="card-art-meta-label">星谱</span>
+              <span>待公布</span>
+            </div>
+            <div class="card-art-meta-item">
+              <span class="card-art-meta-label">定位</span>
+              <span>待公布</span>
+            </div>
+            <div class="card-art-meta-item">
+              <span class="card-art-meta-label">卡池类型</span>
+              <span>单人月卡限定</span>
+            </div>
+          </div>
+          <p
+            style="
+              font-size: 13px;
+              color: var(--text-muted);
+              line-height: 1.8;
+              margin-top: 8px;
+            "
+          >
+            此为新单人月卡③，接替温泉混池「缭夜魂与」之后的秦彻个人卡池。<br />
+            按历史规律，单人月卡通常伴随专属剧情约会，限定结束后不进入常驻卡池。
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- ===== Story Quote Section ===== -->
     <section class="story-section-page">
-        <div class="story-container">
-            <div class="story-header">
-                <div class="story-header-line"></div>
-                <span class="story-header-text">剧情简介 &amp; 金句</span>
-                <div class="story-header-line"></div>
-            </div>
-            <div class="story-quote">
-                「待官方预告释出后更新。」
-            </div>
-            <div class="story-desc">
-                <p style="margin-bottom:16px;">
-                    每一张秦彻的单人月卡，都是一次只属于两个人的私密故事。
-                    从「不设防禁区」的破门而入，到「炽光淋漓」的聚光灯下，再到「热意揣度」的初秋燥热——
-                    他的月卡总在用最细腻的笔触描绘：当暗点首领放下所有戒备，只面对一个人时的样子。
-                </p>
-                <p>
-                    这一次的故事，会是什么样的呢？预告片发布后，本站将第一时间更新剧情梗概与精选台词。
-                </p>
-            </div>
+      <div class="story-container">
+        <div class="story-header">
+          <div class="story-header-line"></div>
+          <span class="story-header-text">剧情简介 &amp; 金句</span>
+          <div class="story-header-line"></div>
         </div>
+        <div class="story-quote">「待官方预告释出后更新。」</div>
+        <div class="story-desc">
+          <p style="margin-bottom: 16px">
+            每一张秦彻的单人月卡，都是一次只属于两个人的私密故事。
+            从「不设防禁区」的破门而入，到「炽光淋漓」的聚光灯下，再到「热意揣度」的初秋燥热——
+            他的月卡总在用最细腻的笔触描绘：当暗点首领放下所有戒备，只面对一个人时的样子。
+          </p>
+          <p>
+            这一次的故事，会是什么样的呢？预告片发布后，本站将第一时间更新剧情梗概与精选台词。
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- ===== Official Material Update Zone ===== -->
     <section class="material-section">
-        <div class="section-header">
-            <h2 class="section-title">官方物料更新</h2>
-            <p class="section-subtitle">预告图 / PV截图 / 官博物料 · 每日更新</p>
+      <div class="section-header">
+        <h2 class="section-title">官方物料更新</h2>
+        <p class="section-subtitle">预告图 / PV截图 / 官博物料 · 每日更新</p>
+      </div>
+      <div class="material-grid">
+        <div class="material-item">
+          <div class="material-item-image">📢 预告待发布</div>
+          <div class="material-item-date">待定</div>
+          <div class="material-item-label">官方卡面预告</div>
         </div>
-        <div class="material-grid">
-            <div class="material-item">
-                <div class="material-item-image">📢 预告待发布</div>
-                <div class="material-item-date">待定</div>
-                <div class="material-item-label">官方卡面预告</div>
-            </div>
-            <div class="material-item">
-                <div class="material-item-image">🎬 PV待发布</div>
-                <div class="material-item-date">待定</div>
-                <div class="material-item-label">PV 截图精选</div>
-            </div>
-            <div class="material-item">
-                <div class="material-item-image">📱 官博待发布</div>
-                <div class="material-item-date">待定</div>
-                <div class="material-item-label">官博物料整理</div>
-            </div>
-            <div class="material-item">
-                <div class="material-item-image">🎨 设计稿待发布</div>
-                <div class="material-item-date">待定</div>
-                <div class="material-item-label">设计元素解析</div>
-            </div>
+        <div class="material-item">
+          <div class="material-item-image">🎬 PV待发布</div>
+          <div class="material-item-date">待定</div>
+          <div class="material-item-label">PV 截图精选</div>
         </div>
+        <div class="material-item">
+          <div class="material-item-image">📱 官博待发布</div>
+          <div class="material-item-date">待定</div>
+          <div class="material-item-label">官博物料整理</div>
+        </div>
+        <div class="material-item">
+          <div class="material-item-image">🎨 设计稿待发布</div>
+          <div class="material-item-date">待定</div>
+          <div class="material-item-label">设计元素解析</div>
+        </div>
+      </div>
     </section>
 
     <!-- ===== Draw Advice ===== -->
     <section class="advice-section">
-        <div class="advice-container">
-            <h3 class="advice-title">抽卡建议</h3>
-            <ul class="advice-list">
-                <li>
-                    <span class="advice-num">1</span>
-                    <span>单人月卡为限定卡池，结束后<strong style="color:var(--light-red);">不进入常驻</strong>，错过需等复刻（通常 1 年以上）。</span>
-                </li>
-                <li>
-                    <span class="advice-num">2</span>
-                    <span>秦彻单人月卡历史强度稳定，且附带专属剧情约会，收藏与战力价值兼具。</span>
-                </li>
-                <li>
-                    <span class="advice-num">3</span>
-                    <span>按历史规律，月卡池持续约 9-10 天。建议等预告 PV 发布后确认星谱和定位再决定是否抽取。</span>
-                </li>
-                <li>
-                    <span class="advice-num">4</span>
-                    <span>若钻石紧张，可参考排期表评估后续卡池（如 6 月底可能有新混池），合理规划资源。</span>
-                </li>
-            </ul>
-            <div class="advice-warning">
-                ⚠ 以上建议基于历史规律推断，仅供参考。抽卡有风险，氪金需谨慎。请根据自身情况理性决策。
-            </div>
+      <div class="advice-container">
+        <h3 class="advice-title">抽卡建议</h3>
+        <ul class="advice-list">
+          <li>
+            <span class="advice-num">1</span>
+            <span
+              >单人月卡为限定卡池，结束后<strong style="color: var(--light-red)"
+                >不进入常驻</strong
+              >，错过需等复刻（通常 1 年以上）。</span
+            >
+          </li>
+          <li>
+            <span class="advice-num">2</span>
+            <span
+              >秦彻单人月卡历史强度稳定，且附带专属剧情约会，收藏与战力价值兼具。</span
+            >
+          </li>
+          <li>
+            <span class="advice-num">3</span>
+            <span
+              >按历史规律，月卡池持续约 9-10 天。建议等预告 PV
+              发布后确认星谱和定位再决定是否抽取。</span
+            >
+          </li>
+          <li>
+            <span class="advice-num">4</span>
+            <span
+              >若钻石紧张，可参考排期表评估后续卡池（如 6
+              月底可能有新混池），合理规划资源。</span
+            >
+          </li>
+        </ul>
+        <div class="advice-warning">
+          ⚠
+          以上建议基于历史规律推断，仅供参考。抽卡有风险，氪金需谨慎。请根据自身情况理性决策。
         </div>
+      </div>
     </section>
 
     <!-- ===== Archive Footer ===== -->
     <div class="archive-footer">
-        <a href="index.html#schedule" class="archive-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-                <rect x="3" y="4" width="18" height="18" rx="2"/>
-                <path d="M16 2v4M8 2v4M3 10h18"/>
-            </svg>
-            往期卡池归档 &amp; 排期预测
-        </a>
+      <a href="index.html#schedule" class="archive-link">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <path d="M16 2v4M8 2v4M3 10h18" />
+        </svg>
+        往期卡池归档 &amp; 排期预测
+      </a>
     </div>
 
     <footer class="site-footer">
-        <p>N109区 · 彻 | <a href="index.html">秦彻个人资料站</a> | 同人创作，为爱发电</p>
+      <p>
+        N109区 · 彻 | <a href="index.html">秦彻个人资料站</a> |
+        同人创作，为爱发电
+      </p>
     </footer>
-
-</body>
+  </body>
 </html>
