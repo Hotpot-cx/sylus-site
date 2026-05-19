@@ -337,6 +337,9 @@
         .card-art-section {
           padding: 48px 20px;
         }
+        .reward-grid {
+          grid-template-columns: 1fr !important;
+        }
       }
 
       /* ===== Story Quote Section ===== */
@@ -619,12 +622,12 @@
     <section class="banner-hero">
       <div class="banner-hero-bg"></div>
       <div class="banner-hero-content">
-        <div class="banner-label">最新卡池预告</div>
-        <h1 class="banner-title">⸻ 待揭晓 ⸻</h1>
-        <p class="banner-subtitle">秦彻 · 单人月卡 ③</p>
+        <div class="banner-label">全新五星思念 PV 公开</div>
+        <h1 class="banner-title">爱猫及喵</h1>
+        <p class="banner-subtitle">秦彻 · 限定五星思念</p>
         <div class="banner-date-badge">
           <span class="dot"></span>
-          2026.05.28 — 2026.06.06
+          2026.05.22 05:00 — 05.31 04:59
         </div>
       </div>
     </section>
@@ -635,7 +638,8 @@
         <!-- Main card image -->
         <div class="card-art-main">
           <!-- 替换 src 为官方卡面图 -->
-          <div class="card-art-placeholder">
+          <img src="images/card_aimaojimao_1.webp" alt="秦彻·爱猫及喵 卡面" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="card-art-placeholder" style="display:none;">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -647,13 +651,13 @@
               <path d="M21 15l-5-5L5 21" />
             </svg>
             <p>卡面大图待官方公开后更新</p>
-            <p style="font-size: 11px; opacity: 0.6">预计 5.21 左右预告释出</p>
+            <p style="font-size: 11px; opacity: 0.6">PV 已公开，卡面即将释出</p>
           </div>
         </div>
         <!-- Card info -->
         <div class="card-art-info">
-          <div class="card-art-type">单人月卡 · 限定五星</div>
-          <h2 class="card-art-name">待官方公布</h2>
+          <div class="card-art-type">限定五星思念 · 单人卡池</div>
+          <h2 class="card-art-name">秦彻·爱猫及喵</h2>
           <div class="card-art-rarity">
             <svg viewBox="0 0 24 24">
               <path
@@ -693,7 +697,7 @@
             </div>
             <div class="card-art-meta-item">
               <span class="card-art-meta-label">卡池类型</span>
-              <span>单人月卡限定</span>
+              <span>单人限定五星</span>
             </div>
           </div>
           <p
@@ -704,8 +708,9 @@
               margin-top: 8px;
             "
           >
-            此为新单人月卡③，接替温泉混池「缭夜魂与」之后的秦彻个人卡池。<br />
-            按历史规律，单人月卡通常伴随专属剧情约会，限定结束后不进入常驻卡池。
+            秦彻全新五星思念「爱猫及喵」限时UP许愿开启。<br />
+            限定结束后不进入常驻卡池「极空回响」，暂无获取途径。<br />
+            许愿池设有双重保底机制，保底次数在所有限定许愿间完全共享。
           </p>
         </div>
       </div>
@@ -719,15 +724,18 @@
           <span class="story-header-text">剧情简介 &amp; 金句</span>
           <div class="story-header-line"></div>
         </div>
-        <div class="story-quote">「待官方预告释出后更新。」</div>
+        <div class="story-quote">「听说小猫都很能自娱自乐。人就不一样了，人会想他的猫。」</div>
         <div class="story-desc">
-          <p style="margin-bottom: 16px">
-            每一张秦彻的单人月卡，都是一次只属于两个人的私密故事。
-            从「不设防禁区」的破门而入，到「炽光淋漓」的聚光灯下，再到「热意揣度」的初秋燥热——
-            他的月卡总在用最细腻的笔触描绘：当暗点首领放下所有戒备，只面对一个人时的样子。
+          <p style="margin-bottom: 16px;">
+            PV 已公开！这一次的故事围绕着一次意外展开——你在 N109 区见义勇为，却被偷袭注射了特殊因子，竟然变成了一只狸花猫！
+            小秦店长不在，整座为你包下的猫乐园都失去了色彩。当他回来时，这只小猫会怎样"报复"他的缺席呢？
+          </p>
+          <p style="margin-bottom: 16px;">
+            🎬 <a href="https://www.xiaohongshu.com/discovery/item/6a0bc2730000000006035021" target="_blank" rel="noopener" style="color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(200,165,92,0.4);">在小红书查看 PV 实机展示 →</a>
           </p>
           <p>
-            这一次的故事，会是什么样的呢？预告片发布后，本站将第一时间更新剧情梗概与精选台词。
+            从PV画面来看，这次的主题融合了可爱与秦彻一贯的危险气质——猫与猎手的碰撞，让人充满期待。
+            完整剧情解析将在卡池上线后第一时间更新。
           </p>
         </div>
       </div>
@@ -741,65 +749,96 @@
       </div>
       <div class="material-grid">
         <div class="material-item">
-          <div class="material-item-image">📢 预告待发布</div>
-          <div class="material-item-date">待定</div>
-          <div class="material-item-label">官方卡面预告</div>
+          <div class="material-item-image">📢 PV 已公开</div>
+          <div class="material-item-date">2026.05.19</div>
+          <div class="material-item-label">全新五星思念「爱猫及喵」PV公开</div>
         </div>
         <div class="material-item">
-          <div class="material-item-image">🎬 PV待发布</div>
-          <div class="material-item-date">待定</div>
-          <div class="material-item-label">PV 截图精选</div>
+          <div class="material-item-image">🎬 PV 截图精选</div>
+          <div class="material-item-date">即将更新</div>
+          <div class="material-item-label">PV 高光时刻截图</div>
         </div>
         <div class="material-item">
-          <div class="material-item-image">📱 官博待发布</div>
-          <div class="material-item-date">待定</div>
-          <div class="material-item-label">官博物料整理</div>
+          <div class="material-item-image">📱 官博物料整理</div>
+          <div class="material-item-date">即将更新</div>
+          <div class="material-item-label">微博/官推物料汇总</div>
         </div>
         <div class="material-item">
-          <div class="material-item-image">🎨 设计稿待发布</div>
-          <div class="material-item-date">待定</div>
-          <div class="material-item-label">设计元素解析</div>
+          <div class="material-item-image">🐱 猫猫主题解析</div>
+          <div class="material-item-date">即将更新</div>
+          <div class="material-item-label">狸花猫元素设计分析</div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Draw Advice ===== -->
+    <!-- ===== Event Details ===== -->
     <section class="advice-section">
       <div class="advice-container">
-        <h3 class="advice-title">抽卡建议</h3>
+        <h3 class="advice-title">五星思念限时UP许愿规则</h3>
         <ul class="advice-list">
           <li>
             <span class="advice-num">1</span>
-            <span
-              >单人月卡为限定卡池，结束后<strong style="color: var(--light-red)"
-                >不进入常驻</strong
-              >，错过需等复刻（通常 1 年以上）。</span
-            >
+            <span>活动期间，限定五星思念「秦彻·爱猫及喵」许愿概率限时大幅度提升。</span>
           </li>
           <li>
             <span class="advice-num">2</span>
-            <span
-              >秦彻单人月卡历史强度稳定，且附带专属剧情约会，收藏与战力价值兼具。</span
-            >
+            <span>活动结束后，本张思念将<strong style="color: var(--light-red)">暂无获取途径</strong>，不会进入常驻许愿「极空回响」中。</span>
           </li>
           <li>
             <span class="advice-num">3</span>
-            <span
-              >按历史规律，月卡池持续约 9-10 天。建议等预告 PV
-              发布后确认星谱和定位再决定是否抽取。</span
-            >
+            <span>许愿池设置有<strong style="color: var(--gold)">双重保底机制</strong>，且保底规则及累计次数在所有限定许愿之间<strong style="color: var(--gold)">完全共享</strong>。上次限定许愿累计的保底次数将继承至本活动，本活动的保底次数也将继承至下一次限定许愿。</span>
           </li>
           <li>
             <span class="advice-num">4</span>
-            <span
-              >若钻石紧张，可参考排期表评估后续卡池（如 6
-              月底可能有新混池），合理规划资源。</span
-            >
+            <span>「深空许愿券」和「深空许愿券·限时」均可在本活动中使用，许愿时将<strong style="color: var(--gold)">优先消耗限时深空许愿券</strong>。活动结束后限时券将自动转化为极空许愿券。</span>
           </li>
         </ul>
+      </div>
+    </section>
+
+    <!-- ===== Reward Details ===== -->
+    <section class="advice-section" style="padding-top: 0;">
+      <div class="advice-container">
+        <h3 class="advice-title">狸花之祝 · 许愿返利</h3>
+        <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.9; margin-bottom: 20px;">
+          活动期间，累计许愿达指定次数，即可额外领取：
+        </p>
+        <div class="reward-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+          <div style="background: rgba(21,21,32,0.6); border: 1px solid var(--border); padding: 16px;">
+            <div style="font-size: 12px; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 6px;">专属服装</div>
+            <div style="font-size: 15px; font-weight: 500; color: var(--text-primary);">醒橘时刻</div>
+          </div>
+          <div style="background: rgba(21,21,32,0.6); border: 1px solid var(--border); padding: 16px;">
+            <div style="font-size: 12px; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 6px;">通用帽子</div>
+            <div style="font-size: 15px; font-weight: 500; color: var(--text-primary);">檐间光影</div>
+          </div>
+          <div style="background: rgba(21,21,32,0.6); border: 1px solid var(--border); padding: 16px;">
+            <div style="font-size: 12px; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 6px;">通用拍照动作</div>
+            <div style="font-size: 15px; font-weight: 500; color: var(--text-primary);">不气不气</div>
+          </div>
+          <div style="background: rgba(21,21,32,0.6); border: 1px solid var(--border); padding: 16px;">
+            <div style="font-size: 12px; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 6px;">许愿券</div>
+            <div style="font-size: 15px; font-weight: 500; color: var(--text-primary);">✨ 深空许愿券·限时 ×20</div>
+          </div>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); line-height: 1.8; padding: 16px; background: rgba(61,43,94,0.06); border: 1px solid var(--border);">
+          <p style="margin-bottom: 6px;">📍 Tips：</p>
+          <p>1. 累抽拍照动作、饰品，均将在本轮活动结束后上架月晖商店兑换；</p>
+          <p>2. 累抽专属服装活动结束后<strong style="color: var(--light-red)">暂无其他获取途径</strong>，后续将随许愿活动同步复刻，继承活动首开时的累计许愿次数；</p>
+          <p>3. 累抽奖励仅在本次活动许愿中生效，服饰实际效果以游戏内为准。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Gift Packs ===== -->
+    <section class="advice-section" style="padding-top: 0;">
+      <div class="advice-container">
+        <h3 class="advice-title">系列礼包上架</h3>
+        <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.9; margin-bottom: 16px;">
+          活动期间，配套超值<strong style="color: var(--gold)">「软茸馈礼」</strong>、<strong style="color: var(--gold)">「纵宠馈礼」</strong>系列礼包上架，可以超值优惠价格购买「深空许愿券·限时」和其他材料。
+        </p>
         <div class="advice-warning">
-          ⚠
-          以上建议基于历史规律推断，仅供参考。抽卡有风险，氪金需谨慎。请根据自身情况理性决策。
+          以上信息整理自官方公告。抽卡有风险，氪金需谨慎。请根据自身情况理性决策。
         </div>
       </div>
     </section>
