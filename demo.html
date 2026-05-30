@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="zh-CN" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>秦彻 · SYLUS — N109 区 | 2025 Futuristic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            calligraphy: ['"ZCOOL XiaoWei"', 'serif'],
+            serif: ['"Noto Serif SC"', 'serif'],
+            sans: ['"Noto Sans SC"', '"Inter"', 'sans-serif'],
+            display: ['"Space Grotesk"', '"Noto Sans SC"', 'sans-serif'],
+            body: ['"Inter"', '"Noto Sans SC"', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    /* ===== CSS CUSTOM PROPERTIES ===== */
+    .dark {
+      --bg: #0A0A0F;
+      --bg-surface: #0F0F16;
+      --bg-elevated: #14141C;
+      --border: rgba(255,255,255,0.06);
+      --border-strong: rgba(255,255,255,0.1);
+      --text-primary: #E2E8F0;
+      --text-secondary: #94A3B8;
+      --text-tertiary: #64748B;
+      --accent-blue: #E50914;
+      --accent-purple: #8B0000;
+      --accent-pink: #C41E3A;
+      --accent-rose: #D4455A;
+      --glow-blue: rgba(229, 9, 20, 0.3);
+      --glow-purple: rgba(139, 0, 0, 0.25);
+      --glow-pink: rgba(196, 30, 58, 0.2);
+      --neo-shadow-dark: 6px 6px 16px #050508, -6px -6px 16px #0F0F16;
+      --neo-shadow-hover: 8px 8px 20px #050508, -8px -8px 20px #141420;
+    }
+    .light {
+      --bg: #F0EDE8;
+      --bg-surface: #E8E3DC;
+      --bg-elevated: #FFFFFF;
+      --border: rgba(0,0,0,0.06);
+      --border-strong: rgba(0,0,0,0.1);
+      --text-primary: #1A1A2E;
+      --text-secondary: #4A4A5E;
+      --text-tertiary: #8A8A9E;
+      --accent-blue: #C41E3A;
+      --accent-purple: #8B3A4A;
+      --accent-pink: #B83045;
+      --accent-rose: #A04050;
+      --glow-blue: rgba(196, 30, 58, 0.2);
+      --glow-purple: rgba(139, 58, 74, 0.15);
+      --glow-pink: rgba(184, 48, 69, 0.12);
+      --neo-shadow-dark: 4px 4px 12px rgba(0,0,0,0.08), -4px -4px 12px #FFFFFF;
+      --neo-shadow-hover: 6px 6px 16px rgba(0,0,0,0.1), -6px -6px 16px #FFFFFF;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+
+    /* Theme transitions */
+    body, nav, section, div, a, p, h1, h2, h3, h4, span, button, footer, input, canvas {
+      transition: background-color 0.5s cubic-bezier(0.22,1,0.36,1), color 0.5s cubic-bezier(0.22,1,0.36,1), border-color 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    /* ===== PARTICLE CANVAS ===== */
+    #particleCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.7; }
+
+    /* ===== NEO MORPHISM ===== */
+    .neo-card {
+      background: var(--bg-surface);
+      border-radius: 24px;
+      box-shadow: var(--neo-shadow-dark);
+      transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .neo-card:hover {
+      box-shadow: var(--neo-shadow-hover);
+      transform: translateY(-2px);
+    }
+    .neo-inset {
+      background: var(--bg-surface);
+      border-radius: 24px;
+      box-shadow: inset 4px 4px 12px rgba(0,0,0,0.3), inset -4px -4px 12px rgba(255,255,255,0.02);
+    }
+
+    /* ===== GLASS MORPHISM ===== */
+    .glass {
+      background: rgba(15, 15, 22, 0.7);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .light .glass {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* ===== 3D TILT CARD ===== */
+    .tilt-card {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    .tilt-card-inner {
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+    }
+    .tilt-gloss {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+      z-index: 2;
+    }
+    .tilt-card:hover .tilt-gloss { opacity: 1; }
+
+    /* ===== FLOATING 3D RINGS (Hero) ===== */
+    @keyframes rotate-ring {
+      0% { transform: rotateX(60deg) rotateZ(0deg); }
+      100% { transform: rotateX(60deg) rotateZ(360deg); }
+    }
+    @keyframes rotate-ring-reverse {
+      0% { transform: rotateX(60deg) rotateZ(360deg); }
+      100% { transform: rotateX(60deg) rotateZ(0deg); }
+    }
+    .ring-3d {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid;
+      transform: rotateX(60deg);
+      animation: rotate-ring 20s linear infinite;
+    }
+    .ring-3d.reverse { animation: rotate-ring-reverse 25s linear infinite; }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: #fff;
+      font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+      box-shadow: 0 0 40px var(--glow-blue);
+    }
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 60px var(--glow-blue), 0 0 100px rgba(229,9,20,0.12);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border: 1px solid var(--border-strong);
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 20px var(--glow-blue);
+    }
+
+    /* ===== TYPEWRITER CURSOR ===== */
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .typewriter-cursor::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+      color: var(--accent-blue);
+      font-weight: 300;
+    }
+
+    /* ===== BENTO GRID ===== */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px;
+      gap: 16px;
+    }
+    .bento-grid > * {
+      background: var(--bg-surface);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .bento-grid > *:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 30px var(--glow-blue);
+      transform: translateY(-4px);
+    }
+
+    /* ===== FLOATING FEATHERS ===== */
+    @keyframes feather-fall {
+      0% { transform: translateY(-10vh) translateX(0) rotate(-15deg); opacity: 0; }
+      5% { opacity: 0.7; }
+      80% { opacity: 0.3; }
+      100% { transform: translateY(110vh) translateX(50px) rotate(20deg); opacity: 0; }
+    }
+    @keyframes feather-fall-slow {
+      0% { transform: translateY(-10vh) translateX(0) rotate(10deg); opacity: 0; }
+      8% { opacity: 0.5; }
+      85% { opacity: 0.2; }
+      100% { transform: translateY(110vh) translateX(-40px) rotate(-15deg); opacity: 0; }
+    }
+    @keyframes feather-sway {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(8px); }
+      75% { transform: translateX(-6px); }
+    }
+    .feather-float {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .feather-float.black { animation: feather-fall 10s linear infinite, feather-sway 3s ease-in-out infinite; }
+    .feather-float.white { animation: feather-fall-slow 13s linear infinite, feather-sway 4s ease-in-out infinite; }
+    .feather-float:nth-child(2) { animation-delay: 2s, 1s; left: 15%; }
+    .feather-float:nth-child(3) { animation-delay: 4s, 0.5s; left: 30%; }
+    .feather-float:nth-child(4) { animation-delay: 6s, 2s; left: 50%; }
+    .feather-float:nth-child(5) { animation-delay: 3s, 1.5s; left: 65%; }
+    .feather-float:nth-child(6) { animation-delay: 7s, 0.8s; left: 78%; }
+    .feather-float:nth-child(7) { animation-delay: 5s, 2.5s; left: 88%; }
+    .feather-float:nth-child(8) { animation-delay: 8s, 1.2s; left: 22%; }
+
+    /* ===== MANDALA BACKGROUND PATTERN ===== */
+    .mandala-bg {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.025;
+      z-index: 0;
+    }
+    .dark .mandala-bg { opacity: 0.03; }
+    .light .mandala-bg { opacity: 0.04; }
+
+    /* ===== DEVIL WING ACCENTS ===== */
+    @keyframes wing-drift {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.02); }
+    }
+    .wing-accent {
+      pointer-events: none;
+      opacity: 0.06;
+    }
+    .dark .wing-accent { opacity: 0.08; }
+    .wing-accent.left { animation: wing-drift 6s ease-in-out infinite; }
+    .wing-accent.right { animation: wing-drift 6s ease-in-out 1.5s infinite; }
+
+    /* ===== DRAGON SCALE TEXTURE ===== */
+    .dragon-scale {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='46'%3E%3Cpath d='M20 0l20 11.5v23L20 46 0 34.5v-23z' fill='none' stroke='%23E50914' stroke-opacity='0.06' stroke-width='0.5'/%3E%3Cpath d='M20 3l17 9.8v19.4L20 42 3 32.2V12.8z' fill='none' stroke='%23E50914' stroke-opacity='0.03' stroke-width='0.3'/%3E%3C/svg%3E");
+      background-size: 40px 46px;
+      pointer-events: none;
+    }
+    .light .dragon-scale {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='46'%3E%3Cpath d='M20 0l20 11.5v23L20 46 0 34.5v-23z' fill='none' stroke='%23C41E3A' stroke-opacity='0.05' stroke-width='0.5'/%3E%3C/svg%3E");
+    }
+
+    /* ===== GLOW TEXT ===== */
+    .glow-text-blue {
+      text-shadow: 0 0 40px var(--glow-blue), 0 0 80px rgba(229,9,20,0.12);
+    }
+    .glow-text-purple {
+      text-shadow: 0 0 40px var(--glow-purple), 0 0 80px rgba(139,0,0,0.12);
+    }
+
+    /* ===== SCROLL BAR ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    .dark ::-webkit-scrollbar-track { background: var(--bg); }
+    .dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+    .light ::-webkit-scrollbar-track { background: var(--bg); }
+    .light ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 2px; }
+
+    /* ===== BENTO SIZES ===== */
+    .bento-2x2 { grid-column: span 2; grid-row: span 2; }
+    .bento-2x1 { grid-column: span 2; grid-row: span 1; }
+    .bento-1x2 { grid-column: span 1; grid-row: span 2; }
+    .bento-1x1 { grid-column: span 1; grid-row: span 1; }
+    @media (max-width: 768px) {
+      .bento-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+      .bento-2x2, .bento-2x1 { grid-column: span 2; }
+      .bento-1x2 { grid-row: span 1; }
+    }
+  </style>
+</head>
+<body class="font-body">
+
+  <!-- ===== PARTICLE CANVAS BACKGROUND ===== -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="fixed top-4 left-1/2 -translate-x-1/2 z-50 glass rounded-full px-6 py-3 flex items-center gap-8 shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
+    <a href="#" class="flex items-center gap-2 no-underline group">
+      <span class="font-calligraphy text-xl text-[var(--text-primary)] tracking-[0.1em] group-hover:text-[var(--accent-blue)] transition-colors">彻</span>
+    </a>
+    <div class="hidden md:flex items-center gap-6">
+      <a href="#" class="font-sans text-[12px] font-medium tracking-[0.05em] text-[var(--text-secondary)] no-underline hover:text-[var(--accent-blue)] transition-colors">图鉴</a>
+      <a href="#" class="font-sans text-[12px] font-medium tracking-[0.05em] text-[var(--text-secondary)] no-underline hover:text-[var(--accent-blue)] transition-colors">故事</a>
+      <a href="#" class="font-sans text-[12px] font-medium tracking-[0.05em] text-[var(--text-secondary)] no-underline hover:text-[var(--accent-blue)] transition-colors">排期</a>
+      <a href="#" class="font-sans text-[12px] font-medium tracking-[0.05em] text-[var(--text-secondary)] no-underline hover:text-[var(--accent-blue)] transition-colors">二创</a>
+    </div>
+    <button id="themeToggle" class="w-10 h-10 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-strong)] flex items-center justify-center hover:border-[var(--accent-blue)] transition-all cursor-pointer" aria-label="切换主题">
+      <i data-lucide="moon" class="hidden dark:block w-4 h-4 text-[var(--text-secondary)]"></i>
+      <i data-lucide="sun" class="dark:hidden block w-4 h-4 text-[var(--text-secondary)]"></i>
+    </button>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="relative min-h-screen flex items-center justify-center z-10 pt-20 overflow-hidden">
+    <!-- Dragon scale texture -->
+    <div class="absolute inset-0 dragon-scale z-0"></div>
+
+    <!-- Mandala background -->
+    <div class="mandala-bg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="width:600px;height:600px;">
+      <svg viewBox="0 0 600 600" fill="none">
+        <!-- Outer mandala ring -->
+        <circle cx="300" cy="300" r="280" stroke="currentColor" stroke-width="0.3" class="text-[var(--accent-blue)]" stroke-dasharray="4 8"/>
+        <circle cx="300" cy="300" r="250" stroke="currentColor" stroke-width="0.3" class="text-[var(--accent-purple)]" stroke-dasharray="2 6"/>
+        <circle cx="300" cy="300" r="220" stroke="currentColor" stroke-width="0.2" class="text-[var(--accent-pink)]"/>
+        <!-- Mandala petals -->
+        <g transform="translate(300,300)">
+          <ellipse cx="0" cy="-140" rx="30" ry="80" fill="none" stroke="currentColor" stroke-width="0.4" class="text-[var(--accent-blue)]" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-140" rx="30" ry="80" fill="none" stroke="currentColor" stroke-width="0.4" class="text-[var(--accent-blue)]" transform="rotate(45)"/>
+          <ellipse cx="0" cy="-140" rx="30" ry="80" fill="none" stroke="currentColor" stroke-width="0.4" class="text-[var(--accent-blue)]" transform="rotate(90)"/>
+          <ellipse cx="0" cy="-140" rx="30" ry="80" fill="none" stroke="currentColor" stroke-width="0.4" class="text-[var(--accent-blue)]" transform="rotate(135)"/>
+          <ellipse cx="0" cy="-140" rx="30" ry="80" fill="none" stroke="currentColor" stroke-width="0.4" class="text-[var(--accent-blue)]" transform="rotate(180)"/>
+          <ellipse cx="0" cy="-140" rx="30" ry="80" fill="none" stroke="currentColor" stroke-width="0.4" class="text-[var(--accent-blue)]" transform="rotate(225)"/>
+          <ellipse cx="0" cy="-140" rx="30" ry="80" fill="none" stroke="currentColor" stroke-width="0.4" class="text-[var(--accent-blue)]" transform="rotate(270)"/>
+          <ellipse cx="0" cy="-140" rx="30" ry="80" fill="none" stroke="currentColor" stroke-width="0.4" class="text-[var(--accent-blue)]" transform="rotate(315)"/>
+          <!-- Center datura -->
+          <circle cx="0" cy="0" r="60" fill="none" stroke="currentColor" stroke-width="0.3" class="text-[var(--accent-pink)]"/>
+          <circle cx="0" cy="0" r="30" fill="none" stroke="currentColor" stroke-width="0.2" class="text-[var(--accent-purple)]" stroke-dasharray="3 5"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Devil wing accents -->
+    <div class="wing-accent left absolute top-1/3" style="left:8%;transform:translateY(-20%);">
+      <svg width="120" height="240" viewBox="0 0 120 240" fill="none">
+        <path d="M60 10C55 20 30 60 15 100C5 130 2 160 10 190C15 210 25 225 40 235L60 240L50 200C35 160 25 120 30 80C35 50 45 25 60 10Z" fill="currentColor" class="text-[var(--accent-purple)]" opacity="0.6"/>
+        <path d="M60 10C65 20 70 40 75 70C80 110 75 160 65 200L60 240L70 235C85 225 95 210 100 190C108 160 105 130 95 100C80 60 65 25 60 10Z" fill="currentColor" class="text-[var(--accent-purple)]" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="wing-accent right absolute top-1/3" style="right:8%;transform:translateY(-20%) scaleX(-1);">
+      <svg width="120" height="240" viewBox="0 0 120 240" fill="none">
+        <path d="M60 10C55 20 30 60 15 100C5 130 2 160 10 190C15 210 25 225 40 235L60 240L50 200C35 160 25 120 30 80C35 50 45 25 60 10Z" fill="currentColor" class="text-[var(--accent-purple)]" opacity="0.6"/>
+        <path d="M60 10C65 20 70 40 75 70C80 110 75 160 65 200L60 240L70 235C85 225 95 210 100 190C108 160 105 130 95 100C80 60 65 25 60 10Z" fill="currentColor" class="text-[var(--accent-purple)]" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- Floating Feathers (Black) -->
+    <div class="feather-float black" style="top:-20px;left:10%;">
+      <svg width="18" height="50" viewBox="0 0 20 50"><path d="M10 0C10 0 2 15 2 28C2 38 7 46 10 50C13 46 18 38 18 28C18 15 10 0 10 0Z" fill="currentColor" class="text-[var(--text-primary)]" opacity="0.25"/><path d="M10 6L10 44" stroke="currentColor" stroke-width="0.5" class="text-[var(--text-tertiary)]" opacity="0.3"/></svg>
+    </div>
+    <div class="feather-float black" style="top:-40px;left:25%;">
+      <svg width="14" height="40" viewBox="0 0 20 50"><path d="M10 0C10 0 2 15 2 28C2 38 7 46 10 50C13 46 18 38 18 28C18 15 10 0 10 0Z" fill="currentColor" class="text-[var(--text-primary)]" opacity="0.2"/><path d="M10 6L10 44" stroke="currentColor" stroke-width="0.5" class="text-[var(--text-tertiary)]" opacity="0.25"/></svg>
+    </div>
+    <div class="feather-float black" style="top:-60px;left:40%;">
+      <svg width="16" height="45" viewBox="0 0 20 50"><path d="M10 0C10 0 2 15 2 28C2 38 7 46 10 50C13 46 18 38 18 28C18 15 10 0 10 0Z" fill="currentColor" class="text-[var(--text-primary)]" opacity="0.2"/><path d="M10 6L10 44" stroke="currentColor" stroke-width="0.5" class="text-[var(--text-tertiary)]" opacity="0.25"/></svg>
+    </div>
+    <!-- Floating Feathers (White) -->
+    <div class="feather-float white" style="top:-30px;left:55%;">
+      <svg width="16" height="45" viewBox="0 0 20 50"><path d="M10 0C10 0 2 15 2 28C2 38 7 46 10 50C13 46 18 38 18 28C18 15 10 0 10 0Z" fill="currentColor" class="text-[var(--text-primary)]" opacity="0.15"/><path d="M10 6L10 44" stroke="currentColor" stroke-width="0.5" class="text-[var(--text-tertiary)]" opacity="0.2"/></svg>
+    </div>
+    <div class="feather-float white" style="top:-50px;left:70%;">
+      <svg width="13" height="38" viewBox="0 0 20 50"><path d="M10 0C10 0 2 15 2 28C2 38 7 46 10 50C13 46 18 38 18 28C18 15 10 0 10 0Z" fill="currentColor" class="text-[var(--text-primary)]" opacity="0.12"/><path d="M10 6L10 44" stroke="currentColor" stroke-width="0.5" class="text-[var(--text-tertiary)]" opacity="0.18"/></svg>
+    </div>
+    <div class="feather-float white" style="top:-70px;left:85%;">
+      <svg width="15" height="42" viewBox="0 0 20 50"><path d="M10 0C10 0 2 15 2 28C2 38 7 46 10 50C13 46 18 38 18 28C18 15 10 0 10 0Z" fill="currentColor" class="text-[var(--text-primary)]" opacity="0.15"/><path d="M10 6L10 44" stroke="currentColor" stroke-width="0.5" class="text-[var(--text-tertiary)]" opacity="0.2"/></svg>
+    </div>
+    <div class="feather-float black" style="top:-15px;left:20%;">
+      <svg width="14" height="36" viewBox="0 0 20 50"><path d="M10 0C10 0 2 15 2 28C2 38 7 46 10 50C13 46 18 38 18 28C18 15 10 0 10 0Z" fill="currentColor" class="text-[var(--text-primary)]" opacity="0.18"/><path d="M10 6L10 44" stroke="currentColor" stroke-width="0.5" class="text-[var(--text-tertiary)]" opacity="0.22"/></svg>
+    </div>
+    <div class="feather-float white" style="top:-45px;left:60%;">
+      <svg width="17" height="48" viewBox="0 0 20 50"><path d="M10 0C10 0 2 15 2 28C2 38 7 46 10 50C13 46 18 38 18 28C18 15 10 0 10 0Z" fill="currentColor" class="text-[var(--text-primary)]" opacity="0.12"/><path d="M10 6L10 44" stroke="currentColor" stroke-width="0.5" class="text-[var(--text-tertiary)]" opacity="0.18"/></svg>
+    </div>
+
+    <!-- 3D Rings -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style="width:500px;height:500px;">
+      <div class="ring-3d" style="width:400px;height:400px;top:50px;left:50px;border-color:rgba(229,9,20,0.2);box-shadow:0 0 30px rgba(229,9,20,0.1);"></div>
+      <div class="ring-3d reverse" style="width:300px;height:300px;top:100px;left:100px;border-color:rgba(139,0,0,0.2);box-shadow:0 0 30px rgba(139,0,0,0.1);"></div>
+      <div class="ring-3d" style="width:200px;height:200px;top:150px;left:150px;border-color:rgba(196,30,58,0.15);box-shadow:0 0 20px rgba(196,30,58,0.08);"></div>
+      <!-- Center crown icon glowing -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 flex items-center justify-center">
+        <div class="w-12 h-12 rounded-full" style="background:radial-gradient(circle,rgba(139,0,0,0.3),transparent);box-shadow:0 0 60px var(--glow-purple);"></div>
+      </div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-20 text-center px-6 max-w-4xl mx-auto">
+      <!-- Top label -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bg-elevated)] border border-[var(--border)] mb-8">
+        <span class="w-2 h-2 rounded-full bg-[var(--accent-blue)] animate-pulse"></span>
+        <span class="font-sans text-[11px] font-medium tracking-[0.15em] text-[var(--text-secondary)] uppercase">N109 District · Dark Point</span>
+      </div>
+
+      <!-- Main Title -->
+      <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-4 leading-[0.9]">
+        <span class="text-[var(--text-primary)]">秦彻 · </span>
+        <span class="bg-gradient-to-r from-[var(--accent-blue)] via-[var(--accent-purple)] to-[var(--accent-pink)] bg-clip-text text-transparent">SYLUS</span>
+      </h1>
+
+      <!-- Subtitle with typewriter -->
+      <p class="font-sans text-lg sm:text-xl text-[var(--text-secondary)] mb-3 tracking-[0.04em] typewriter-cursor" id="typewriter"></p>
+
+      <!-- Description -->
+      <p class="font-sans text-[15px] text-[var(--text-tertiary)] max-w-lg mx-auto mb-10 leading-relaxed">
+        危险又迷人的统治者 · 暗夜中的绝对支配者
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        <a href="#" class="btn-primary">
+          <i data-lucide="zap" class="w-4 h-4"></i>
+          探索卡面图鉴
+        </a>
+        <button class="btn-ghost">
+          <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+          PV 展示
+        </button>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-[var(--text-tertiary)]">
+      <span class="font-sans text-[10px] tracking-[0.3em] uppercase">Scroll</span>
+      <div class="w-px h-8 bg-gradient-to-b from-[var(--accent-blue)] to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- ===== BENTO GRID: CARD GALLERY ===== -->
+  <section class="relative z-10 py-24 px-6 lg:px-12">
+    <div class="max-w-[1280px] mx-auto">
+      <!-- Section header -->
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <span class="font-display text-[10px] font-bold tracking-[0.25em] text-[var(--accent-blue)] uppercase mb-2 block">// Memory Archive</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-black tracking-tight text-[var(--text-primary)]">
+            卡面图鉴 <span class="text-[var(--accent-purple)]">·</span> Bento
+          </h2>
+        </div>
+        <a href="#" class="font-sans text-[13px] font-medium text-[var(--accent-blue)] no-underline hover:underline flex items-center gap-1">
+          View All <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="bento-grid">
+        <!-- Featured: Large card -->
+        <div class="bento-2x2 tilt-card relative group">
+          <div class="tilt-card-inner w-full h-full p-6 flex flex-col justify-end" data-tilt>
+            <div class="tilt-gloss"></div>
+            <div class="relative z-10">
+              <div class="flex gap-1 mb-3">
+                <span class="w-2 h-2 rounded-full bg-[var(--accent-pink)]"></span>
+                <span class="w-2 h-2 rounded-full bg-[var(--accent-pink)]"></span>
+                <span class="w-2 h-2 rounded-full bg-[var(--accent-pink)]"></span>
+                <span class="w-2 h-2 rounded-full bg-[var(--accent-pink)]"></span>
+                <span class="w-2 h-2 rounded-full bg-[var(--accent-pink)]"></span>
+              </div>
+              <h3 class="font-calligraphy text-3xl text-[var(--text-primary)] tracking-widest mb-1">爱猫及喵</h3>
+              <p class="font-sans text-[12px] text-[var(--text-tertiary)] mb-3">秦彻 · 限定五星 · 2026.05</p>
+              <span class="inline-block font-display text-[9px] font-bold tracking-[0.2em] text-[var(--accent-pink)] uppercase bg-[rgba(229,9,20,0.12)] px-3 py-1 rounded-full">LIMITED SSR</span>
+            </div>
+            <!-- Decorative tech lines -->
+            <div class="absolute top-4 right-4 opacity-20">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect x="0" y="0" width="16" height="16" rx="2" stroke="var(--accent-blue)" stroke-width="1"/>
+                <rect x="20" y="0" width="16" height="16" rx="2" stroke="var(--accent-blue)" stroke-width="1"/>
+                <rect x="0" y="20" width="16" height="16" rx="2" stroke="var(--accent-blue)" stroke-width="1"/>
+                <rect x="20" y="20" width="16" height="16" rx="2" stroke="var(--accent-purple)" stroke-width="1"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Tall -->
+        <div class="bento-1x2 tilt-card relative group">
+          <div class="tilt-card-inner w-full h-full p-5 flex flex-col justify-between" data-tilt>
+            <div class="tilt-gloss"></div>
+            <div class="relative z-10">
+              <div class="flex gap-1 mb-3">
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
+              </div>
+              <h3 class="font-calligraphy text-xl text-[var(--text-primary)] tracking-widest">肆雨照夜</h3>
+              <p class="font-sans text-[11px] text-[var(--text-tertiary)] mt-1">生日限定 2026</p>
+            </div>
+            <span class="font-display text-[9px] font-bold tracking-[0.15em] text-[var(--accent-purple)] uppercase">BIRTHDAY</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bento-1x1 tilt-card relative group">
+          <div class="tilt-card-inner w-full h-full p-5 flex flex-col justify-between" data-tilt>
+            <div class="tilt-gloss"></div>
+            <div class="relative z-10">
+              <div class="flex gap-1 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)]"></span>
+              </div>
+              <h4 class="font-calligraphy text-lg text-[var(--text-primary)] tracking-widest">缭夜魂与</h4>
+              <p class="font-sans text-[10px] text-[var(--text-tertiary)] mt-1">温泉混池</p>
+            </div>
+            <span class="font-display text-[8px] font-bold tracking-[0.15em] text-[var(--accent-blue)] uppercase">LIMITED</span>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bento-1x1 tilt-card relative group">
+          <div class="tilt-card-inner w-full h-full p-5 flex flex-col justify-between" data-tilt>
+            <div class="tilt-gloss"></div>
+            <div class="relative z-10">
+              <div class="flex gap-1 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-rose)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-rose)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-rose)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-rose)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-rose)]"></span>
+              </div>
+              <h4 class="font-calligraphy text-lg text-[var(--text-primary)] tracking-widest">猩红弥散</h4>
+              <p class="font-sans text-[10px] text-[var(--text-tertiary)] mt-1">银翼安魂地</p>
+            </div>
+            <span class="font-display text-[8px] font-bold tracking-[0.15em] text-[var(--accent-rose)] uppercase">MYTH</span>
+          </div>
+        </div>
+
+        <!-- Card 5: Wide story card -->
+        <div class="bento-2x1 tilt-card relative group overflow-hidden">
+          <div class="tilt-card-inner w-full h-full p-6 flex items-center gap-6" data-tilt>
+            <div class="tilt-gloss"></div>
+            <div class="relative z-10 flex-1">
+              <span class="font-display text-[9px] font-bold tracking-[0.2em] text-[var(--accent-blue)] uppercase mb-2 block">Featured Story</span>
+              <h3 class="font-calligraphy text-2xl text-[var(--text-primary)] tracking-widest mb-2">千灯共我</h3>
+              <p class="font-sans text-[13px] text-[var(--text-secondary)] leading-relaxed line-clamp-2">城主秦彻仗义相救，令公主逃婚途中一见倾心。今晚这城中的灯火，都是为你而燃。</p>
+            </div>
+            <div class="relative z-10 w-12 h-12 rounded-full border border-[var(--accent-blue)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-blue)] transition-all">
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-[var(--accent-blue)] group-hover:text-white transition-colors"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="bento-1x1 tilt-card relative group">
+          <div class="tilt-card-inner w-full h-full p-5 flex flex-col justify-between" data-tilt>
+            <div class="tilt-gloss"></div>
+            <div class="relative z-10">
+              <div class="flex gap-1 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-pink)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-pink)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-pink)]"></span>
+              </div>
+              <h4 class="font-calligraphy text-lg text-[var(--text-primary)] tracking-widest">即兴放逐</h4>
+              <p class="font-sans text-[10px] text-[var(--text-tertiary)] mt-1">音乐限定 2025</p>
+            </div>
+            <span class="font-display text-[8px] font-bold tracking-[0.15em] text-[var(--accent-pink)] uppercase">MUSIC</span>
+          </div>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="bento-1x1 tilt-card relative group">
+          <div class="tilt-card-inner w-full h-full p-5 flex flex-col justify-between" data-tilt>
+            <div class="tilt-gloss"></div>
+            <div class="relative z-10">
+              <div class="flex gap-1 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
+              </div>
+              <h4 class="font-calligraphy text-lg text-[var(--text-primary)] tracking-widest">混沌纪</h4>
+              <p class="font-sans text-[10px] text-[var(--text-tertiary)] mt-1">二周年限定</p>
+            </div>
+            <span class="font-display text-[8px] font-bold tracking-[0.15em] text-[var(--accent-purple)] uppercase">ANNIV</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STORY CHAPTER SECTION (Glassmorphism) ===== -->
+  <section class="relative z-10 py-20 px-6 lg:px-12">
+    <div class="max-w-[1280px] mx-auto">
+      <div class="glass rounded-[32px] p-8 md:p-12 lg:p-16 relative overflow-hidden">
+        <!-- Decorative glow orb -->
+        <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-10 pointer-events-none" style="background:radial-gradient(circle,var(--accent-purple),transparent);"></div>
+
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Left: Media placeholder -->
+          <div class="neo-inset aspect-[16/10] flex items-center justify-center relative group cursor-pointer">
+            <div class="absolute inset-0 rounded-[24px] bg-gradient-to-br from-[var(--accent-purple)]/5 to-[var(--accent-blue)]/5"></div>
+            <div class="relative z-10 text-center">
+              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--bg-elevated)] flex items-center justify-center border border-[var(--border-strong)] group-hover:border-[var(--accent-blue)] group-hover:shadow-[0_0_30px_var(--glow-blue)] transition-all">
+                <i data-lucide="play" class="w-6 h-6 fill-[var(--accent-blue)] text-[var(--accent-blue)] ml-0.5"></i>
+              </div>
+              <span class="font-display text-[11px] font-bold tracking-[0.15em] text-[var(--text-tertiary)] uppercase">PV 实机展示</span>
+            </div>
+          </div>
+
+          <!-- Right: Chapter info -->
+          <div>
+            <div class="flex gap-3 mb-6">
+              <button class="px-4 py-2 rounded-full font-display text-[11px] font-bold tracking-[0.08em] bg-[var(--accent-blue)] text-white border-none cursor-pointer transition-all">章节简介</button>
+              <button class="px-4 py-2 rounded-full font-display text-[11px] font-bold tracking-[0.08em] bg-transparent text-[var(--text-secondary)] border border-[var(--border-strong)] cursor-pointer hover:border-[var(--accent-blue)] transition-all">剧情金句</button>
+              <button class="px-4 py-2 rounded-full font-display text-[11px] font-bold tracking-[0.08em] bg-transparent text-[var(--text-secondary)] border border-[var(--border-strong)] cursor-pointer hover:border-[var(--accent-blue)] transition-all">PV预告</button>
+            </div>
+
+            <span class="font-display text-[10px] font-bold tracking-[0.2em] text-[var(--accent-purple)] uppercase mb-2 block">Chapter 01</span>
+            <h3 class="font-display text-3xl sm:text-4xl font-black tracking-tight text-[var(--text-primary)] mb-4">
+              当猎人<br/>变成了<span class="text-[var(--accent-pink)]">猫</span>
+            </h3>
+            <p class="font-sans text-[15px] leading-[1.8] text-[var(--text-secondary)] mb-6">
+              PV已公开！在N109区见义勇为，却被偷袭注射特殊因子，竟然变成了狸花猫。小秦店长不在，整座猫乐园都失去了色彩。
+            </p>
+
+            <!-- Quote -->
+            <div class="border-l-4 border-[var(--accent-purple)] pl-6 py-1 mb-6 rounded-r-lg" style="background:linear-gradient(90deg,rgba(139,0,0,0.08),transparent);">
+              <p class="font-calligraphy text-xl text-[var(--text-primary)] tracking-[0.04em]">
+                「听说小猫都很能自娱自乐。人就不一样了，人会想他的猫。」
+              </p>
+            </div>
+
+            <!-- Meta -->
+            <div class="flex flex-wrap gap-6 text-sm">
+              <div><span class="text-[var(--text-tertiary)] text-[11px] block">星谱</span><span class="font-semibold text-[var(--text-primary)]">待公布</span></div>
+              <div><span class="text-[var(--text-tertiary)] text-[11px] block">定位</span><span class="font-semibold text-[var(--text-primary)]">待公布</span></div>
+              <div><span class="text-[var(--text-tertiary)] text-[11px] block">卡池</span><span class="font-semibold text-[var(--text-primary)]">单人限定五星</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES: NEOMORPHIC CARDS ===== -->
+  <section class="relative z-10 py-20 px-6 lg:px-12">
+    <div class="max-w-[1280px] mx-auto">
+      <div class="text-center mb-12">
+        <span class="font-display text-[10px] font-bold tracking-[0.25em] text-[var(--accent-blue)] uppercase">// Features</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-black tracking-tight text-[var(--text-primary)] mt-2">
+          许愿系统 <span class="text-[var(--accent-purple)]">&</span> 返利奖励
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="neo-card p-8 text-center group cursor-pointer">
+          <div class="w-12 h-12 mx-auto mb-4 rounded-2xl bg-[var(--bg-elevated)] flex items-center justify-center border border-[var(--border)] group-hover:border-[var(--accent-blue)] group-hover:shadow-[0_0_20px_var(--glow-blue)] transition-all">
+            <i data-lucide="shield-check" class="w-5 h-5 text-[var(--accent-blue)]"></i>
+          </div>
+          <h4 class="font-display font-bold text-[var(--text-primary)] mb-2">双重保底</h4>
+          <p class="font-sans text-[13px] text-[var(--text-tertiary)] leading-relaxed">限定许愿间完全共享<br/>保底次数完整继承</p>
+        </div>
+        <div class="neo-card p-8 text-center group cursor-pointer">
+          <div class="w-12 h-12 mx-auto mb-4 rounded-2xl bg-[var(--bg-elevated)] flex items-center justify-center border border-[var(--border)] group-hover:border-[var(--accent-purple)] group-hover:shadow-[0_0_20px_var(--glow-purple)] transition-all">
+            <i data-lucide="gem" class="w-5 h-5 text-[var(--accent-purple)]"></i>
+          </div>
+          <h4 class="font-display font-bold text-[var(--text-primary)] mb-2">限定获取</h4>
+          <p class="font-sans text-[13px] text-[var(--text-tertiary)] leading-relaxed">活动结束后暂不<br/>进入常驻卡池</p>
+        </div>
+        <div class="neo-card p-8 text-center group cursor-pointer">
+          <div class="w-12 h-12 mx-auto mb-4 rounded-2xl bg-[var(--bg-elevated)] flex items-center justify-center border border-[var(--border)] group-hover:border-[var(--accent-pink)] group-hover:shadow-[0_0_20px_var(--glow-pink)] transition-all">
+            <i data-lucide="gift" class="w-5 h-5 text-[var(--accent-pink)]"></i>
+          </div>
+          <h4 class="font-display font-bold text-[var(--text-primary)] mb-2">累抽返利</h4>
+          <p class="font-sans text-[13px] text-[var(--text-tertiary)] leading-relaxed">专属服装·帽子<br/>动作·许愿券</p>
+        </div>
+        <div class="neo-card p-8 text-center group cursor-pointer">
+          <div class="w-12 h-12 mx-auto mb-4 rounded-2xl bg-[var(--bg-elevated)] flex items-center justify-center border border-[var(--border)] group-hover:border-[var(--accent-rose)] group-hover:shadow-[0_0_20px_rgba(232,88,122,0.2)] transition-all">
+            <i data-lucide="clock" class="w-5 h-5 text-[var(--accent-rose)]"></i>
+          </div>
+          <h4 class="font-display font-bold text-[var(--text-primary)] mb-2">限时UP</h4>
+          <p class="font-sans text-[13px] text-[var(--text-tertiary)] leading-relaxed">5月22日至5月31日<br/>限时概率大幅提升</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="relative z-10 border-t border-[var(--border)]">
+    <div class="max-w-[1280px] mx-auto px-6 lg:px-12 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+        <!-- Brand -->
+        <div>
+          <a href="#" class="flex items-center gap-2 mb-4 no-underline">
+            <span class="font-calligraphy text-2xl text-[var(--text-primary)] tracking-[0.1em]">彻</span>
+            <span class="font-display text-[10px] font-bold tracking-[0.2em] text-[var(--text-tertiary)] uppercase">N109 · SYLUS</span>
+          </a>
+          <p class="font-sans text-[13px] text-[var(--text-tertiary)] leading-relaxed">
+            N109区暗点首领 · 同人资料站<br/>同人创作，为爱发电
+          </p>
+        </div>
+
+        <!-- Links -->
+        <div>
+          <h4 class="font-display text-[11px] font-bold tracking-[0.15em] text-[var(--text-secondary)] uppercase mb-4">Navigate</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="#" class="font-sans text-[13px] text-[var(--text-tertiary)] no-underline hover:text-[var(--accent-blue)] transition-colors">卡面图鉴</a>
+            <a href="#" class="font-sans text-[13px] text-[var(--text-tertiary)] no-underline hover:text-[var(--accent-blue)] transition-colors">角色故事</a>
+            <a href="#" class="font-sans text-[13px] text-[var(--text-tertiary)] no-underline hover:text-[var(--accent-blue)] transition-colors">卡池排期</a>
+            <a href="#" class="font-sans text-[13px] text-[var(--text-tertiary)] no-underline hover:text-[var(--accent-blue)] transition-colors">AI二创</a>
+          </div>
+        </div>
+
+        <!-- Subscribe (Neomorphic input) -->
+        <div>
+          <h4 class="font-display text-[11px] font-bold tracking-[0.15em] text-[var(--text-secondary)] uppercase mb-4">Subscribe</h4>
+          <div class="neo-inset flex items-center p-1.5 rounded-full">
+            <input type="email" placeholder="输入邮箱订阅更新" class="flex-1 bg-transparent border-none outline-none px-4 py-2.5 font-sans text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]" />
+            <button class="px-5 py-2.5 rounded-full font-display text-[11px] font-bold tracking-[0.05em] text-white border-none cursor-pointer transition-all" style="background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple));box-shadow:0 0 20px var(--glow-blue);">
+              订阅
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom -->
+      <div class="border-t border-[var(--border)] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="font-sans text-[12px] text-[var(--text-tertiary)]">同人创作 · 版权归叠纸游戏所有</p>
+        <div class="flex items-center gap-3">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-pink)]"></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    // ===== INIT LUCIDE =====
+    lucide.createIcons({ strokeWidth: 1.5 });
+
+    // ===== THEME TOGGLE =====
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+      } else {
+        html.classList.add('dark');
+        html.classList.remove('light');
+      }
+      lucide.createIcons({ strokeWidth: 1.5 });
+    });
+
+    // ===== TYPEWRITER EFFECT =====
+    const words = ['危险又迷人的统治者', '暗夜中的绝对支配者', 'N109区的无冕之王'];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typewriterEl = document.getElementById('typewriter');
+
+    function type() {
+      const current = words[wordIndex];
+      if (isDeleting) {
+        typewriterEl.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typewriterEl.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      if (!isDeleting && charIndex === current.length) {
+        setTimeout(() => { isDeleting = true; type(); }, 2000);
+        return;
+      }
+      if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+      }
+      const speed = isDeleting ? 40 : 80;
+      setTimeout(type, speed);
+    }
+    type();
+
+    // ===== 3D TILT EFFECT =====
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      });
+    });
+
+    // ===== PARTICLE CANVAS =====
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouseX = -1000;
+    let mouseY = -1000;
+    const particleCount = 80;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.size = Math.random() * 2 + 0.5;
+        this.opacity = Math.random() * 0.4 + 0.1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < -20) this.x = canvas.width + 20;
+        if (this.x > canvas.width + 20) this.x = -20;
+        if (this.y < -20) this.y = canvas.height + 20;
+        if (this.y > canvas.height + 20) this.y = -20;
+
+        // Mouse repulsion
+        const dx = this.x - mouseX;
+        const dy = this.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          const force = (120 - dist) / 120;
+          this.x += (dx / dist) * force * 0.8;
+          this.y += (dy / dist) * force * 0.8;
+        }
+      }
+      draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        const isDark = html.classList.contains('dark');
+        if (isDark) {
+          ctx.fillStyle = `rgba(229,9,20,${this.opacity})`;
+        } else {
+          ctx.fillStyle = `rgba(196,30,58,${this.opacity * 0.6})`;
+        }
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function drawConnections(ctx) {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            const alpha = (1 - dist / 100) * 0.08;
+            const isDark = html.classList.contains('dark');
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = isDark
+              ? `rgba(229,9,20,${alpha})`
+              : `rgba(196,30,58,${alpha * 0.5})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(ctx); });
+      drawConnections(ctx);
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // ===== TAB SWITCH =====
+    document.querySelectorAll('.rounded-full.font-display.text-\\[11px\\]').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const parent = this.parentElement;
+        parent.querySelectorAll('button').forEach(b => {
+          b.classList.remove('bg-[var(--accent-blue)]', 'text-white');
+          b.classList.add('bg-transparent', 'text-[var(--text-secondary)]', 'border', 'border-[var(--border-strong)]');
+        });
+        this.classList.add('bg-[var(--accent-blue)]', 'text-white');
+        this.classList.remove('bg-transparent', 'text-[var(--text-secondary)]', 'border', 'border-[var(--border-strong)]');
+      });
+    });
+  </script>
+</body>
+</html>
