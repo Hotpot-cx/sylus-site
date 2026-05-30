@@ -9,18 +9,18 @@
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
       crossorigin
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media = 'all'"
     />
     <noscript
       ><link
-        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
     /></noscript>
     <link rel="stylesheet" href="styles.css" />
@@ -58,6 +58,12 @@
   <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
+    <!-- ===== Particle Canvas ===== -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- ===== Dragon Scale Texture ===== -->
+    <div class="dragon-scale-bg"></div>
+
     <!-- ===== BGM Player ===== -->
     <div class="bgm-player" id="bgmPlayer">
       <div class="bgm-panel" id="bgmPanel">
@@ -200,6 +206,8 @@
 
     <!-- ===== Navigation ===== -->
     <nav class="nav" id="nav">
+      <!-- TODO: 下次新卡来临时取消注释并更新内容 -->
+      <!--
       <div class="nav-preheat" id="preheatBar">
         <span class="pulse-dot"></span>
         <span
@@ -216,6 +224,7 @@
           ✕
         </button>
       </div>
+      -->
       <div class="nav-inner">
         <a href="#" class="nav-logo">
           <svg class="nav-logo-crown" viewBox="0 0 24 24">
@@ -242,6 +251,10 @@
           />
           <circle cx="14" cy="9" r="1.5" fill="var(--bg)" />
         </svg>
+        <button class="theme-toggle-btn" id="themeToggle" aria-label="切换主题" style="margin-right:8px;">
+          <svg id="themeIconDark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="themeIconLight" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
         <button
           class="nav-toggle"
           id="navToggle"
@@ -277,6 +290,13 @@
 
     <!-- ===== Hero Section ===== -->
     <section class="hero" id="home">
+      <!-- Devil wing accents -->
+      <div class="wing-decor left" style="left:3%;top:25%;">
+        <svg width="140" height="280" viewBox="0 0 120 240" fill="none"><path d="M60 10C55 20 30 60 15 100C5 130 2 160 10 190C15 210 25 225 40 235L60 240L50 200C35 160 25 120 30 80C35 50 45 25 60 10Z" fill="var(--dark-red)" opacity="0.5"/><path d="M60 10C65 20 70 40 75 70C80 110 75 160 65 200L60 240L70 235C85 225 95 210 100 190C108 160 105 130 95 100C80 60 65 25 60 10Z" fill="var(--dark-red)" opacity="0.35"/></svg>
+      </div>
+      <div class="wing-decor right" style="right:3%;top:25%;">
+        <svg width="140" height="280" viewBox="0 0 120 240" fill="none"><path d="M60 10C55 20 30 60 15 100C5 130 2 160 10 190C15 210 25 225 40 235L60 240L50 200C35 160 25 120 30 80C35 50 45 25 60 10Z" fill="var(--dark-red)" opacity="0.5"/><path d="M60 10C65 20 70 40 75 70C80 110 75 160 65 200L60 240L70 235C85 225 95 210 100 190C108 160 105 130 95 100C80 60 65 25 60 10Z" fill="var(--dark-red)" opacity="0.35"/></svg>
+      </div>
       <div class="hero-bg"></div>
       <div class="hero-overlay"></div>
       <div class="hero-vignette"></div>
@@ -484,6 +504,8 @@
     </section>
 
     <!-- ===== Preheat Card ===== -->
+    <!-- TODO: 下次新卡来临时取消注释并更新内容 -->
+    <!--
     <div class="preheat-card-wrapper reveal">
       <a href="banner.html" class="preheat-card">
         <div class="preheat-card-icon">
@@ -506,6 +528,7 @@
         <span class="preheat-card-arrow">→</span>
       </a>
     </div>
+    -->
 
     <!-- ===== Card Gallery Section ===== -->
     <section class="section" id="cards" data-bg="0">
@@ -539,7 +562,7 @@
           <span class="view-icon">🂠</span> 罗列视图
         </button>
       </div>
-      <div class="card-grid" id="cardGrid">
+      <div class="card-grid bento-mode" id="cardGrid">
         <!-- Card: 爱猫及喵 (NEW) -->
         <div
           class="card reveal"
@@ -2126,6 +2149,12 @@
             </div>
           </div>
         </div>
+      </div>
+      <!-- View All Toggle -->
+      <div style="text-align:center;">
+        <button class="view-all-btn" id="viewAllBtn">
+          查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
       </div>
     </section>
 
@@ -4178,5 +4207,134 @@
 
     <!-- ===== JavaScript ===== -->
     <script src="scripts.js" defer></script>
+  <!-- ===== Theme Toggle Script ===== -->
+  <script>
+    (function(){
+      const toggle = document.getElementById('themeToggle');
+      const body = document.body;
+      const iconDark = document.getElementById('themeIconDark');
+      const iconLight = document.getElementById('themeIconLight');
+      let isDark = true;
+      toggle.addEventListener('click', () => {
+        isDark = !isDark;
+        if (isDark) {
+          body.classList.remove('light-mode');
+          iconDark.style.display = '';
+          iconLight.style.display = 'none';
+        } else {
+          body.classList.add('light-mode');
+          iconDark.style.display = 'none';
+          iconLight.style.display = '';
+        }
+      });
+    })();
+  </script>
+
+  <!-- ===== Particle Canvas Script ===== -->
+  <script>
+    (function(){
+      const canvas = document.getElementById('particleCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h, particles = [];
+      let mx = -1000, my = -1000;
+      const N = 70;
+      function resize(){ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; }
+      resize(); window.addEventListener('resize', resize);
+      class P {
+        constructor(){ this.reset(); }
+        reset(){ this.x=Math.random()*w; this.y=Math.random()*h; this.vx=(Math.random()-0.5)*0.3; this.vy=(Math.random()-0.5)*0.3; this.s=Math.random()*1.8+0.4; this.o=Math.random()*0.35+0.08; }
+        update(){
+          this.x+=this.vx; this.y+=this.vy;
+          if(this.x<-20)this.x=w+20; if(this.x>w+20)this.x=-20;
+          if(this.y<-20)this.y=h+20; if(this.y>h+20)this.y=-20;
+          let dx=this.x-mx, dy=this.y-my, dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<100){ let f=(100-dist)/100; this.x+=(dx/dist)*f*0.6; this.y+=(dy/dist)*f*0.6; }
+        }
+        draw(ctx){
+          ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2);
+          ctx.fillStyle = document.body.classList.contains('light-mode')
+            ? `rgba(196,30,58,${this.o*0.7})`
+            : `rgba(229,9,20,${this.o})`;
+          ctx.fill();
+        }
+      }
+      for(let i=0;i<N;i++){ let p=new P(); p.x=Math.random()*w; p.y=Math.random()*h; particles.push(p); }
+      document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; });
+      function drawLines(ctx){
+        for(let i=0;i<particles.length;i++){
+          for(let j=i+1;j<particles.length;j++){
+            let dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+            let dist=Math.sqrt(dx*dx+dy*dy);
+            if(dist<90){
+              let alpha=(1-dist/90)*0.06;
+              ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y);
+              ctx.strokeStyle = document.body.classList.contains('light-mode')
+                ? `rgba(196,30,58,${alpha*0.6})`
+                : `rgba(229,9,20,${alpha})`;
+              ctx.lineWidth=0.5; ctx.stroke();
+            }
+          }
+        }
+      }
+      function animate(){ ctx.clearRect(0,0,w,h); particles.forEach(p=>{p.update();p.draw(ctx);}); drawLines(ctx); requestAnimationFrame(animate); }
+      animate();
+    })();
+  </script>
+
+
+  <!-- ===== View All Toggle ===== -->
+  <script>
+    (function(){
+      const grid = document.getElementById('cardGrid');
+      const btn = document.getElementById('viewAllBtn');
+      if(!grid||!btn)return;
+      let isBento = true;
+      btn.addEventListener('click',()=>{
+        isBento=!isBento;
+        if(isBento){
+          grid.classList.add('bento-mode');
+          grid.classList.remove('full-mode');
+          btn.innerHTML='查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+          btn.classList.remove('open');
+        }else{
+          grid.classList.remove('bento-mode');
+          grid.classList.add('full-mode');
+          btn.innerHTML='收起 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>';
+          btn.classList.add('open');
+        }
+      });
+    })();
+  </script>
+
+  <!-- ===== 3D Card Tilt Script ===== -->
+  <script>
+    (function(){
+      document.querySelectorAll('.card').forEach(card => {
+        card.classList.add('tilt-enabled');
+        if (!card.querySelector('.card-glare')) {
+          const glare = document.createElement('div');
+          glare.className = 'card-glare';
+          card.appendChild(glare);
+        }
+        card.addEventListener('mousemove', function(e){
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width/2, cy = rect.height/2;
+          const rx = ((y-cy)/cy)*-8;
+          const ry = ((x-cx)/cx)*8;
+          const imgWrapper = card.querySelector('.card-image-wrapper');
+          if (imgWrapper) { imgWrapper.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`; }
+          card.classList.add('glare-active');
+        });
+        card.addEventListener('mouseleave', function(){
+          const imgWrapper = card.querySelector('.card-image-wrapper');
+          if (imgWrapper) { imgWrapper.style.transform = ''; }
+          card.classList.remove('glare-active');
+        });
+      });
+    })();
+  </script>
   </body>
 </html>
