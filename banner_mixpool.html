@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>「一幕一生」混池预告 | 秦彻 · 别幕终曲</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Lexend+Exa:wght@200;300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=ZCOOL+XiaoWei&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #08080C;
+        --surface: #0D0D14;
+        --surface-raised: #12121C;
+        --primary-red: #C41E3A;
+        --light-red: #E50914;
+        --dark-red: #6B0015;
+        --gold: #E50914;
+        --text-primary: #E8E6ED;
+        --text-secondary: #9895A8;
+        --text-muted: #5C5970;
+        --border: rgba(232, 230, 237, 0.05);
+        --border-hover: rgba(229, 9, 20, 0.25);
+        --radius-sm: 8px;
+        --radius-md: 14px;
+        --radius-lg: 20px;
+        --radius-xl: 28px;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: "Noto Sans SC", "DM Mono", monospace;
+        background: var(--bg);
+        color: var(--text-primary);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      /* ===== Grain ===== */
+      .grain {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        pointer-events: none;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 256px 256px;
+      }
+
+      /* ===== Nav ===== */
+      .nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: 64px;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        background: rgba(8, 8, 12, 0.88);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text-primary);
+      }
+
+      .nav-logo-box {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-sm);
+        background: var(--primary-red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Lexend Exa", sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: 0.02em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        transition: color 0.3s;
+        padding: 4px 0;
+      }
+      .nav-links a:hover { color: var(--text-primary); }
+
+      @media (max-width: 640px) {
+        .nav { padding: 0 16px; }
+        .nav-links { display: none; }
+      }
+
+      /* ===== Hero ===== */
+      .hero {
+        position: relative;
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 64px;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 80% 40% at 50% 20%, rgba(229, 9, 20, 0.08) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 50% at 20% 70%, rgba(107, 0, 21, 0.06) 0%, transparent 50%),
+          radial-gradient(ellipse 60% 50% at 80% 70%, rgba(196, 30, 58, 0.04) 0%, transparent 50%),
+          var(--bg);
+      }
+
+      /* Decorative diagonal line */
+      .hero-diagonal {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .hero-diagonal::after {
+        content: "";
+        position: absolute;
+        top: -30%;
+        right: -10%;
+        width: 2px;
+        height: 160%;
+        background: linear-gradient(to bottom, transparent, rgba(229, 9, 20, 0.15), transparent);
+        transform: rotate(25deg);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 48px 24px;
+        max-width: 800px;
+      }
+
+      .hero-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--light-red);
+        background: rgba(229, 9, 20, 0.08);
+        border: 1px solid rgba(229, 9, 20, 0.2);
+        border-radius: var(--radius-sm);
+        padding: 6px 18px;
+        margin-bottom: 32px;
+        font-family: "DM Mono", monospace;
+      }
+      .hero-label-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--light-red);
+        animation: blink 1.4s infinite;
+      }
+      @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+      .hero-title {
+        font-family: "Lexend Exa", sans-serif;
+        font-size: clamp(44px, 7vw, 80px);
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        line-height: 1.1;
+        color: var(--text-primary);
+        margin-bottom: 16px;
+        text-transform: uppercase;
+      }
+
+      .hero-title-sub {
+        font-size: clamp(14px, 1.8vw, 20px);
+        font-weight: 300;
+        letter-spacing: 0.3em;
+        color: var(--text-secondary);
+        margin-bottom: 40px;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+
+      .hero-date {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "DM Mono", monospace;
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        color: var(--text-secondary);
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 12px 28px;
+      }
+      .hero-date span { color: var(--light-red); font-weight: 500; }
+
+      .hero-scroll {
+        position: absolute;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        opacity: 0.3;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        font-family: "DM Mono", monospace;
+      }
+      .hero-scroll-line {
+        width: 1px;
+        height: 32px;
+        background: linear-gradient(to bottom, var(--text-muted), transparent);
+      }
+
+      /* ===== Card Spotlight ===== */
+      .spotlight {
+        padding: 80px 24px 60px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .spotlight-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 44px;
+        align-items: center;
+      }
+
+      .spotlight-image {
+        position: relative;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: var(--surface);
+        aspect-ratio: 3/4;
+        border: 1px solid var(--border);
+      }
+
+      .spotlight-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+      .spotlight-image:hover img { transform: scale(1.03); }
+
+      .spotlight-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(8,8,12,0.4) 0%, transparent 40%);
+        pointer-events: none;
+      }
+
+      .spotlight-image-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        z-index: 2;
+        display: flex;
+        gap: 6px;
+      }
+      .spotlight-image-badge span {
+        padding: 4px 12px;
+        border-radius: var(--radius-sm);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-family: "DM Mono", monospace;
+      }
+      .badge-limited {
+        background: var(--light-red);
+        color: #fff;
+      }
+      .badge-qinche {
+        background: rgba(8,8,12,0.75);
+        backdrop-filter: blur(6px);
+        color: var(--text-primary);
+        border: 1px solid rgba(232,230,237,0.1);
+      }
+
+      .spotlight-info {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .spotlight-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--light-red);
+        font-family: "DM Mono", monospace;
+      }
+      .spotlight-label::before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: var(--light-red);
+        opacity: 0.4;
+      }
+
+      .spotlight-name {
+        font-family: "Lexend Exa", sans-serif;
+        font-size: clamp(28px, 3.5vw, 40px);
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: var(--text-primary);
+        line-height: 1.2;
+      }
+      .spotlight-name-small {
+        font-size: 14px;
+        font-weight: 300;
+        letter-spacing: 0.15em;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+
+      .spotlight-stars {
+        display: flex;
+        gap: 4px;
+      }
+      .spotlight-stars svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--light-red);
+      }
+
+      .spotlight-divider {
+        width: 48px;
+        height: 1px;
+        background: linear-gradient(to right, var(--light-red), transparent);
+      }
+
+      .spotlight-desc {
+        font-size: 14px;
+        line-height: 1.9;
+        color: var(--text-secondary);
+        letter-spacing: 0.02em;
+      }
+
+      .spotlight-desc strong {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .spotlight-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .spotlight-meta-item {
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+      }
+      .spotlight-meta-label {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+        font-family: "DM Mono", monospace;
+      }
+      .spotlight-meta-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      @media (max-width: 768px) {
+        .spotlight-grid {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+        .spotlight-meta { grid-template-columns: 1fr 1fr; }
+      }
+
+      /* ===== Section Base ===== */
+      .section-header {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      .section-header-left {
+        text-align: left;
+        margin-bottom: 32px;
+      }
+
+      .section-kicker {
+        display: inline-block;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--light-red);
+        margin-bottom: 12px;
+      }
+      .section-kicker-line {
+        display: inline-block;
+        width: 32px;
+        height: 1px;
+        background: var(--light-red);
+        opacity: 0.3;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      .section-heading {
+        font-family: "Lexend Exa", sans-serif;
+        font-size: clamp(20px, 2.8vw, 30px);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--text-primary);
+      }
+      .section-heading-sub {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-top: 8px;
+        letter-spacing: 0.04em;
+      }
+
+      /* ===== Pool Info ===== */
+      .pool-section {
+        padding: 80px 24px;
+        background: linear-gradient(to bottom, var(--bg), rgba(8,8,12,0.98));
+      }
+
+      .pool-container {
+        max-width: 780px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .pool-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 32px;
+        transition: border-color 0.3s ease;
+      }
+      .pool-card:hover { border-color: var(--border-hover); }
+
+      .pool-card-title {
+        font-family: "Lexend Exa", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--text-primary);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .pool-card-title-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: var(--radius-sm);
+        background: rgba(229, 9, 20, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+
+      .pool-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .pool-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
+      .pool-list-num {
+        flex-shrink: 0;
+        width: 22px;
+        height: 22px;
+        border-radius: var(--radius-sm);
+        background: rgba(229, 9, 20, 0.1);
+        color: var(--light-red);
+        font-size: 11px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "DM Mono", monospace;
+      }
+
+      .pool-highlight {
+        padding: 16px 20px;
+        background: rgba(229, 9, 20, 0.04);
+        border-left: 2px solid var(--light-red);
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.8;
+        margin-top: 16px;
+      }
+      .pool-highlight strong {
+        color: var(--text-primary);
+      }
+
+      /* ===== Rewards ===== */
+      .rewards-section {
+        padding: 80px 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .rewards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+        max-width: 860px;
+        margin: 0 auto 28px;
+      }
+
+      .reward-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+      .reward-item:hover {
+        border-color: var(--border-hover);
+        transform: translateY(-2px);
+      }
+
+      .reward-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+        background: rgba(229, 9, 20, 0.06);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        margin-bottom: 14px;
+      }
+
+      .reward-label {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--light-red);
+        margin-bottom: 6px;
+        font-family: "DM Mono", monospace;
+      }
+      .reward-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      /* ===== Training ===== */
+      .training-section {
+        padding: 60px 24px 80px;
+        max-width: 780px;
+        margin: 0 auto;
+      }
+
+      .training-box {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 40px;
+      }
+
+      .training-tier {
+        padding: 20px 24px;
+        background: rgba(229, 9, 20, 0.04);
+        border-left: 2px solid var(--light-red);
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        margin-top: 20px;
+      }
+      .training-tier-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+      }
+      .training-tier-desc {
+        font-size: 13px;
+        color: var(--light-red);
+        letter-spacing: 0.02em;
+      }
+
+      /* ===== CTA ===== */
+      .cta-section {
+        padding: 60px 24px 100px;
+        text-align: center;
+      }
+
+      .cta-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 20px 32px;
+        transition: all 0.3s ease;
+        cursor: default;
+      }
+      .cta-box:hover {
+        border-color: var(--border-hover);
+      }
+
+      .cta-text {
+        font-size: 13px;
+        color: var(--text-muted);
+        letter-spacing: 0.02em;
+      }
+      .cta-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        padding: 10px 24px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        transition: all 0.3s ease;
+      }
+      .cta-link:hover {
+        border-color: var(--light-red);
+        color: var(--light-red);
+      }
+
+      /* ===== Footer ===== */
+      .footer {
+        border-top: 1px solid var(--border);
+        padding: 40px 24px;
+        text-align: center;
+      }
+      .footer p {
+        font-size: 12px;
+        color: var(--text-muted);
+        letter-spacing: 0.04em;
+      }
+      .footer a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .footer a:hover { color: var(--gold); }
+    </style>
+  <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <div class="grain"></div>
+
+    <!-- ===== Nav ===== -->
+    <nav class="nav">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-box">彻</div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">← 返回主页</a></li>
+        <li><a href="index.html#cards">卡面图鉴</a></li>
+        <li><a href="index.html#schedule">卡池排期</a></li>
+      </ul>
+    </nav>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-diagonal"></div>
+      <div class="hero-content">
+        <div class="hero-label">
+          <span class="hero-label-dot"></span>
+          五男主自选混池
+        </div>
+        <h1 class="hero-title">一幕一生</h1>
+        <p class="hero-title-sub">秦彻「别幕终曲」· 限定五星</p>
+        <div class="hero-date">
+          <span>◆</span> 2026.06.17 更新后 — 07.02 04:59
+        </div>
+      </div>
+      <div class="hero-scroll">
+        <span>scroll</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ===== Card Spotlight ===== -->
+    <section class="spotlight">
+      <div class="spotlight-grid">
+        <div class="spotlight-image">
+          <div class="spotlight-image-badge">
+            <span class="badge-limited">限定五星</span>
+            <span class="badge-qinche">秦彻</span>
+          </div>
+          <img src="images/card_mixpool_biemu_1.jpg" alt="秦彻·别幕终曲" />
+        </div>
+        <div class="spotlight-info">
+          <div class="spotlight-label">全新限定思念</div>
+          <div>
+            <div class="spotlight-name">别幕终曲</div>
+            <div class="spotlight-name-small">秦彻 · Sylus</div>
+          </div>
+          <div class="spotlight-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          </div>
+          <div class="spotlight-divider"></div>
+          <p class="spotlight-desc">
+            「一幕一生」五男主自选混池限定五星思念。<br/>
+            幕起幕落间，命运的齿轮开始转动——他的身影在光影交织中若隐若现，那些说不出口的告别，都化作一曲终章，在落幕之前久久回响。
+          </p>
+          <div class="spotlight-meta">
+            <div class="spotlight-meta-item">
+              <div class="spotlight-meta-label">活动时间</div>
+              <div class="spotlight-meta-value">06.17 — 07.02</div>
+            </div>
+            <div class="spotlight-meta-item">
+              <div class="spotlight-meta-label">卡池类型</div>
+              <div class="spotlight-meta-value">五男主自选混池</div>
+            </div>
+            <div class="spotlight-meta-item">
+              <div class="spotlight-meta-label">获取方式</div>
+              <div class="spotlight-meta-value">限定许愿（暂不入常驻）</div>
+            </div>
+            <div class="spotlight-meta-item">
+              <div class="spotlight-meta-label">保底</div>
+              <div class="spotlight-meta-value">双重保底 · 全限定共享</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Pool Mechanics ===== -->
+    <section class="pool-section">
+      <div class="section-header">
+        <div class="section-kicker">
+          <span class="section-kicker-line"></span>POOL RULES
+        </div>
+        <h2 class="section-heading">许愿规则</h2>
+        <p class="section-heading-sub">五选三自选机制 · 限时概率提升</p>
+      </div>
+      <div class="pool-container">
+        <div class="pool-card">
+          <div class="pool-card-title">
+            <span class="pool-card-title-icon">🎯</span>
+            五选三自选机制
+          </div>
+          <ul class="pool-list">
+            <li>
+              <span class="pool-list-num">1</span>
+              <span>从五张限定五星思念中<strong style="color:var(--text-primary);">任选 3 张</strong>，所选思念占五星获取几率的 <strong style="color:var(--light-red);">75%</strong></span>
+            </li>
+            <li>
+              <span class="pool-list-num">2</span>
+              <span>未选择的活动思念与其余常驻五星均分五星获取几率的 <strong style="color:var(--text-secondary);">25%</strong>。所选思念可<strong style="color:var(--text-primary);">随时更换</strong></span>
+            </li>
+            <li>
+              <span class="pool-list-num">3</span>
+              <span>活动结束后，五张思念均<strong style="color:var(--text-secondary);">暂无获取途径</strong>，不进入常驻「极空回响」</span>
+            </li>
+            <li>
+              <span class="pool-list-num">4</span>
+              <span>设有<strong style="color:var(--text-primary);">定向许愿、双重保底</strong>，保底次数在所有限定许愿间完全共享</span>
+            </li>
+          </ul>
+          <div class="pool-highlight">
+            <strong>💡 推荐：</strong>选入秦彻「别幕终曲」确保 75% 覆盖，另两席根据个人偏好选择
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Accumulation Rewards ===== -->
+    <section class="rewards-section">
+      <div class="section-header">
+        <div class="section-kicker">
+          <span class="section-kicker-line"></span>REWARDS
+        </div>
+        <h2 class="section-heading">累计许愿奖励</h2>
+        <p class="section-heading-sub">达指定次数可领取缤纷奖励</p>
+      </div>
+      <div class="rewards-grid">
+        <div class="reward-item">
+          <div class="reward-icon">🎩</div>
+          <div class="reward-label">通用帽子</div>
+          <div class="reward-name">默然之言</div>
+        </div>
+        <div class="reward-item">
+          <div class="reward-icon">🎟️</div>
+          <div class="reward-label">许愿券</div>
+          <div class="reward-name">深空许愿券·限时 ×20</div>
+        </div>
+        <div class="reward-item">
+          <div class="reward-icon">👔</div>
+          <div class="reward-label">服装</div>
+          <div class="reward-name">活动思念配套服装</div>
+        </div>
+        <div class="reward-item">
+          <div class="reward-icon">⭐</div>
+          <div class="reward-label">自选</div>
+          <div class="reward-name">当期活动五星思念</div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:12px;color:var(--text-muted);letter-spacing:0.04em;">累抽奖励仅在本次活动许愿中生效，实际以游戏内为准</p>
+    </section>
+
+    <!-- ===== Training Rewards ===== -->
+    <section class="training-section">
+      <div class="training-box">
+        <div class="section-header-left">
+          <div class="section-kicker">
+            <span class="section-kicker-line"></span>TRAINING
+          </div>
+          <h2 class="section-heading">限时思念养成返利</h2>
+        </div>
+        <p style="font-size:14px;color:var(--text-secondary);line-height:1.9;margin-bottom:8px;">
+          完成活动思念的指定培养任务，领取海量思念升级与突破材料。
+        </p>
+        <div class="training-tier">
+          <div class="training-tier-title">✦ 进阶达到 1 阶</div>
+          <div class="training-tier-desc">即可领取对应男主的「活动思念配套幻色服装」</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section">
+      <div class="cta-box">
+        <span class="cta-text">查看往期卡池 &amp; 排期预测</span>
+        <a href="index.html#schedule" class="cta-link">
+          卡池时间线 →
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+      <p>N109区 · 彻 | <a href="index.html">秦彻个人资料站</a> | 同人创作，为爱发电</p>
+    </footer>
+  </body>
+</html>
