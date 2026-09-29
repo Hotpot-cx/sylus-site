@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alpha Prime · N109区 彻 | 设计探索</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=DM+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet" />
+<style>
+/* ============================
+   ALPHA PRIME DESIGN SYSTEM
+   = "SOVEREIGN" — 主权美学
+   ============================ */
+
+:root {
+  --abyss: #050508;
+  --ink: #0A0A10;
+  --steel: #0F0F18;
+  --ember: #D42027;
+  --ember-dim: rgba(212,32,39,0.07);
+  --ember-glow: rgba(212,32,39,0.12);
+  --gold: #BF8B4A;
+  --gold-dim: rgba(191,139,74,0.06);
+  --bone: #EBE5DD;
+  --ash: #9C9690;
+  --dust: #585350;
+  --rule: rgba(235,229,221,0.04);
+  --rule-active: rgba(212,32,39,0.18);
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 16px;
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 32px;
+  --space-lg: 64px;
+  --space-xl: 96px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--abyss)}
+
+body {
+  font-family:"Noto Sans SC","DM Mono",sans-serif;
+  background:var(--abyss);
+  color:var(--bone);
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* Grain — restrained */
+.grain {
+  position:fixed;inset:0;z-index:999;pointer-events:none;opacity:0.02;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:256px 256px;
+}
+
+/* ===== PRINCIPLE ANCHOR ===== */
+.principles-bar {
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(5,5,8,0.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--rule);
+  padding:0 48px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.principles-bar-logo {
+  font-family:"Anybody",sans-serif;font-weight:800;font-size:18px;
+  letter-spacing:0.1em;color:var(--bone);
+  display:flex;align-items:center;gap:10px;
+}
+.principles-bar-logo span {
+  width:28px;height:28px;background:var(--ember);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#fff;
+}
+.principles-bar-links {
+  display:flex;gap:28px;list-style:none;
+}
+.principles-bar-links a {
+  color:var(--ash);text-decoration:none;
+  font-family:"DM Mono",monospace;font-size:11px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  transition:color 0.3s;
+}
+.principles-bar-links a:hover{color:var(--bone)}
+
+/* ===== HERO — Sovereign ===== */
+.hero-ap {
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  padding:120px 64px 80px;overflow:hidden;
+}
+
+/* Background: layered radial depth */
+.hero-ap-bg {
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 30% at 50% 22%, var(--ember-dim) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 25% 80%, var(--gold-dim) 0%, transparent 45%),
+    radial-gradient(ellipse 50% 40% at 75% 70%, rgba(212,32,39,0.03) 0%, transparent 50%),
+    var(--abyss);
+}
+
+/* Vertical ruling lines — alpha presence */
+.hero-ap-rules {
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.hero-ap-rules::before {
+  content:"";position:absolute;top:-15%;left:18%;
+  width:1px;height:130%;
+  background:linear-gradient(to bottom,transparent,var(--rule-active),transparent);
+}
+.hero-ap-rules::after {
+  content:"";position:absolute;top:-15%;right:22%;
+  width:1px;height:130%;
+  background:linear-gradient(to bottom,transparent,rgba(191,139,74,0.08),transparent);
+}
+
+.hero-ap-content {
+  position:relative;z-index:2;max-width:900px;
+}
+
+.hero-ap-label {
+  font-family:"DM Mono",monospace;font-size:10px;font-weight:500;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--ember);margin-bottom:var(--space-md);
+  display:flex;align-items:center;gap:12px;
+}
+.hero-ap-label::before {
+  content:"";width:36px;height:1px;background:var(--ember);opacity:0.4;
+}
+
+.hero-ap-title {
+  font-family:"Anybody",sans-serif;
+  font-size:clamp(56px,9vw,120px);font-weight:900;
+  letter-spacing:-0.02em;line-height:0.95;
+  color:var(--bone);margin-bottom:var(--space-sm);
+  text-transform:uppercase;
+}
+
+.hero-ap-sub {
+  font-family:"ZCOOL XiaoWei",serif;
+  font-size:clamp(20px,3vw,36px);font-weight:400;
+  letter-spacing:0.2em;color:var(--ash);
+  margin-bottom:var(--space-lg);
+}
+
+/* The statement */
+.hero-ap-statement {
+  font-family:"Noto Sans SC",sans-serif;
+  font-size:clamp(15px,1.8vw,20px);font-weight:300;
+  letter-spacing:0.08em;color:var(--ash);
+  line-height:1.8;max-width:600px;
+  border-left:2px solid var(--ember);
+  padding-left:24px;
+  margin-bottom:var(--space-lg);
+}
+
+.hero-ap-tag {
+  display:inline-block;
+  font-family:"DM Mono",monospace;font-size:11px;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--gold);padding:8px 20px;
+  border:1px solid rgba(191,139,74,0.2);
+  background:rgba(191,139,74,0.04);
+}
+
+/* Scroll indicator — minimal */
+.hero-ap-scroll {
+  position:absolute;bottom:40px;right:64px;
+  display:flex;align-items:center;gap:10px;opacity:0.2;
+}
+.hero-ap-scroll span {
+  font-family:"DM Mono",monospace;font-size:9px;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--bone);
+}
+.hero-ap-scroll-line {
+  width:1px;height:24px;
+  background:linear-gradient(to bottom,var(--bone),transparent);
+}
+
+/* ===== DESIGN PRINCIPLES GRID ===== */
+.principles-grid-section {
+  padding:var(--space-xl) 64px;
+  max-width:1200px;margin:0 auto;
+}
+
+.principles-header {
+  margin-bottom:var(--space-lg);
+}
+.principles-kicker {
+  font-family:"DM Mono",monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--ember);
+  margin-bottom:12px;display:flex;align-items:center;gap:10px;
+}
+.principles-kicker::before {content:"";width:24px;height:1px;background:var(--ember);opacity:0.35;}
+.principles-title {
+  font-family:"Anybody",sans-serif;
+  font-size:clamp(24px,3.5vw,40px);font-weight:700;
+  letter-spacing:0.02em;color:var(--bone);
+}
+
+.principles-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+  gap:1px;
+  background:var(--rule);
+  border:1px solid var(--rule);
+}
+
+.principle-card {
+  background:var(--ink);
+  padding:40px 36px;
+  transition:background 0.35s ease;
+}
+.principle-card:hover {background:var(--steel)}
+
+.principle-num {
+  font-family:"DM Mono",monospace;font-size:10px;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--ember);
+  margin-bottom:16px;
+}
+.principle-card h3 {
+  font-family:"Anybody",sans-serif;font-size:17px;font-weight:700;
+  letter-spacing:0.02em;color:var(--bone);margin-bottom:12px;
+  line-height:1.3;
+}
+.principle-card p {
+  font-size:13px;color:var(--ash);line-height:1.9;letter-spacing:0.02em;
+}
+
+/* ===== CARD GALLERY CONCEPT ===== */
+.card-gallery-ap {
+  padding:var(--space-xl) 64px;
+  max-width:1200px;margin:0 auto;
+}
+
+.card-grid-ap {
+  display:grid;
+  grid-template-columns:1.6fr 1fr 1fr;
+  gap:8px;
+  grid-auto-rows:200px;
+}
+
+.card-ap {
+  position:relative;overflow:hidden;
+  background:var(--steel);border:1px solid var(--rule);
+  transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  cursor:pointer;
+}
+.card-ap:hover {border-color:var(--rule-active)}
+
+.card-ap:nth-child(1){grid-row:span 2}
+.card-ap:nth-child(4){grid-column:span 2}
+.card-ap:nth-child(7){grid-column:span 2}
+
+.card-ap-img {
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.card-ap:hover .card-ap-img{transform:scale(1.03)}
+
+.card-ap-overlay {
+  position:absolute;bottom:0;left:0;right:0;
+  padding:24px 20px 16px;
+  background:linear-gradient(to top,rgba(5,5,8,0.95) 0%,transparent 65%);
+}
+
+.card-ap-name {
+  font-family:"Anybody",sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:0.04em;color:var(--bone);
+}
+.card-ap-name-cn {
+  font-family:"ZCOOL XiaoWei",serif;font-size:18px;font-weight:400;
+  letter-spacing:0.06em;color:var(--bone);margin-bottom:4px;
+}
+.card-ap-date {
+  font-family:"DM Mono",monospace;font-size:10px;letter-spacing:0.06em;
+  color:var(--dust);margin-top:3px;
+}
+
+.card-ap.feature .card-ap-name-cn {font-size:24px}
+.card-ap.feature .card-ap-overlay {padding:32px 28px 20px}
+
+.card-ap-badge {
+  position:absolute;top:12px;left:12px;z-index:3;
+  padding:4px 12px;font-family:"DM Mono",monospace;
+  font-size:9px;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;background:var(--ember);color:#fff;
+}
+
+/* ===== TABLE ===== */
+.table-ap-section {
+  padding:var(--space-xl) 64px;
+  max-width:1000px;margin:0 auto;
+}
+
+.table-ap {
+  width:100%;border-collapse:separate;border-spacing:0 4px;
+}
+.table-ap th {
+  font-family:"DM Mono",monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--dust);
+  padding:8px 16px;text-align:left;
+}
+.table-ap td {
+  padding:14px 16px;background:var(--ink);font-size:13px;color:var(--bone);
+}
+.table-ap tr:first-child td:first-child{border-top-left-radius:var(--r-md)}
+.table-ap tr:first-child td:last-child{border-top-right-radius:var(--r-md)}
+.table-ap tr:last-child td:first-child{border-bottom-left-radius:var(--r-md)}
+.table-ap tr:last-child td:last-child{border-bottom-right-radius:var(--r-md)}
+.table-ap .status {
+  font-family:"DM Mono",monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.06em;padding:4px 10px;
+  background:rgba(212,32,39,0.1);color:var(--ember);
+}
+.table-ap .status.done{background:rgba(191,139,74,0.08);color:var(--gold)}
+
+/* ===== SUMMARY ===== */
+.summary-section {
+  padding:var(--space-xl) 64px;
+  max-width:900px;margin:0 auto;
+}
+
+.summary-grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;
+}
+.summary-card {
+  background:var(--ink);border:1px solid var(--rule);
+  padding:36px;transition:border-color 0.3s;
+}
+.summary-card:hover{border-color:var(--rule-active)}
+
+.summary-card h4 {
+  font-family:"Anybody",sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:0.04em;color:var(--bone);margin-bottom:16px;
+}
+
+.summary-list {
+  list-style:none;display:flex;flex-direction:column;gap:8px;
+}
+.summary-list li {
+  font-size:13px;color:var(--ash);line-height:1.7;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.summary-list li::before {
+  content:"";width:3px;height:3px;margin-top:9px;
+  background:var(--ember);opacity:0.5;flex-shrink:0;
+}
+
+/* ===== FOOTER ===== */
+.footer-ap {
+  border-top:1px solid var(--rule);
+  padding:40px 64px;text-align:center;
+}
+.footer-ap p {
+  font-family:"DM Mono",monospace;font-size:10px;
+  letter-spacing:0.1em;color:var(--dust);
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .principles-bar{padding:0 20px}
+  .principles-bar-links{display:none}
+  .hero-ap{padding:100px 24px 60px}
+  .hero-ap-scroll{right:24px}
+  .principles-grid{grid-template-columns:1fr}
+  .card-grid-ap{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
+  .card-ap:nth-child(1){grid-column:span 2;grid-row:span 2}
+  .card-ap:nth-child(4){grid-column:span 2}
+  .card-ap:nth-child(7){grid-column:span 2}
+  .summary-grid{grid-template-columns:1fr}
+  .principles-grid-section,.card-gallery-ap,.table-ap-section,.summary-section{padding:64px 20px}
+}
+
+@media(max-width:480px){
+  .card-grid-ap{grid-template-columns:1fr;grid-auto-rows:140px}
+  .card-ap:nth-child(1),.card-ap:nth-child(4),.card-ap:nth-child(7){grid-column:span 1}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- ===== NAV ===== -->
+<nav class="principles-bar">
+  <div class="principles-bar-logo">
+    <span>彻</span> N109
+  </div>
+  <ul class="principles-bar-links">
+    <li><a href="#cards">Cards</a></li>
+    <li><a href="#story">Story</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero-ap">
+  <div class="hero-ap-bg"></div>
+  <div class="hero-ap-rules"></div>
+  <div class="hero-ap-content">
+    <div class="hero-ap-label">N109 · SYLUS · ALPHA PRIME</div>
+    <h1 class="hero-ap-title">SOVEREIGN</h1>
+    <p class="hero-ap-sub">暗点 · 彻 · 不设防禁区</p>
+    <div class="hero-ap-statement">
+      他站在那里不像被包围的人，<br/>像包围圈的中心。
+    </div>
+    <div class="hero-ap-tag">EXPLORE THE ARCHIVE</div>
+  </div>
+  <div class="hero-ap-scroll">
+    <span>scroll</span>
+    <div class="hero-ap-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ===== DESIGN PRINCIPLES ===== -->
+<section class="principles-grid-section" id="about">
+  <div class="principles-header">
+    <div class="principles-kicker">Design Language</div>
+    <div class="principles-title">主权美学 · 九项设计原则</div>
+  </div>
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-num">01 / 不解释</div>
+      <h3>设计不需要说服观众</h3>
+      <p>没有过度装饰、没有"请看这里"的呼喊。每一个元素的存在都是因为它值得存在，不是因为它需要证明什么。留白本身就是一种声明。</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">02 / 向上站立</div>
+      <h3>垂直统治线，不是横向铺陈</h3>
+      <p>画面中有纵向结构线贯穿——不居中，不妥协，像他的存在感一样自然占据视觉主权。对角线装饰是他在空间里留下的痕迹。</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">03 / 一件武器</div>
+      <h3>红色只出现在需要它的地方</h3>
+      <p>不是大面积红色，不是温柔的粉色。红色是一把收在鞘里的刀——只在对的地方拔出来。标签、状态标记、关键强调，其余时间它保持沉默。</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">04 / 不焦虑的间距</div>
+      <h3>从容，不是稀疏</h3>
+      <p>大呼吸空间不是因为"不知道放什么"，而是因为"知道不该放什么"。每个区块都有自己的领地，互不侵犯，却互相让出光来。</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">05 / 不撒谎的材料</div>
+      <h3>克制质感，不炫技</h3>
+      <p>噪点、微发光、极细边框——所有质感服务于整体的沉稳，而不是炫耀"看我的 CSS 多厉害"。磨砂玻璃只用于需要层次的地方。</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">06 / 掠夺视觉焦点</div>
+      <h3>每一个画面里，他是唯一归处</h3>
+      <p>不对称网格打破四平八稳的模板感。最重的一块永远在左侧或左上——视线自然被拖过去，就像他在房间里，你不会看别人。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CARD GALLERY ===== -->
+<section class="card-gallery-ap" id="cards">
+  <div class="principles-header">
+    <div class="principles-kicker">Card Gallery</div>
+    <div class="principles-title">卡面图鉴 · 不对称统治布局</div>
+  </div>
+  <div class="card-grid-ap">
+    <div class="card-ap feature">
+      <div class="card-ap-badge">最新限定</div>
+      <div style="width:100%;height:100%;background:linear-gradient(160deg,#1A0E10,#0A0A14);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--dust);letter-spacing:0.08em;">✦ 别幕终曲</div>
+      <div class="card-ap-overlay">
+        <div class="card-ap-name-cn">别幕终曲</div>
+        <div class="card-ap-name">FINALE</div>
+        <div class="card-ap-date">2026.06 · 限定五星</div>
+      </div>
+    </div>
+    <div class="card-ap">
+      <div style="width:100%;height:100%;background:linear-gradient(140deg,#12121C,#08080E);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dust);">爱猫及喵</div>
+      <div class="card-ap-overlay">
+        <div class="card-ap-name-cn">爱猫及喵</div>
+        <div class="card-ap-date">2026.05</div>
+      </div>
+    </div>
+    <div class="card-ap">
+      <div style="width:100%;height:100%;background:linear-gradient(140deg,#14141C,#08080E);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dust);">缭夜魂与</div>
+      <div class="card-ap-overlay">
+        <div class="card-ap-name-cn">缭夜魂与</div>
+        <div class="card-ap-date">2026.04</div>
+      </div>
+    </div>
+    <div class="card-ap">
+      <div style="width:100%;height:100%;background:linear-gradient(140deg,#10101A,#080810);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dust);">肆雨照夜</div>
+      <div class="card-ap-overlay">
+        <div class="card-ap-name-cn">肆雨照夜</div>
+        <div class="card-ap-date">2026.04</div>
+      </div>
+    </div>
+    <div class="card-ap">
+      <div style="width:100%;height:100%;background:linear-gradient(140deg,#161620,#0A0A10);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dust);">千灯共我</div>
+      <div class="card-ap-overlay">
+        <div class="card-ap-name-cn">千灯共我</div>
+        <div class="card-ap-date">2026.02</div>
+      </div>
+    </div>
+    <div class="card-ap">
+      <div style="width:100%;height:100%;background:linear-gradient(140deg,#13131E,#09090E);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dust);">混沌纪</div>
+      <div class="card-ap-overlay">
+        <div class="card-ap-name-cn">混沌纪</div>
+        <div class="card-ap-date">2025.12</div>
+      </div>
+    </div>
+    <div class="card-ap">
+      <div style="width:100%;height:100%;background:linear-gradient(140deg,#11111C,#090910);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dust);">猩红席卷</div>
+      <div class="card-ap-overlay">
+        <div class="card-ap-name-cn">猩红席卷</div>
+        <div class="card-ap-date">2025.12</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TABLE ===== -->
+<section class="table-ap-section" id="schedule">
+  <div class="principles-header">
+    <div class="principles-kicker">Schedule</div>
+    <div class="principles-title">卡池排期</div>
+  </div>
+  <table class="table-ap">
+    <thead>
+      <tr><th>#</th><th>时间</th><th>类型</th><th>名称</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr><td>22</td><td>05.22 — 05.31</td><td>单人月卡</td><td>爱猫及喵</td><td><span class="status done">已上线</span></td></tr>
+      <tr><td>23</td><td>06.17 — 07.02</td><td>五男主自选混池</td><td>一幕一生 · 别幕终曲</td><td><span class="status">预告</span></td></tr>
+      <tr><td>24</td><td>08.11 — 08.28</td><td>新混池</td><td>待公布</td><td><span class="status">预测</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== SUMMARY ===== -->
+<section class="summary-section">
+  <div class="principles-header">
+    <div class="principles-kicker">Implementation</div>
+    <div class="principles-title">对比：当前站 → Alpha Prime 站</div>
+  </div>
+  <div class="summary-grid">
+    <div class="summary-card">
+      <h4>当前设计特征</h4>
+      <ul class="summary-list">
+        <li>圆形卡片 + 悬浮动画（偏亲和）</li>
+        <li>羽毛飘落装饰（偏诗意/柔软）</li>
+        <li>居中对称 Hero（传统稳定）</li>
+        <li>红黑配色偏亮（#E50914）</li>
+        <li>等距卡片网格（安全但模板感）</li>
+        <li>按钮圆角偏大（60px）</li>
+      </ul>
+    </div>
+    <div class="summary-card">
+      <h4>Alpha Prime 方向</h4>
+      <ul class="summary-list">
+        <li>不对称网格 + 沉稳响应（不动声色）</li>
+        <li>去除软性装饰，只留纵向结构线</li>
+        <li>左对齐 Hero + 垂直统治线</li>
+        <li>深红收敛（#D42027），暖金点缀</li>
+        <li>不对称杂志式网格（有态度）</li>
+        <li>锐利小圆角（4~8px），更果断</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="footer-ap">
+  <p>N109区 · 彻 | ALPHA PRIME DESIGN SYSTEM · 2026.06</p>
+</footer>
+</body>
+</html>

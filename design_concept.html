@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>设计灵感 · N109区 彻</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=DM+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet" />
+<style>
+/* ===== Reset ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+/* ===== Color Palettes ===== */
+:root {
+  /* Palette 01: 赤墨 Noir — 暗调奢华 */
+  --p1-bg: #07070A;
+  --p1-surface: #0C0C12;
+  --p1-surface-raised: #11111A;
+  --p1-red: #D42027;
+  --p1-red-glow: rgba(212,32,39,0.15);
+  --p1-accent: #BF8B4A;
+  --p1-text: #EDE8E3;
+  --p1-text-secondary: #9A9490;
+  --p1-text-muted: #5C5754;
+  --p1-border: rgba(237,232,227,0.05);
+  --p1-border-hover: rgba(212,32,39,0.2);
+
+  /* Palette 02: 冷焰 Cyber Noir — 赛博时髦 */
+  --p2-bg: #06060C;
+  --p2-surface: #0B0B18;
+  --p2-surface-raised: #101026;
+  --p2-red: #FF1F3D;
+  --p2-red-glow: rgba(255,31,61,0.12);
+  --p2-accent: #D4C79A;
+  --p2-text: #E0E0F0;
+  --p2-text-secondary: #8888A8;
+  --p2-text-muted: #505068;
+  --p2-border: rgba(224,224,240,0.04);
+  --p2-border-hover: rgba(255,31,61,0.18);
+
+  /* Current active palette */
+  --bg: var(--p1-bg);
+  --surface: var(--p1-surface);
+  --surface-raised: var(--p1-surface-raised);
+  --red: var(--p1-red);
+  --red-glow: var(--p1-red-glow);
+  --accent: var(--p1-accent);
+  --text: var(--p1-text);
+  --text-secondary: var(--p1-text-secondary);
+  --text-muted: var(--p1-text-muted);
+  --border: var(--p1-border);
+  --border-hover: var(--p1-border-hover);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+body {
+  font-family: "Noto Sans SC", "DM Mono", sans-serif;
+  background: var(--p1-bg);
+  color: var(--p1-text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ===== Grain ===== */
+.grain {
+  position: fixed; inset: 0; z-index: 999; pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ===== Intro Header ===== */
+.intro {
+  padding: 60px 40px 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.intro-kicker {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--p1-red);
+  margin-bottom: 16px;
+}
+.intro-title {
+  font-family: "Anybody", sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--p1-text);
+  margin-bottom: 12px;
+}
+.intro-desc {
+  font-size: 14px;
+  color: var(--p1-text-secondary);
+  max-width: 600px;
+  letter-spacing: 0.02em;
+  line-height: 1.8;
+}
+
+/* ===== Palette Switcher ===== */
+.palette-bar {
+  display: flex;
+  gap: 10px;
+  padding: 0 40px;
+  max-width: 1000px;
+  margin: 0 auto 40px;
+}
+.palette-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.palette-btn.active {
+  border-color: var(--red);
+  color: var(--red);
+  background: var(--red-glow);
+}
+.palette-btn:hover {
+  border-color: var(--border-hover);
+}
+
+/* ===== Section ===== */
+.section {
+  padding: 80px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-header {
+  margin-bottom: 48px;
+}
+.section-kicker {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--red);
+  opacity: 0.35;
+}
+.section-title {
+  font-family: "Anybody", sans-serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--text);
+}
+.section-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  letter-spacing: 0.04em;
+}
+
+/* ===== Hero Concept ===== */
+.hero-concept {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  overflow: hidden;
+}
+
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 35% at 50% 25%, var(--red-glow) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 25% 75%, rgba(191,139,74,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 75% 75%, rgba(212,32,39,0.03) 0%, transparent 50%),
+    var(--bg);
+}
+
+/* Diagonal decorative lines */
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-lines::before {
+  content: "";
+  position: absolute;
+  top: -20%; right: 5%;
+  width: 1px; height: 140%;
+  background: linear-gradient(to bottom, transparent, var(--red-glow), transparent);
+  transform: rotate(22deg);
+}
+.hero-lines::after {
+  content: "";
+  position: absolute;
+  top: -20%; right: 12%;
+  width: 1px; height: 140%;
+  background: linear-gradient(to bottom, transparent, rgba(191,139,74,0.06), transparent);
+  transform: rotate(22deg);
+}
+
+.hero-concept-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  background: var(--red-glow);
+  border: 1px solid rgba(212,32,39,0.15);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  margin-bottom: 36px;
+}
+.hero-tag-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: blink 1.4s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+.hero-concept-title {
+  font-family: "Anybody", sans-serif;
+  font-size: clamp(48px, 8vw, 88px);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.hero-concept-sub {
+  font-family: "ZCOOL XiaoWei", serif;
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  margin-bottom: 36px;
+}
+
+.hero-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+}
+.hero-meta span { color: var(--red); font-weight: 500; }
+
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.25;
+}
+.hero-scroll-text {
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(to bottom, var(--text-muted), transparent);
+}
+
+/* ===== Card Section Concept ===== */
+.card-concept-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-auto-rows: 200px;
+  gap: 12px;
+}
+
+.card-concept-item {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+.card-concept-item:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+}
+
+.card-concept-item:nth-child(1) { grid-column: span 1; grid-row: span 2; }
+.card-concept-item:nth-child(2) { grid-column: span 1; grid-row: span 1; }
+.card-concept-item:nth-child(3) { grid-column: span 1; grid-row: span 1; }
+.card-concept-item:nth-child(4) { grid-column: span 2; grid-row: span 1; }
+.card-concept-item:nth-child(5) { grid-column: span 1; grid-row: span 1; }
+.card-concept-item:nth-child(6) { grid-column: span 1; grid-row: span 1; }
+
+.card-concept-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.card-concept-item:hover .card-concept-img { transform: scale(1.04); }
+
+.card-concept-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 20px 16px;
+  background: linear-gradient(to top, rgba(7,7,10,0.95) 0%, transparent 70%);
+}
+
+.card-concept-name {
+  font-family: "Anybody", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.card-concept-date {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Feature card (first) extra treatment */
+.card-concept-item.feature {
+  border-color: var(--border-hover);
+}
+.card-concept-item.feature .card-concept-overlay {
+  padding: 32px 28px 20px;
+}
+.card-concept-item.feature .card-concept-name {
+  font-size: 20px;
+}
+.card-concept-item.feature .card-concept-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+}
+
+.card-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--red);
+  color: #fff;
+}
+
+/* ===== Grid Refinements ===== */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.concept-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  transition: all 0.3s ease;
+}
+.concept-card:hover { border-color: var(--border-hover); }
+
+.concept-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--red-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.concept-card-title {
+  font-family: "Anybody", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.concept-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.concept-card-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+.concept-card-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.concept-card-list li::before {
+  content: "";
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--red);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* ===== Typography Showcase ===== */
+.typo-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.typo-item {
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.typo-label {
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.typo-display {
+  font-family: "Anybody", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  line-height: 1.2;
+}
+.typo-body {
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+.typo-mono {
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+/* ===== Color Palette Display ===== */
+.color-dots {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.color-dot {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+.color-dot:hover { transform: scale(1.1); }
+.color-dot-lg {
+  width: 60px;
+  height: 60px;
+}
+
+/* ===== Tag / Buttons ===== */
+.tag-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tag {
+  padding: 6px 16px;
+  border-radius: var(--radius-sm);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  background: transparent;
+  transition: all 0.25s ease;
+  cursor: default;
+}
+.tag.active {
+  border-color: var(--red);
+  color: var(--red);
+  background: var(--red-glow);
+}
+.tag:hover { border-color: var(--border-hover); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: transparent;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #d42a31;
+  box-shadow: 0 0 24px var(--red-glow);
+}
+.btn-outline:hover {
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+/* ===== Schedule Table Concept ===== */
+.schedule-concept {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+}
+.schedule-concept th {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  text-align: left;
+}
+.schedule-concept td {
+  padding: 14px 16px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text);
+}
+.schedule-concept tr td:first-child {
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+}
+.schedule-concept tr td:last-child {
+  border-top-right-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+.schedule-status {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--red-glow);
+  color: var(--red);
+}
+.schedule-status.done {
+  background: rgba(191,139,74,0.1);
+  color: var(--accent);
+}
+
+/* ===== UI Elements Comparison ===== */
+.ui-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.ui-box {
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.ui-box-title {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.ui-demo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ui-icon-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ui-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: all 0.25s ease;
+}
+.ui-icon:hover {
+  border-color: var(--border-hover);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
+/* ===== Footer ===== */
+.footer-concept {
+  border-top: 1px solid var(--border);
+  padding: 40px;
+  text-align: center;
+}
+.footer-concept p {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .section { padding: 60px 20px; }
+  .intro { padding: 40px 20px; }
+  .palette-bar { padding: 0 20px; }
+  .concept-grid { grid-template-columns: 1fr; }
+  .typo-showcase { grid-template-columns: 1fr; }
+  .ui-compare { grid-template-columns: 1fr; }
+  .card-concept-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 160px;
+  }
+  .card-concept-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .card-concept-item:nth-child(2) { grid-column: span 1; grid-row: span 1; }
+  .card-concept-item:nth-child(3) { grid-column: span 1; grid-row: span 1; }
+  .card-concept-item:nth-child(4) { grid-column: span 2; grid-row: span 1; }
+  .card-concept-item:nth-child(5) { grid-column: span 1; grid-row: span 1; }
+  .card-concept-item:nth-child(6) { grid-column: span 1; grid-row: span 1; }
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- ===== Intro ===== -->
+<div class="intro">
+  <div class="intro-kicker">// DESIGN CONCEPT 01</div>
+  <h1 class="intro-title">N109区 · 彻 / 视觉刷新提案</h1>
+  <p class="intro-desc">
+    基于 frontend-design 框架，为秦彻个人站探索一套"更时髦"的视觉方向。
+    以下是从字体、色彩、布局到质感的具体方案。
+    你可以点击色板切换两种气质方向，看看哪一套更接近你想要的质感。
+  </p>
+</div>
+
+<!-- ===== Palette Switcher ===== -->
+<div class="palette-bar" id="paletteBar">
+  <button class="palette-btn active" data-palette="p1">◈ 赤墨 Noir — 暗调奢华</button>
+  <button class="palette-btn" data-palette="p2">◈ 冷焰 Cyber — 赛博时髦</button>
+</div>
+
+<!-- ===== Hero Concept ===== -->
+<section class="hero-concept" id="heroDemo">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-concept-content">
+    <div class="hero-tag">
+      <span class="hero-tag-dot"></span>
+      hero section · 新的视觉节奏
+    </div>
+    <h1 class="hero-concept-title">N109区</h1>
+    <p class="hero-concept-sub">暗点 · 彻 · 不设防禁区</p>
+    <div class="hero-meta">
+      <span>◆</span> 卡面图鉴 · 角色故事 · 卡池排期
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">explore</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ===== Typography ===== -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-kicker">Typography</div>
+    <h2 class="section-title">字体系统</h2>
+    <p class="section-sub">三个层次的字体搭配，从醒目标题到正文排版</p>
+  </div>
+  <div class="typo-showcase">
+    <div class="typo-item">
+      <div class="typo-label">Display · Anybody (ExtraBold 800)</div>
+      <div class="typo-display">PLAY WITH FIRE</div>
+      <div style="margin-top:10px;font-size:13px;color:var(--text-muted);letter-spacing:0.08em;">大写 · 紧密字距 · 工业感几何衬线</div>
+    </div>
+    <div class="typo-item">
+      <div class="typo-label">Display CN · ZCOOL XiaoWei</div>
+      <div class="typo-display" style="font-family:'ZCOOL XiaoWei',serif;">别幕终曲 · 彻</div>
+      <div style="margin-top:10px;font-size:13px;color:var(--text-muted);letter-spacing:0.08em;">中式书韵 · 用于角色名与特殊标题</div>
+    </div>
+    <div class="typo-item">
+      <div class="typo-label">Body · Noto Sans SC (Light 300)</div>
+      <div class="typo-body">幕起幕落间，命运的齿轮开始转动——他的身影在光影交织中若隐若现，那些说不出口的告别，都化作一曲终章，在落幕之前久久回响。</div>
+    </div>
+    <div class="typo-item">
+      <div class="typo-label">Mono · DM Mono (Regular 400)</div>
+      <div class="typo-mono">06.17 — 07.02 // 限定五星 // 五选三自选</div>
+      <div style="margin-top:10px;font-size:13px;color:var(--text-muted);letter-spacing:0.08em;">日期、标签、技术信息 · 等宽体增加秩序感</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Color Palette ===== -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-kicker">Color System</div>
+    <h2 class="section-title">色彩系统</h2>
+    <p class="section-sub">两种色调方向，适应不同的气质表达</p>
+  </div>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="concept-card-title" style="font-size:14px;font-weight:500;">◈ 赤墨 Noir</div>
+      <p class="concept-card-desc" style="margin-bottom:16px;">暗调奢华方向。深红点缀暖金，黑底偏暖墨水色，质感厚重有沉淀感。</p>
+      <div class="color-dots">
+        <div class="color-dot color-dot-lg" style="background:#07070A;"></div>
+        <div class="color-dot color-dot-lg" style="background:#D42027;"></div>
+        <div class="color-dot color-dot-lg" style="background:#BF8B4A;"></div>
+        <div class="color-dot color-dot-lg" style="background:#EDE8E3;"></div>
+        <div class="color-dot" style="background:#0C0C12;"></div>
+        <div class="color-dot" style="background:#11111A;"></div>
+        <div class="color-dot" style="background:#9A9490;"></div>
+        <div class="color-dot" style="background:#5C5754;"></div>
+      </div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-card-title" style="font-size:14px;font-weight:500;">◈ 冷焰 Cyber</div>
+      <p class="concept-card-desc" style="margin-bottom:16px;">赛博时髦方向。冷冽蓝底配高饱和红，金属感黑白灰，更年轻更锐利。</p>
+      <div class="color-dots">
+        <div class="color-dot color-dot-lg" style="background:#06060C;"></div>
+        <div class="color-dot color-dot-lg" style="background:#FF1F3D;"></div>
+        <div class="color-dot color-dot-lg" style="background:#D4C79A;"></div>
+        <div class="color-dot color-dot-lg" style="background:#E0E0F0;"></div>
+        <div class="color-dot" style="background:#0B0B18;"></div>
+        <div class="color-dot" style="background:#101026;"></div>
+        <div class="color-dot" style="background:#8888A8;"></div>
+        <div class="color-dot" style="background:#505068;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Card Gallery Concept ===== -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-kicker">Card Gallery</div>
+    <h2 class="section-title">卡面网格 · 编辑部布局</h2>
+    <p class="section-sub">打破等宽卡片，用杂志式的不对称网格</p>
+  </div>
+  <div class="card-concept-grid">
+    <div class="card-concept-item feature">
+      <div class="card-concept-badge"><span class="card-badge">最新限定</span></div>
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A0A0E,#0D0D18);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-muted);letter-spacing:0.08em;">✨ 别幕终曲</div>
+      <div class="card-concept-overlay">
+        <div class="card-concept-name">别幕终曲</div>
+        <div class="card-concept-date">2026.06 · 限定五星</div>
+      </div>
+    </div>
+    <div class="card-concept-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#12121C,#0A0A12);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-muted);">卡面</div>
+      <div class="card-concept-overlay">
+        <div class="card-concept-name" style="font-size:13px;">爱猫及喵</div>
+        <div class="card-concept-date">2026.05</div>
+      </div>
+    </div>
+    <div class="card-concept-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#14141C,#0C0C12);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-muted);">卡面</div>
+      <div class="card-concept-overlay">
+        <div class="card-concept-name" style="font-size:13px;">缭夜魂与</div>
+        <div class="card-concept-date">2026.04</div>
+      </div>
+    </div>
+    <div class="card-concept-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A1020,#0D0D14);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-muted);">卡面</div>
+      <div class="card-concept-overlay">
+        <div class="card-concept-name" style="font-size:13px;">千灯共我</div>
+        <div class="card-concept-date">2026.02</div>
+      </div>
+    </div>
+    <div class="card-concept-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#12121C,#0A0A12);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-muted);">卡面</div>
+      <div class="card-concept-overlay">
+        <div class="card-concept-name" style="font-size:13px;">混沌纪</div>
+        <div class="card-concept-date">2025.12</div>
+      </div>
+    </div>
+    <div class="card-concept-item">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#14141C,#0C0C12);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-muted);">卡面</div>
+      <div class="card-concept-overlay">
+        <div class="card-concept-name" style="font-size:13px;">猩红席卷</div>
+        <div class="card-concept-date">2025.12</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+    <span class="tag active">时间 ▼</span>
+    <span class="tag">星级 ▼</span>
+    <span class="tag">复刻状态</span>
+    <span class="btn btn-outline" style="margin-left:auto;">▦ 网格视图</span>
+    <span class="btn btn-outline">🂠 罗列视图</span>
+  </div>
+</section>
+
+<!-- ===== UI Elements ===== -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-kicker">UI Details</div>
+    <h2 class="section-title">图标圆润 · 按钮系统 · 卡片质感</h2>
+    <p class="section-sub">全局圆角体系 + 统一交互反馈</p>
+  </div>
+  <div class="ui-compare">
+    <div class="ui-box">
+      <div class="ui-box-title">Icon System · 圆角图标</div>
+      <div class="ui-icon-group">
+        <div class="ui-icon">✦</div>
+        <div class="ui-icon">◆</div>
+        <div class="ui-icon">◈</div>
+        <div class="ui-icon">♢</div>
+        <div class="ui-icon">▣</div>
+        <div class="ui-icon">◉</div>
+        <div class="ui-icon">▲</div>
+      </div>
+      <p style="margin-top:16px;font-size:12px;color:var(--text-muted);letter-spacing:0.04em;">
+        所有图标容器采用圆角 (--radius-md: 12px)。<br/>
+        包括导航按钮、排序切换、模态关闭、卡片徽章等。
+      </p>
+    </div>
+    <div class="ui-box">
+      <div class="ui-box-title">Button System</div>
+      <div class="ui-demo" style="flex-direction:column;gap:10px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="btn btn-primary">许愿规则</span>
+          <span class="btn btn-outline">卡池时间线</span>
+          <span class="btn btn-outline">← 返回主页</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="tag">限定五星</span>
+          <span class="tag active">已上线</span>
+          <span class="tag">预告</span>
+          <span class="tag">预测</span>
+        </div>
+      </div>
+      <p style="margin-top:16px;font-size:12px;color:var(--text-muted);letter-spacing:0.04em;">
+        按钮统一圆角 (--radius-sm: 6px)。<br/>
+        标签系统使用等宽字体 + 紧凑间距。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Schedule Concept ===== -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-kicker">Schedule Table</div>
+    <h2 class="section-title">卡池排期 · 极简表格</h2>
+    <p class="section-sub">行间距加大，去除横线边框，改用圆角背景包裹</p>
+  </div>
+  <table class="schedule-concept">
+    <thead>
+      <tr><th>#</th><th>时间</th><th>类型</th><th>名称</th><th>状态</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>22</td><td>05.22 — 05.31</td><td>单人月卡</td><td>爱猫及喵</td><td><span class="schedule-status done">已上线</span></td></tr>
+      <tr><td>23</td><td>06.17 — 07.02</td><td>五男主自选混池</td><td>一幕一生 · 别幕终曲</td><td><span class="schedule-status">预告已出</span></td></tr>
+      <tr><td>24</td><td>08.11 — 08.28</td><td>新混池</td><td>新混池 ⑤</td><td><span class="schedule-status">预测</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== Design Notes ===== -->
+<section class="section">
+  <div class="concept-grid" style="grid-template-columns: 1fr;">
+    <div class="concept-card">
+      <div class="concept-card-icon">✧</div>
+      <div class="concept-card-title">设计原则总结</div>
+      <ul class="concept-card-list">
+        <li><strong>字体系统</strong> — Anybody(标题) + ZCOOL XiaoWei(中文书名) + Noto Sans SC(正文) + DM Mono(数据/标签)</li>
+        <li><strong>圆角体系</strong> — 全局 radius 变量(sm:6px / md:12px / lg:20px / xl:28px)，所有交互元素统一圆润</li>
+        <li><strong>色彩方向</strong> — 两种选择：赤墨Noir(暖黑+深红+金) 或 冷焰Cyber(冷黑+高饱和红+银灰)</li>
+        <li><strong>布局思路</strong> — 不对称杂志网格、对角线装饰线、大呼吸空间、克制动画</li>
+        <li><strong>质感细节</strong> — 噪点纹理(已存在)、磨砂玻璃背景、悬停微动效、渐变边框</li>
+        <li><strong>信息层级</strong> — 等宽字体用于日期/标签/代码信息，与正文形成对比节奏</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="footer-concept">
+  <p>设计概念 · 2026.06 · N109区 · 彻 | 基于 frontend-design 框架</p>
+</div>
+
+<!-- ===== Script: Palette Switching ===== -->
+<script>
+(function(){
+  const root = document.documentElement;
+  const btns = document.querySelectorAll('.palette-btn');
+  const palettes = {
+    p1: {
+      '--bg': '#07070A',
+      '--surface': '#0C0C12',
+      '--surface-raised': '#11111A',
+      '--red': '#D42027',
+      '--red-glow': 'rgba(212,32,39,0.15)',
+      '--accent': '#BF8B4A',
+      '--text': '#EDE8E3',
+      '--text-secondary': '#9A9490',
+      '--text-muted': '#5C5754',
+      '--border': 'rgba(237,232,227,0.05)',
+      '--border-hover': 'rgba(212,32,39,0.2)'
+    },
+    p2: {
+      '--bg': '#06060C',
+      '--surface': '#0B0B18',
+      '--surface-raised': '#101026',
+      '--red': '#FF1F3D',
+      '--red-glow': 'rgba(255,31,61,0.12)',
+      '--accent': '#D4C79A',
+      '--text': '#E0E0F0',
+      '--text-secondary': '#8888A8',
+      '--text-muted': '#505068',
+      '--border': 'rgba(224,224,240,0.04)',
+      '--border-hover': 'rgba(255,31,61,0.18)'
+    }
+  };
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const palette = palettes[btn.dataset.palette];
+      if (!palette) return;
+      Object.entries(palette).forEach(([key, val]) => {
+        root.style.setProperty(key, val);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
