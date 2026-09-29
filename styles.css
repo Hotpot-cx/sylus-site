@@ -2305,7 +2305,7 @@ body {
 /* 五选三自选池 */
 .event-pool {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(146px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(146px, 1fr));
   gap: 8px;
 }
 
@@ -4578,7 +4578,7 @@ body.light-mode .modal-content {
     font-size: 11.5px;
   }
   .event-pool {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
   .signin-track {
     display: grid;
