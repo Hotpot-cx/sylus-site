@@ -31,6 +31,16 @@ design_concept*.html  设计稿页
 推送到 `main` 分支后，`.github/workflows/static.yml` 会自动把**仓库根目录**发布到 GitHub Pages。
 （首页另带有 Vercel Analytics 脚本，Vercel 侧亦可直接部署仓库根目录。）
 
+- GitHub Pages：<https://hotpot-cx.github.io/sylus-site/>
+- 一个命令同步本机改动（工作区 `_backup/qa/sync-to-github.ps1`）：
+
+```powershell
+powershell -File _backup\qa\sync-to-github.ps1 -Message "更新活动信息"
+```
+
+脚本会拉取仓库 → 复制站点文件（保留 `README.md` / `.github`）→ 提交 → 推送，并列出本次部署运行状态。
+只想预览改动可加 `-DryRun`。
+
 ## 更新活动信息的 5 处位置
 
 1. `index.html` → `#event` 最新活动速报的两张活动卡（时间 / 文案 / 奖励，区块上方有维护注释）
