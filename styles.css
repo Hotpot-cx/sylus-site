@@ -3510,6 +3510,13 @@ body {
   box-shadow: 0 0 16px rgba(228, 42, 68, 0.55);
 }
 
+.status-badge.upcoming {
+  color: var(--on-gold);
+  background: linear-gradient(120deg, var(--gold-2), var(--gold));
+  border: 1px solid var(--gold-3);
+  box-shadow: 0 0 16px rgba(232, 200, 140, 0.45);
+}
+
 .schedule-note {
   padding: 20px 24px;
   border: 1px solid var(--line-soft);
