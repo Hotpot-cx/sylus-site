@@ -1111,15 +1111,20 @@ a {
   position: relative;
   z-index: 3;
   margin-top: clamp(34px, 5vw, 64px);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line-soft);
-  background: linear-gradient(90deg, rgba(var(--bordeaux-rgb), 0.4), rgba(var(--deep-rgb), 0.5));
+  border-top: 1px solid rgba(var(--gold-rgb), 0.35);
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.18);
+  background:
+    linear-gradient(90deg, rgba(var(--ruby-bright-rgb), 0.14), transparent 58%),
+    linear-gradient(90deg, rgba(var(--claret-rgb), 0.62), rgba(var(--bordeaux-rgb), 0.44) 48%, rgba(var(--deep-rgb), 0.66));
+  box-shadow: inset 0 0 46px rgba(var(--ruby-rgb), 0.18);
   overflow: hidden;
   display: flex;
   align-items: center;
 }
 
 .hero-ticker-label {
+  position: relative;
+  z-index: 2;
   flex: none;
   padding: 12px 18px;
   font-family: var(--font-mono);
@@ -1127,10 +1132,13 @@ a {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--on-gold);
-  background: var(--gold-2);
+  background: linear-gradient(120deg, var(--gold-2), var(--gold));
+  box-shadow: 8px 0 22px rgba(var(--deep-rgb), 0.55);
 }
 
 .hero-ticker-track {
+  position: relative;
+  z-index: 1;
   display: flex;
   width: max-content;
   animation: marquee 46s linear infinite;
@@ -1141,7 +1149,7 @@ a {
 }
 
 .hero-ticker-track span {
-  padding: 12px 30px;
+  padding: 12px 26px;
   border-right: 1px solid var(--line-soft);
   font-size: 12.5px;
   letter-spacing: 0.08em;
@@ -1150,8 +1158,20 @@ a {
 }
 
 .hero-ticker-track span b {
-  color: var(--gold-2);
+  display: inline-block;
+  margin-right: 6px;
+  padding: 1px 7px;
   font-weight: 500;
+  color: var(--gold-2);
+  background: rgba(var(--gold-rgb), 0.16);
+  border: 1px solid rgba(var(--gold-rgb), 0.3);
+  border-radius: 2px;
+}
+
+.hero-ticker-track span:nth-child(2n) b {
+  color: var(--ruby-bright);
+  background: rgba(var(--ruby-bright-rgb), 0.16);
+  border-color: rgba(var(--ruby-bright-rgb), 0.34);
 }
 
 /* — 羽毛 — */
