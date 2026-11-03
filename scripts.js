@@ -621,23 +621,65 @@ if (mascot) {
   showSpeech(dialogueMap.home);
 }
 
-// ===== Theme Toggle (inline already, but ensure compatibility) =====
-(function(){
-  const toggle = document.getElementById("themeToggle");
-  if (!toggle) return;
-  const iconDark = document.getElementById("themeIconDark");
-  const iconLight = document.getElementById("themeIconLight");
-  let isDark = true;
-  toggle.addEventListener("click", () => {
-    isDark = !isDark;
-    if (isDark) {
-      document.body.classList.remove("light-mode");
-      iconDark.style.display = ""; iconLight.style.display = "none";
-    } else {
-      document.body.classList.add("light-mode");
-      iconDark.style.display = "none"; iconLight.style.display = "";
+// ===== Theme Switcher（赤墨 / 象牙 / 赛博）=====
+(function () {
+  const THEME_KEY = "sylus-theme";
+  const DEFAULT_THEME = "cyber"; // 活动期默认赛博；换成 "scarlet" 即默认日常红金
+  const VALID = ["scarlet", "ivory", "cyber"];
+  const btn = document.getElementById("themeBtn");
+  const menu = document.getElementById("themeMenu");
+  const switcher = document.getElementById("themeSwitcher");
+
+  function current() {
+    const cls = document.documentElement.className;
+    const m = cls.match(/theme-(scarlet|ivory|cyber)/);
+    return m ? m[1] : DEFAULT_THEME;
+  }
+
+  function apply(theme, persist) {
+    if (VALID.indexOf(theme) === -1) theme = DEFAULT_THEME;
+    document.documentElement.className = "theme-" + theme;
+    if (persist) {
+      try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
     }
-  });
+    document.querySelectorAll(".theme-menu button").forEach((b) => {
+      b.classList.toggle("active", b.dataset.setTheme === theme);
+    });
+  }
+
+  apply(current(), false);
+
+  if (btn && menu) {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = menu.hasAttribute("hidden");
+      if (open) menu.removeAttribute("hidden");
+      else menu.setAttribute("hidden", "");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+
+    menu.querySelectorAll("button[data-set-theme]").forEach((b) => {
+      b.addEventListener("click", () => {
+        apply(b.dataset.setTheme, true);
+        menu.setAttribute("hidden", "");
+        btn.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!menu.hasAttribute("hidden") && switcher && !switcher.contains(e.target)) {
+        menu.setAttribute("hidden", "");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !menu.hasAttribute("hidden")) {
+        menu.setAttribute("hidden", "");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
 })();
 
 // ===== DIY Tabs =====
