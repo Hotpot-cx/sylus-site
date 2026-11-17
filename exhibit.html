@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="zh-CN" class="theme-cyber">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05060e" />
+    <title>展览厅 · 展品总览 | 秦彻 · SYLUS</title>
+    <meta
+      name="description"
+      content="秦彻二创展览厅 —— 收录小狸花们制作的互动网页、3D 场景与二创工具，点击展品即可进入原作。"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Anybody:wght@300;400;600;800&family=DM+Mono:wght@300;400;500&family=Ma+Shan+Zheng&family=LXGW+WenKai:wght@300;400;700&family=ZCOOL+XiaoWei&family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@200;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("sylus-theme") || "cyber";
+          document.documentElement.className =
+            t === "ivory" ? "theme-ivory" : t === "cyber" ? "theme-cyber" : "theme-scarlet";
+        } catch (e) {
+          document.documentElement.className = "theme-scarlet";
+        }
+      })();
+    </script>
+    <style>
+      /* 展览厅总览页：全部沿用 styles.css 的设计令牌，只补本页专属版式 */
+      .wall-nav-note {
+        font-family: var(--font-mono);
+        font-size: 9.5px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+
+      .wall-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 15px;
+        border: 1px solid var(--line);
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--ink-2);
+        transition: all 0.3s ease;
+      }
+
+      .wall-back:hover {
+        color: var(--gold-3);
+        border-color: var(--gold);
+      }
+
+      /* —— 页头 —— */
+      .wall-hero {
+        position: relative;
+        padding: clamp(120px, 15vw, 180px) var(--gutter) clamp(34px, 4vw, 56px);
+        max-width: var(--shell);
+        margin: 0 auto;
+      }
+
+      .wall-hero::after {
+        content: "展厅";
+        position: absolute;
+        right: var(--gutter);
+        top: clamp(96px, 12vw, 140px);
+        font-family: var(--font-wide);
+        font-size: clamp(90px, 12vw, 190px);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(var(--gold-rgb), 0.16);
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .wall-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 18px;
+      }
+
+      .wall-eyebrow::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: var(--ruby-bright);
+        transform: rotate(45deg);
+        box-shadow: 0 0 10px rgba(var(--ruby-bright-rgb), 0.8);
+      }
+
+      .wall-hero h1 {
+        font-family: var(--font-display);
+        font-size: clamp(38px, 6vw, 74px);
+        font-weight: 400;
+        line-height: 1.06;
+        letter-spacing: 0.06em;
+        color: var(--ink);
+      }
+
+      .wall-hero h1 em {
+        display: block;
+        margin-top: 12px;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: clamp(14px, 1.8vw, 22px);
+        letter-spacing: 0.22em;
+        color: var(--gold);
+      }
+
+      .wall-hero p {
+        margin-top: 22px;
+        max-width: 760px;
+        font-size: 14.5px;
+        line-height: 2.05;
+        letter-spacing: 0.03em;
+        color: var(--ink-2);
+      }
+
+      .wall-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: clamp(20px, 3vw, 46px);
+        margin-top: 30px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line-soft);
+      }
+
+      .wall-stats div {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .wall-stats b {
+        font-family: var(--font-wide);
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1;
+        color: var(--gold-2);
+      }
+
+      .wall-stats span {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+
+      /* —— 展墙 —— */
+      .wall-main {
+        max-width: var(--shell);
+        margin: 0 auto;
+        padding: 0 var(--gutter) clamp(60px, 8vw, 110px);
+      }
+
+      .wall-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: clamp(16px, 2vw, 24px);
+      }
+
+      .wall-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--line);
+        background: linear-gradient(160deg, rgba(var(--raised-rgb), 0.9), rgba(var(--base-rgb), 0.95));
+        color: inherit;
+        overflow: hidden;
+        transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease,
+          box-shadow 0.45s ease;
+      }
+
+      .wall-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(var(--gold-rgb), 0.5);
+        box-shadow: 0 26px 60px rgba(var(--deep-rgb), 0.55), 0 0 40px rgba(var(--ruby-rgb), 0.14);
+      }
+
+      .wall-thumb {
+        position: relative;
+        display: block;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line-soft);
+      }
+
+      .wall-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+        display: block;
+        transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.5s ease;
+      }
+
+      .wall-card:hover .wall-thumb img {
+        transform: scale(1.04);
+        filter: brightness(1.06);
+      }
+
+      .wall-flag {
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        z-index: 2;
+        padding: 4px 10px;
+        font-family: var(--font-mono);
+        font-size: 8px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--on-gold);
+        background: linear-gradient(120deg, var(--gold-3), var(--gold));
+      }
+
+      .wall-enter {
+        position: absolute;
+        right: 14px;
+        bottom: 14px;
+        z-index: 2;
+        padding: 7px 12px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--on-gold);
+        background: linear-gradient(120deg, var(--gold-3), var(--gold));
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+      }
+
+      .wall-card:hover .wall-enter {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .wall-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 20px 22px 22px;
+      }
+
+      .wall-no {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .wall-title {
+        font-family: var(--font-display);
+        font-size: 21px;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        line-height: 1.25;
+        color: var(--ink);
+      }
+
+      .wall-title a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .wall-card:hover .wall-title a {
+        color: var(--gold-2);
+      }
+
+      .wall-author {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+        padding-top: 11px;
+        border-top: 1px dashed rgba(var(--ink-rgb), 0.12);
+      }
+
+      .wall-author span {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+
+      .wall-author a {
+        font-size: 12.5px;
+        letter-spacing: 0.02em;
+        text-decoration: none;
+        color: var(--gold-2);
+        border-bottom: 1px solid rgba(var(--gold-rgb), 0.4);
+        transition: border-color 0.3s ease;
+      }
+
+      .wall-author a:hover {
+        border-color: var(--gold-2);
+      }
+
+      .wall-title span {
+        display: block;
+        margin-top: 4px;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 0.6em;
+        letter-spacing: 0.16em;
+        color: var(--gold);
+      }
+
+      .wall-desc {
+        font-size: 13px;
+        line-height: 1.95;
+        color: var(--ink-2);
+      }
+
+      .wall-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 4px;
+      }
+
+      .wall-tags span {
+        padding: 3px 9px;
+        font-family: var(--font-mono);
+        font-size: 8.5px;
+        letter-spacing: 0.14em;
+        color: var(--ink-3);
+        border: 1px solid var(--line-soft);
+      }
+
+      /* 征集位 */
+      .wall-card.is-empty {
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-height: 300px;
+        padding: 34px 26px;
+        border-style: dashed;
+        background: rgba(var(--base-rgb), 0.45);
+        text-align: center;
+      }
+
+      .wall-card.is-empty:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: rgba(var(--gold-rgb), 0.4);
+      }
+
+      .wall-card.is-empty b {
+        font-family: var(--font-display);
+        font-size: 19px;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        color: var(--gold-3);
+      }
+
+      .wall-card.is-empty p {
+        max-width: 300px;
+        font-size: 12.5px;
+        line-height: 1.95;
+        color: var(--ink-2);
+      }
+
+      .wall-card.is-empty i {
+        font-style: normal;
+        font-family: var(--font-mono);
+        font-size: 26px;
+        color: var(--gold);
+        letter-spacing: 0.2em;
+      }
+
+      /* —— 投稿须知 —— */
+      .wall-notes {
+        margin-top: clamp(30px, 4vw, 54px);
+        padding: clamp(20px, 2.6vw, 30px);
+        border: 1px solid var(--line-soft);
+        background: rgba(var(--panel-rgb), 0.55);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: clamp(16px, 2.4vw, 30px);
+      }
+
+      .wall-notes h3 {
+        grid-column: 1 / -1;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--gold);
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line-soft);
+      }
+
+      .wall-notes div b {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13.5px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+
+      .wall-notes div p {
+        font-size: 12.5px;
+        line-height: 1.95;
+        color: var(--ink-3);
+      }
+
+      .wall-foot-note {
+        margin-top: 20px;
+        font-size: 12px;
+        line-height: 1.9;
+        letter-spacing: 0.03em;
+        color: var(--ink-3);
+      }
+
+      @media (max-width: 1080px) {
+        .wall-hero,
+        .wall-main {
+          padding-left: var(--gutter);
+          padding-right: var(--gutter);
+        }
+        .wall-hero::after {
+          display: none;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .wall-nav-note {
+          display: none;
+        }
+        .wall-grid {
+          grid-template-columns: 1fr;
+        }
+        .wall-back {
+          padding: 7px 10px;
+          font-size: 9.5px;
+        }
+        .wall-enter {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <nav class="nav" id="nav">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <svg class="nav-logo-crown" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2L15 8L21 6L18 12H6L3 6L9 8L12 2Z" />
+            <path d="M6 14H18V16H6V14Z" opacity="0.6" />
+          </svg>
+          <span class="nav-logo-text">彻</span>
+        </a>
+        <span class="wall-nav-note">N109 Archive · Exhibition Hall</span>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 12px">
+          <a href="index.html#exhibit" class="wall-back">← 返回展厅</a>
+          <div class="theme-switcher" id="themeSwitcher">
+            <button
+              class="theme-toggle-btn"
+              id="themeBtn"
+              aria-label="切换配色"
+              title="切换配色"
+              aria-expanded="false"
+              aria-haspopup="true"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <circle cx="12" cy="12" r="8.4" />
+                <path d="M12 3.6v16.8" />
+                <circle cx="8.6" cy="9.6" r="1.15" fill="currentColor" stroke="none" />
+                <circle cx="8.6" cy="14.4" r="1.15" fill="currentColor" stroke="none" />
+              </svg>
+            </button>
+            <div class="theme-menu" id="themeMenu" hidden role="menu" aria-label="配色方案">
+              <button type="button" data-set-theme="scarlet" role="menuitem"><i class="sw sw-scarlet"></i>赤墨 · 日常</button>
+              <button type="button" data-set-theme="ivory" role="menuitem"><i class="sw sw-ivory"></i>象牙 · 浅色</button>
+              <button type="button" data-set-theme="cyber" role="menuitem"><i class="sw sw-cyber"></i>赛博 · 活动期</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== 页头 ===== -->
+    <header class="wall-hero">
+      <span class="wall-eyebrow">Exhibition Hall · 二创展品总览</span>
+      <h1>展览厅<em>Every fan-made world, in one wall</em></h1>
+      <p>
+        这里陈列小狸花们为秦彻做的「作品」——互动网页、3D 场景、小工具与影像。
+        每一件展品都标注了作者与原文入口，点击展品即可直接进入原作；
+        想把自己的作品摆上这面墙，把链接和截图发给站长就行。
+      </p>
+      <div class="wall-stats">
+        <div><b>01</b><span>正在展出</span></div>
+        <div><b>01</b><span>参展作者</span></div>
+        <div><b>∞</b><span>征集位</span></div>
+      </div>
+    </header>
+
+    <!-- ===== 展墙 ===== -->
+    <main class="wall-main">
+      <div class="wall-grid">
+        <!-- 展品：失落绿洲 -->
+        <article class="wall-card">
+          <a
+            class="wall-thumb"
+            href="https://astonishing-bunny-d5edb6.netlify.app/"
+            target="_blank"
+            rel="noopener"
+            aria-label="进入二创作品：失落绿洲 The Lost Oasis"
+          >
+            <span class="wall-flag">Now Showing</span>
+            <img
+              src="images/exhibit_lost_oasis.jpg"
+              alt="二创作品：THE LOST OASIS 失落绿洲 3D 互动网页"
+              loading="lazy"
+            />
+            <span class="wall-enter">进入展览 ↗</span>
+          </a>
+          <div class="wall-body">
+            <div class="wall-no">Exhibit 01 · 2026.11</div>
+            <h2 class="wall-title">
+              <a
+                href="https://astonishing-bunny-d5edb6.netlify.app/"
+                target="_blank"
+                rel="noopener"
+                >失落绿洲<span>The Lost Oasis</span></a
+              >
+            </h2>
+            <p class="wall-desc">
+              悬在沙海上的绿洲小岛：庭院、篝火、棕榈与月光。可拖动旋转、滚轮缩放，
+              点击秦彻互动，切换「晨光 / 落日 / 月夜」与「晴 / 雨 / 雪」，在岛上寻找金色碎片。
+            </p>
+            <div class="wall-tags">
+              <span>互动网页</span><span>3D 场景</span><span>环境音</span><span>秦彻 · 失落绿洲</span>
+            </div>
+            <div class="wall-author">
+              <span>作者</span>
+              <a
+                href="https://www.xiaohongshu.com/user/profile/61951d9300000000100063b5"
+                target="_blank"
+                rel="noopener"
+                >小红书 @Enola~ · 6321664752 ↗</a
+              >
+            </div>
+          </div>
+        </article>
+
+        <!-- 征集位 -->
+        <div class="wall-card is-empty">
+          <i>＋</i>
+          <b>下一件展品 · 征集中</b>
+          <p>二创网页、互动小程序、AR / 3D 场景、动态壁纸……都可以投稿，通过审核后会摆上这面墙。</p>
+          <a href="index.html#discuss" class="wall-back" style="margin-top: 6px">投稿入口 →</a>
+        </div>
+      </div>
+
+      <!-- 投稿须知 -->
+      <section class="wall-notes">
+        <h3>Submission · 投稿须知</h3>
+        <div>
+          <b>01 作品形式</b>
+          <p>网页 / 交互 / 3D / 视频 / 小工具都可以，只要成品能通过链接打开；本地文件可以先上传到任意托管平台。</p>
+        </div>
+        <div>
+          <b>02 需要提供</b>
+          <p>作品链接、一张截图（16:9 最好）、作品名、一句话简介、你的主页或原文链接，用来标注作者。</p>
+        </div>
+        <div>
+          <b>03 关于版权</b>
+          <p>展品版权与著作权归原作者所有，本站只做展示与索引，不转载、不二次分发、不商用。</p>
+        </div>
+      </section>
+
+      <p class="wall-foot-note">
+        * 想撤下自己的作品，联系站长即可立刻删除。角色版权归叠纸游戏（Papergames）所有，本站为同人创作。
+      </p>
+    </main>
+
+    <script>
+      (function () {
+        var KEY = "sylus-theme";
+        var VALID = ["scarlet", "ivory", "cyber"];
+        var btn = document.getElementById("themeBtn");
+        var menu = document.getElementById("themeMenu");
+        var switcher = document.getElementById("themeSwitcher");
+
+        function current() {
+          var m = document.documentElement.className.match(/theme-(scarlet|ivory|cyber)/);
+          return m ? m[1] : "cyber";
+        }
+        function apply(t, persist) {
+          if (VALID.indexOf(t) === -1) t = "cyber";
+          document.documentElement.className = "theme-" + t;
+          if (persist) {
+            try { localStorage.setItem(KEY, t); } catch (e) {}
+          }
+          document.querySelectorAll(".theme-menu button").forEach(function (b) {
+            b.classList.toggle("active", b.dataset.setTheme === t);
+          });
+        }
+        apply(current(), false);
+        if (btn && menu) {
+          btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var open = menu.hasAttribute("hidden");
+            if (open) menu.removeAttribute("hidden");
+            else menu.setAttribute("hidden", "");
+            btn.setAttribute("aria-expanded", open ? "true" : "false");
+          });
+          menu.querySelectorAll("button[data-set-theme]").forEach(function (b) {
+            b.addEventListener("click", function () {
+              apply(b.dataset.setTheme, true);
+              menu.setAttribute("hidden", "");
+              btn.setAttribute("aria-expanded", "false");
+            });
+          });
+          document.addEventListener("click", function (e) {
+            if (!menu.hasAttribute("hidden") && switcher && !switcher.contains(e.target)) {
+              menu.setAttribute("hidden", "");
+              btn.setAttribute("aria-expanded", "false");
+            }
+          });
+          document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && !menu.hasAttribute("hidden")) {
+              menu.setAttribute("hidden", "");
+              btn.setAttribute("aria-expanded", "false");
+            }
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

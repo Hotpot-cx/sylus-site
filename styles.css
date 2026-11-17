@@ -5087,6 +5087,18 @@ html.theme-cyber body .footer {
   border-color: var(--gold-2);
 }
 
+.exhibit-open-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.exhibit-open-links .sep {
+  color: var(--ink-3);
+}
+
 .exhibit-note {
   margin-top: 18px;
   font-size: 12px;
