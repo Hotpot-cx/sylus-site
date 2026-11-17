@@ -3553,6 +3553,80 @@ body {
   box-shadow: 0 0 16px rgba(var(--gold-2-rgb), 0.45);
 }
 
+/* 同期复刻条 */
+.event-rerun {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(12px, 1.8vw, 24px);
+  margin-bottom: clamp(20px, 2.6vw, 30px);
+  padding: 14px clamp(14px, 2vw, 20px);
+  border: 1px solid rgba(var(--gold-rgb), 0.28);
+  border-left: 3px solid var(--gold);
+  background: linear-gradient(100deg, rgba(var(--gold-rgb), 0.12), rgba(var(--base-rgb), 0.85) 62%);
+}
+
+.event-rerun-tag {
+  flex: none;
+  padding: 5px 12px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--on-gold);
+  background: linear-gradient(120deg, var(--gold-2), var(--gold));
+}
+
+.event-rerun-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.event-rerun-body b {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 1.6vw, 19px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.event-rerun-body em {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+}
+
+.event-rerun-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  color: var(--gold-3);
+}
+
+.event-rerun-go {
+  flex: none;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--gold-2);
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.4);
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.event-rerun-go:hover {
+  border-color: var(--gold-2);
+}
+
 .schedule-note {
   padding: 20px 24px;
   border: 1px solid var(--line-soft);
@@ -5464,6 +5538,9 @@ html.theme-cyber body .footer {
     justify-content: center;
   }
   .exhibit-frame-enter {
+    display: none;
+  }
+  .event-rerun-quote {
     display: none;
   }
   .exhibit-rows > div {
