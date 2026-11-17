@@ -4809,42 +4809,92 @@ html.theme-cyber body .footer {
   position: relative;
   z-index: 4;
   max-width: var(--shell);
-  margin: clamp(22px, 3vw, 40px) auto 0;
+  margin: clamp(24px, 3.2vw, 44px) auto 0;
   padding: 0 var(--gutter);
 }
 
+/* 展签：倾斜切角的门票条 + 光扫 + 蹦跳的魔魔团 */
 .exhibit-banner {
+  position: relative;
   display: flex;
-  align-items: stretch;
-  gap: clamp(14px, 2vw, 26px);
+  align-items: center;
+  gap: clamp(8px, 1.2vw, 16px);
   border: 1px solid var(--line);
   background:
-    linear-gradient(100deg, rgba(var(--claret-rgb), 0.7), rgba(var(--base-rgb), 0.92) 62%),
+    linear-gradient(100deg, rgba(var(--claret-rgb), 0.78), rgba(var(--base-rgb), 0.94) 58%),
     repeating-linear-gradient(
       -45deg,
-      rgba(var(--gold-rgb), 0.06) 0 10px,
+      rgba(var(--gold-rgb), 0.07) 0 10px,
       transparent 10px 20px
     );
-  box-shadow: inset 0 0 70px rgba(var(--gold-rgb), 0.08);
-  overflow: hidden;
-  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(var(--gold-2-rgb), 0.12),
+    inset 0 0 70px rgba(var(--gold-rgb), 0.08),
+    0 14px 38px rgba(var(--deep-rgb), 0.38);
+  overflow: visible;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
 }
 
 .exhibit-banner:hover {
   border-color: rgba(var(--gold-rgb), 0.55);
   transform: translateY(-2px);
-  box-shadow: inset 0 0 70px rgba(var(--gold-rgb), 0.16), 0 18px 46px rgba(var(--deep-rgb), 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(var(--gold-2-rgb), 0.2),
+    inset 0 0 70px rgba(var(--gold-rgb), 0.16),
+    0 20px 50px rgba(var(--deep-rgb), 0.52),
+    0 0 40px rgba(var(--ruby-rgb), 0.16);
+}
+
+/* 扫光 */
+.exhibit-banner-sheen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.exhibit-banner-sheen::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  bottom: -30%;
+  left: 0;
+  width: 34%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(var(--gold-2-rgb), 0.22) 50%,
+    transparent 100%
+  );
+  transform: translateX(-140%) skewX(-14deg);
+  animation: banner-sheen 7.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes banner-sheen {
+  0%,
+  54% {
+    transform: translateX(-140%) skewX(-14deg);
+  }
+  96%,
+  100% {
+    transform: translateX(420%) skewX(-14deg);
+  }
 }
 
 .exhibit-banner-label {
+  position: relative;
+  z-index: 2;
   flex: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 2px;
-  padding: 14px clamp(14px, 2vw, 22px);
-  background: linear-gradient(120deg, var(--gold-2), var(--gold));
+  padding: 17px clamp(20px, 2.6vw, 32px) 17px clamp(15px, 2.1vw, 24px);
+  background: linear-gradient(120deg, var(--gold-2), var(--gold) 70%, var(--gold-2));
   color: var(--on-gold);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
+  box-shadow: inset 0 0 0 1px rgba(var(--ink-rgb), 0.08);
 }
 
 .exhibit-banner-label span {
@@ -4860,23 +4910,73 @@ html.theme-cyber body .footer {
   letter-spacing: 0.16em;
 }
 
+/* 魔魔团：站在条底，蹦一下 */
+.momo-slot {
+  position: relative;
+  z-index: 3;
+  flex: none;
+  align-self: stretch;
+  width: clamp(62px, 7.2vw, 98px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-left: clamp(-4px, -0.3vw, 0px);
+}
+
+.exhibit-momo {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 0;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 10px 16px rgba(var(--deep-rgb), 0.55));
+  animation: momo-hop 3.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+  will-change: transform;
+}
+
+@keyframes momo-hop {
+  0%,
+  50%,
+  100% {
+    transform: translateY(0) scale(1, 1) rotate(0deg);
+  }
+  6% {
+    transform: translateY(1px) scale(1.05, 0.94) rotate(0deg);
+  }
+  18% {
+    transform: translateY(-26px) scale(0.93, 1.09) rotate(-5deg);
+  }
+  30% {
+    transform: translateY(0) scale(1.07, 0.91) rotate(2deg);
+  }
+  38% {
+    transform: translateY(-9px) scale(0.97, 1.04) rotate(-2deg);
+  }
+  46% {
+    transform: translateY(0) scale(1.02, 0.98) rotate(0deg);
+  }
+}
+
 .exhibit-banner-main {
+  position: relative;
+  z-index: 2;
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 4px;
-  padding: 14px 0;
+  padding: 16px 0;
   text-decoration: none;
 }
 
 .exhibit-banner-main b {
   font-family: var(--font-display);
-  font-size: clamp(16px, 1.7vw, 21px);
+  font-size: clamp(17px, 1.8vw, 22px);
   font-weight: 400;
   letter-spacing: 0.06em;
   color: var(--ink);
+  transition: color 0.3s ease;
 }
 
 .exhibit-banner-main em {
@@ -4892,12 +4992,16 @@ html.theme-cyber body .footer {
 }
 
 .exhibit-banner-go {
+  position: relative;
+  z-index: 2;
   flex: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 0 clamp(14px, 2vw, 22px);
-  border-left: 1px dashed rgba(var(--gold-rgb), 0.35);
+  margin-right: clamp(12px, 1.6vw, 18px);
+  padding: 10px clamp(14px, 1.8vw, 20px);
+  border: 1px solid rgba(var(--gold-rgb), 0.4);
+  border-radius: 999px;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.16em;
@@ -4905,18 +5009,31 @@ html.theme-cyber body .footer {
   text-decoration: none;
   color: var(--gold-2);
   white-space: nowrap;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .exhibit-banner-go:hover {
-  background: rgba(var(--gold-rgb), 0.12);
+  background: rgba(var(--gold-rgb), 0.16);
+  border-color: rgba(var(--gold-rgb), 0.8);
   color: var(--gold-3);
+  box-shadow: 0 0 24px rgba(var(--gold-rgb), 0.25);
 }
 
 .exhibit-banner-go span {
   font-size: 12px;
+  transition: transform 0.3s ease;
 }
 
+.exhibit-banner-go:hover span {
+  transform: translate(2px, -2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exhibit-momo,
+  .exhibit-banner-sheen::before {
+    animation: none;
+  }
+}
 /* — 展厅本体 — */
 .exhibit-section {
   position: relative;
@@ -5313,7 +5430,8 @@ html.theme-cyber body .footer {
   }
   .exhibit-banner {
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px 10px;
+    align-items: center;
   }
   .exhibit-banner-label {
     flex-direction: row;
@@ -5321,16 +5439,29 @@ html.theme-cyber body .footer {
     gap: 10px;
     width: 100%;
     padding: 10px 14px;
+    clip-path: none;
+  }
+  .momo-slot {
+    width: 52px;
+    align-self: center;
+    margin: 0 0 4px 4px;
   }
   .exhibit-banner-main {
-    padding: 4px 2px 8px;
-    flex-basis: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 6px 0 8px;
+  }
+  .exhibit-banner-main b {
+    font-size: 16px;
+  }
+  .exhibit-banner-main em {
+    font-size: 9.5px;
+    line-height: 1.7;
   }
   .exhibit-banner-go {
     width: 100%;
-    padding: 12px 2px;
-    border-left: none;
-    border-top: 1px solid var(--line-soft);
+    margin: 0 12px 12px;
+    justify-content: center;
   }
   .exhibit-frame-enter {
     display: none;
