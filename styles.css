@@ -4711,8 +4711,59 @@ html.theme-abyss body .global-bg-overlay {
     linear-gradient(180deg, rgba(26, 8, 16, 0.52), rgba(2, 4, 9, 0.9));
 }
 
+/* 深渊主题：参考「深渊回望之下」主视觉——底部岩浆辉光 + 冷灰岩层 */
 html.theme-abyss body .hero-bg {
-  filter: saturate(0.68) contrast(1.16) brightness(0.4) hue-rotate(-4deg);
+  background-image:
+    radial-gradient(58% 42% at 50% 112%, rgba(255, 118, 44, 0.55), transparent 68%),
+    radial-gradient(74% 48% at 66% 118%, rgba(214, 38, 40, 0.4), transparent 72%),
+    radial-gradient(90% 60% at 18% -10%, rgba(120, 26, 34, 0.5), transparent 66%),
+    url("images/hero_banner_custom.jpg");
+  background-size: cover;
+  background-position: 50% 26%;
+  filter: saturate(0.82) contrast(1.16) brightness(0.44);
+  transform: scale(1.06) translateZ(0);
+}
+
+html.theme-abyss body .global-bg-slide.active {
+  opacity: 0.34;
+  filter: saturate(0.72) contrast(1.1) brightness(0.4);
+}
+
+html.theme-abyss body .global-bg-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(60% 40% at 50% 104%, rgba(255, 112, 42, 0.3), transparent 70%),
+    radial-gradient(80% 50% at 20% 100%, rgba(196, 30, 40, 0.22), transparent 72%);
+}
+html.theme-abyss body .global-bg-overlay {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(6, 8, 15, 0.42), rgba(6, 8, 15, 0.9) 62%, var(--bg-deep) 100%),
+    linear-gradient(180deg, rgba(26, 8, 16, 0.52), rgba(2, 4, 9, 0.9));
+}
+
+/* 深渊主题：背景换成「深渊回望之下」主视觉（岩浆 / 火山 / 光束） */
+html.theme-abyss body .hero-bg {
+  background-image: url("images/bg_abyss.jpg");
+  background-position: 50% 42%;
+  filter: saturate(0.85) contrast(1.15) brightness(0.42);
+  transform: scale(1.06) translateZ(0);
+}
+
+html.theme-abyss body .global-bg-slide.active {
+  background-image: url("images/bg_abyss.jpg") !important;
+  background-position: 50% 45%;
+  opacity: 0.42;
+  filter: saturate(0.8) contrast(1.12) brightness(0.42) blur(1.5px);
+}
+
+html.theme-abyss body .global-bg-overlay {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(6, 8, 15, 0.5), rgba(6, 8, 15, 0.92) 62%, var(--bg-deep) 100%),
+    linear-gradient(180deg, rgba(46, 8, 14, 0.55), rgba(2, 4, 9, 0.92));
 }
 
 html.theme-abyss body .hero-overlay {

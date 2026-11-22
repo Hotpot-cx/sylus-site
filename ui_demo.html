@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="zh-CN" class="theme-abyss">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI 改版预览 · 深渊回望 | 秦彻</title>
+    <meta name="description" content="N109 档案站 UI 改版实验页：深渊回望主题 + three.js 粒子背景。" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@200;300;400;500;700&family=LXGW+WenKai:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("sylus-theme") || "abyss";
+          if (t === "cyber") t = "abyss";
+          document.documentElement.className =
+            t === "ivory" ? "theme-ivory" : t === "abyss" ? "theme-abyss" : "theme-scarlet";
+        } catch (e) {
+          document.documentElement.className = "theme-abyss";
+        }
+      })();
+    </script>
+    <style>
+      /* ===== 仅本页：深渊主题下的新 UI 实验版式 ===== */
+      :root {
+        --d-ink: #ece9ef;
+        --d-dim: #8b8592;
+        --d-red: #e8394f;
+        --d-red-2: #ff6b7d;
+        --d-line: rgba(255, 107, 125, 0.16);
+        --d-line-2: rgba(220, 228, 255, 0.08);
+        --d-bg: #050408;
+        --d-serif: "Cormorant Garamond", "LXGW WenKai", serif;
+        --d-mono: "DM Mono", ui-monospace, monospace;
+        --d-cjk: "Noto Sans SC", sans-serif;
+      }
+      html.theme-ivory,
+      html.theme-scarlet {
+        --d-ink: var(--ink);
+        --d-dim: var(--ink-3);
+        --d-red: var(--gold-2);
+        --d-line: rgba(var(--gold-rgb), 0.16);
+        --d-line-2: rgba(var(--ink-rgb), 0.08);
+        --d-bg: var(--bg);
+      }
+
+      /* 站酷小薇体缺「回」字形，补一枚本地衬线（与主站一致） */
+      @font-face {
+        font-family: "ZCOOL XiaoWei";
+        src: local("Noto Serif SC"), local("Source Han Serif SC"), local("Songti SC"),
+          local("SimSun"), local("Microsoft YaHei"), local("PingFang SC");
+        unicode-range: U+56DE;
+        font-display: swap;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--d-bg);
+        color: var(--d-ink);
+        font-family: var(--d-cjk);
+        min-height: 100%;
+      }
+      body {
+        overflow-x: hidden;
+      }
+      #fx {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        display: block;
+      }
+      /* 背景网格 + 渐晕 */
+      .d-vignette {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background:
+          radial-gradient(120% 90% at 50% 0%, transparent 30%, rgba(5, 4, 8, 0.55) 72%, #050408 100%),
+          linear-gradient(180deg, rgba(5, 4, 8, 0.72) 0%, transparent 26%, transparent 62%, rgba(5, 4, 8, 0.9) 100%);
+      }
+      .d-grid-lines {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background-image:
+          repeating-linear-gradient(90deg, var(--d-line-2) 0 1px, transparent 1px 25%),
+          repeating-linear-gradient(-45deg, rgba(255, 107, 125, 0.035) 0 1px, transparent 1px 14px);
+        opacity: 0.55;
+        mix-blend-mode: screen;
+      }
+
+      .d-wrap {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* 顶栏 */
+      .d-top {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 16px clamp(18px, 4vw, 46px);
+        border-bottom: 1px solid var(--d-line);
+        background: linear-gradient(180deg, rgba(5, 4, 8, 0.82), rgba(5, 4, 8, 0.2));
+        backdrop-filter: blur(10px);
+      }
+      .d-nav {
+        display: flex;
+        gap: clamp(12px, 2vw, 30px);
+        font-family: var(--d-mono);
+        font-size: 10px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+      }
+      .d-nav a {
+        color: var(--d-dim);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .d-nav a.is-on,
+      .d-nav a:hover {
+        color: var(--d-ink);
+      }
+      .d-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-family: var(--d-mono);
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--d-dim);
+      }
+      .d-tag i {
+        width: 6px;
+        height: 6px;
+        background: var(--d-red);
+        border-radius: 50%;
+        box-shadow: 0 0 12px var(--d-red);
+        animation: d-blink 2.6s ease-in-out infinite;
+      }
+      @keyframes d-blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.25; }
+      }
+
+      /* 左侧竖排小工具 */
+      .d-rail {
+        position: fixed;
+        left: clamp(10px, 2vw, 26px);
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+      }
+      .d-rail span {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        font-family: var(--d-mono);
+        font-size: 12px;
+        color: var(--d-dim);
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+        cursor: default;
+      }
+      .d-rail span:hover {
+        color: var(--d-red-2);
+        border-color: var(--d-line);
+      }
+      .d-rail::after {
+        content: "";
+        width: 1px;
+        height: 62px;
+        background: linear-gradient(var(--d-line), transparent);
+      }
+
+      /* 主视觉 */
+      .d-hero {
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(90px, 12vw, 150px) clamp(22px, 7vw, 120px) clamp(40px, 6vw, 80px);
+        max-width: 1240px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .d-kicker {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: var(--d-mono);
+        font-size: 9.5px;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: var(--d-red-2);
+        margin: 0 0 clamp(18px, 3vw, 34px);
+      }
+      .d-kicker::before {
+        content: "";
+        width: 46px;
+        height: 1px;
+        background: var(--d-red);
+      }
+      .d-title {
+        margin: 0;
+        font-family: var(--d-serif);
+        font-weight: 300;
+        font-size: clamp(58px, 12.5vw, 168px);
+        line-height: 0.86;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: #f4f1f6;
+        text-shadow: 0 0 90px rgba(232, 57, 79, 0.22);
+      }
+      .d-title em {
+        display: block;
+        font-style: italic;
+        font-size: 0.34em;
+        letter-spacing: 0.06em;
+        color: var(--d-red);
+        text-transform: none;
+        margin-top: 0.28em;
+      }
+      .d-cn {
+        margin: clamp(16px, 2.4vw, 28px) 0 0;
+        font-family: "ZCOOL XiaoWei", var(--d-serif);
+        font-size: clamp(20px, 2.2vw, 30px);
+        letter-spacing: 0.3em;
+        color: #ddd6e2;
+      }
+      .d-quote {
+        max-width: 620px;
+        margin: clamp(22px, 3vw, 38px) 0 0;
+        padding-left: 18px;
+        border-left: 1px solid var(--d-red);
+        font-family: var(--d-serif);
+        font-style: italic;
+        font-size: clamp(15px, 1.5vw, 20px);
+        line-height: 1.85;
+        letter-spacing: 0.03em;
+        color: #b9b1c0;
+      }
+      .d-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: clamp(26px, 3.4vw, 44px);
+      }
+      .d-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 22px;
+        font-family: var(--d-mono);
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: 1px solid var(--d-red);
+        color: #fff;
+        background: rgba(232, 57, 79, 0.14);
+        transition: all 0.35s ease;
+      }
+      .d-btn:hover {
+        background: var(--d-red);
+        color: #14030a;
+        box-shadow: 0 0 30px rgba(232, 57, 79, 0.45);
+      }
+      .d-btn.is-ghost {
+        border-color: var(--d-line);
+        background: transparent;
+        color: var(--d-dim);
+      }
+      .d-btn.is-ghost:hover {
+        border-color: var(--d-red);
+        color: var(--d-red-2);
+        background: transparent;
+        box-shadow: none;
+      }
+
+      /* 右侧拼贴 */
+      .d-collage {
+        position: absolute;
+        right: clamp(10px, 4vw, 80px);
+        top: 50%;
+        transform: translateY(-50%);
+        width: clamp(220px, 26vw, 360px);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 10px;
+      }
+      .d-collage figure {
+        margin: 0;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--d-line);
+        background: #09060c;
+      }
+      .d-collage figure:first-child {
+        grid-column: 1 / -1;
+        aspect-ratio: 16 / 8.4;
+      }
+      .d-collage figure:nth-child(2),
+      .d-collage figure:nth-child(3) {
+        aspect-ratio: 1 / 1;
+      }
+      .d-collage img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: saturate(0.94) contrast(1.05);
+        transition: transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.6s ease;
+      }
+      .d-collage figure:hover img {
+        transform: scale(1.06);
+        filter: saturate(1.05) contrast(1.08) brightness(1.06);
+      }
+      .d-collage figcaption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 26px 10px 8px;
+        font-family: var(--d-mono);
+        font-size: 8.5px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #e7dde4;
+        background: linear-gradient(to top, rgba(5, 4, 8, 0.9), transparent);
+      }
+      .d-mark {
+        position: absolute;
+        right: -64px;
+        top: 6px;
+        writing-mode: vertical-rl;
+        font-family: var(--d-mono);
+        font-size: 10px;
+        letter-spacing: 0.4em;
+        color: var(--d-red-2);
+        opacity: 0.85;
+      }
+
+      /* 第二屏：编辑式图版 */
+      .d-sections {
+        padding: clamp(40px, 8vw, 110px) clamp(22px, 7vw, 120px) clamp(60px, 10vw, 140px);
+        max-width: 1240px;
+        margin: 0 auto;
+        border-top: 1px solid var(--d-line);
+      }
+      .d-sec-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: clamp(22px, 3vw, 40px);
+      }
+      .d-sec-head h2 {
+        margin: 0;
+        font-family: var(--d-serif);
+        font-weight: 400;
+        font-size: clamp(26px, 3.4vw, 46px);
+        letter-spacing: 0.02em;
+        color: #f2eef4;
+      }
+      .d-sec-head h2 em {
+        font-style: italic;
+        color: var(--d-red);
+      }
+      .d-sec-head span {
+        font-family: var(--d-mono);
+        font-size: 9.5px;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--d-dim);
+      }
+      .d-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: clamp(12px, 1.6vw, 20px);
+      }
+      .d-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 22px 20px 20px;
+        border: 1px solid var(--d-line);
+        background: linear-gradient(160deg, rgba(28, 8, 14, 0.72), rgba(6, 5, 9, 0.86));
+        transition: border-color 0.4s ease, transform 0.4s ease, background 0.4s ease;
+      }
+      .d-card:hover {
+        border-color: rgba(255, 107, 125, 0.5);
+        transform: translateY(-4px);
+        background: linear-gradient(160deg, rgba(46, 10, 18, 0.8), rgba(8, 6, 11, 0.9));
+      }
+      .d-card-no {
+        font-family: var(--d-mono);
+        font-size: 9px;
+        letter-spacing: 0.3em;
+        color: var(--d-red-2);
+      }
+      .d-card h3 {
+        margin: 0;
+        font-family: var(--d-serif);
+        font-weight: 400;
+        font-size: 22px;
+        letter-spacing: 0.03em;
+        color: #f4f1f6;
+      }
+      .d-card p {
+        margin: 0;
+        font-size: 12.5px;
+        line-height: 1.95;
+        color: #a49db0;
+      }
+      .d-card::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 1px;
+        background: var(--d-red);
+        transition: width 0.5s ease;
+      }
+      .d-card:hover::after {
+        width: 100%;
+      }
+
+      /* 页脚跑马灯 */
+      .d-foot {
+        padding: 0 0 40px;
+        overflow: hidden;
+        border-top: 1px solid var(--d-line);
+      }
+      .d-marquee {
+        display: flex;
+        width: max-content;
+        animation: d-mq 26s linear infinite;
+        border-bottom: 1px solid var(--d-line);
+      }
+      .d-marquee span {
+        padding: 12px 26px;
+        font-family: var(--d-mono);
+        font-size: 10px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--d-dim);
+        border-right: 1px solid var(--d-line);
+        white-space: nowrap;
+      }
+      .d-marquee span b {
+        color: var(--d-red-2);
+        font-weight: 500;
+      }
+      @keyframes d-mq {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+      }
+      .d-foot-inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 18px clamp(22px, 7vw, 120px) 0;
+        font-family: var(--d-mono);
+        font-size: 9.5px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--d-dim);
+      }
+      .d-badge {
+        position: fixed;
+        left: 50%;
+        bottom: 16px;
+        transform: translateX(-50%);
+        z-index: 6;
+        padding: 8px 16px;
+        font-family: var(--d-mono);
+        font-size: 9.5px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #0e0409;
+        background: var(--d-red);
+        box-shadow: 0 8px 30px rgba(232, 57, 79, 0.35);
+      }
+      @media (min-width: 1081px) {
+        .d-hero {
+          padding-right: clamp(300px, 33vw, 520px);
+        }
+      }
+      @media (max-width: 1080px) {
+        .d-collage {
+          position: static;
+          transform: none;
+          width: auto;
+          max-width: 520px;
+          margin-top: 40px;
+        }
+        .d-mark {
+          right: 6px;
+        }
+        .d-rail {
+          display: none;
+        }
+      }
+      @media (max-width: 640px) {
+        .d-nav {
+          display: none;
+        }
+        .d-collage {
+          grid-template-columns: 1fr 1fr;
+        }
+        .d-hero {
+          min-height: auto;
+          padding-top: 110px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #fx { display: none; }
+        .d-marquee, .d-tag i { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="fx" aria-hidden="true"></canvas>
+    <div class="d-vignette" aria-hidden="true"></div>
+    <div class="d-grid-lines" aria-hidden="true"></div>
+
+    <header class="d-top">
+      <nav class="d-nav">
+        <a href="index.html">About</a>
+        <a href="index.html#event" class="is-on">Detail</a>
+        <a href="index.html#cards">Overview</a>
+        <a href="index.html#stories">Stories</a>
+      </nav>
+      <div class="d-tag"><i></i>Sylus · 暗点首领 · N109</div>
+    </header>
+
+    <aside class="d-rail" aria-hidden="true">
+      <span>◍</span><span>◆</span><span>≋</span>
+    </aside>
+
+    <div class="d-wrap">
+      <section class="d-hero">
+        <p class="d-kicker">A Five-Star Memory · 主线分线 11.25</p>
+        <h1 class="d-title">
+          The Abyss
+          <em>Remembers.</em>
+        </h1>
+        <p class="d-cn">深渊回望之下 · 越界者无界</p>
+        <p class="d-quote">
+          他们说能真正杀死怪物的，只有他命中注定的宿敌……<br />
+          —— 你不怕么？
+        </p>
+        <div class="d-actions">
+          <a class="d-btn" href="index.html#event">进入活动速报</a>
+          <a class="d-btn is-ghost" href="index.html">返回主站</a>
+        </div>
+
+        <div class="d-collage">
+          <figure>
+            <img src="images/abyss_cg_1.jpg" alt="秦彻 · 深渊回望" />
+            <figcaption>Abyssal Recall · 01</figcaption>
+          </figure>
+          <figure>
+            <img src="images/abyss_cg_2.jpg" alt="秦彻 · 深渊回望 特写" loading="lazy" />
+            <figcaption>Portrait · 02</figcaption>
+          </figure>
+          <figure>
+            <img src="images/card_abyss.jpg" alt="秦彻 · 深渊回望 卡面" loading="lazy" />
+            <figcaption>Card · 03</figcaption>
+          </figure>
+          <span class="d-mark">11.25 / 05:00</span>
+        </div>
+      </section>
+
+      <section class="d-sections">
+        <div class="d-sec-head">
+          <h2>版式语言 <em>/ Editorial</em></h2>
+          <span>layout study · v1</span>
+        </div>
+        <div class="d-cards">
+          <article class="d-card">
+            <div class="d-card-no">01 — Typography</div>
+            <h3>大字衬线 + 极小等宽</h3>
+            <p>
+              主标题用 Cormorant 大写细衬线拉满视口，辅助信息全部交给 9–10px 的等宽小字，
+              只靠字号与字重拉开层级，不再依赖卡片与边框。
+            </p>
+          </article>
+          <article class="d-card">
+            <div class="d-card-no">02 — Grid</div>
+            <h3>编辑式图版</h3>
+            <p>
+              图片与文字按杂志跨栏排布：一张通栏、两张方图、竖排日期做视觉锚点，
+              留白即分隔，红色只出现在关键字和一根 1px 竖线上。
+            </p>
+          </article>
+          <article class="d-card">
+            <div class="d-card-no">03 — Motion</div>
+            <h3>three.js 粒子背景</h3>
+            <p>
+              背景是一层 WebGL 粒子：缓慢上升的火星、随鼠标轻微视差的摄像机和雾化渐变，
+              只画 1500 个点，降级到纯 CSS 也不影响阅读。
+            </p>
+          </article>
+          <article class="d-card">
+            <div class="d-card-no">04 — Tone</div>
+            <h3>血红 / 近黑 / 冷白</h3>
+            <p>
+              全部颜色收敛到三个值：血红 #e8394f、近黑 #050408、冷白 #ece9ef。
+              红只做强调，永远不做大面积铺底，暗色才撑得住「深渊」。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="d-foot">
+        <div class="d-marquee" aria-hidden="true">
+          <span><b>11.25</b> 主线分线更新</span>
+          <span><b>免费五星</b> 危域寻隙 11.25 — 12.05</span>
+          <span><b>12.06</b> 上架许愿商店</span>
+          <span><b>three.js</b> particle background</span>
+          <span><b>11.25</b> 主线分线更新</span>
+          <span><b>免费五星</b> 危域寻隙 11.25 — 12.05</span>
+          <span><b>12.06</b> 上架许愿商店</span>
+          <span><b>three.js</b> particle background</span>
+        </div>
+        <div class="d-foot-inner">
+          <span>N109 Archive · UI Study</span>
+          <span>秦彻 · 深渊回望</span>
+        </div>
+      </footer>
+    </div>
+
+    <div class="d-badge">UI 改版预览 · 实验页</div>
+
+    <script type="importmap">
+      { "imports": { "three": "./vendor/three.module.min.js" } }
+    </script>
+    <script type="module">
+      import * as THREE from "three";
+
+      const canvas = document.getElementById("fx");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (canvas && !reduce) {
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: false,
+          alpha: true,
+          powerPreference: "high-performance",
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
+        renderer.setSize(window.innerWidth, window.innerHeight, false);
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050408, 0.055);
+        const camera = new THREE.PerspectiveCamera(
+          60,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          120
+        );
+        camera.position.set(0, 0, 22);
+
+        // 圆形粒子贴图（运行时生成，不依赖外部资源）
+        const sprite = (() => {
+          const c = document.createElement("canvas");
+          c.width = c.height = 64;
+          const g = c.getContext("2d");
+          const rg = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+          rg.addColorStop(0, "rgba(255,255,255,1)");
+          rg.addColorStop(0.35, "rgba(255,190,180,0.85)");
+          rg.addColorStop(1, "rgba(255,120,120,0)");
+          g.fillStyle = rg;
+          g.fillRect(0, 0, 64, 64);
+          const t = new THREE.CanvasTexture(c);
+          t.needsUpdate = true;
+          return t;
+        })();
+
+        const COUNT = 1500;
+        const geo = new THREE.BufferGeometry();
+        const pos = new Float32Array(COUNT * 3);
+        const col = new Float32Array(COUNT * 3);
+        const spd = new Float32Array(COUNT);
+        const pha = new Float32Array(COUNT);
+        const c1 = new THREE.Color(0xff5a6e);
+        const c2 = new THREE.Color(0xffb36b);
+        const c3 = new THREE.Color(0x9a3bff);
+        for (let i = 0; i < COUNT; i++) {
+          pos[i * 3] = (Math.random() - 0.5) * 60;
+          pos[i * 3 + 1] = (Math.random() - 0.5) * 44;
+          pos[i * 3 + 2] = (Math.random() - 0.5) * 46;
+          const r = Math.random();
+          const c = r < 0.62 ? c1 : r < 0.9 ? c2 : c3;
+          col[i * 3] = c.r;
+          col[i * 3 + 1] = c.g;
+          col[i * 3 + 2] = c.b;
+          spd[i] = 0.16 + Math.random() * 0.55;
+          pha[i] = Math.random() * Math.PI * 2;
+        }
+        geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+        geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+
+        const mat = new THREE.PointsMaterial({
+          size: 0.42,
+          map: sprite,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.9,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          sizeAttenuation: true,
+        });
+        const points = new THREE.Points(geo, mat);
+        scene.add(points);
+
+        // 远景雾幕
+        const hazeGeo = new THREE.PlaneGeometry(140, 90);
+        const hazeMat = new THREE.MeshBasicMaterial({
+          color: 0x8a1622,
+          transparent: true,
+          opacity: 0.16,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        });
+        const haze = new THREE.Mesh(hazeGeo, hazeMat);
+        haze.position.set(0, -6, -70);
+        scene.add(haze);
+
+        let mx = 0;
+        let my = 0;
+        window.addEventListener(
+          "pointermove",
+          (e) => {
+            mx = (e.clientX / window.innerWidth - 0.5) * 2;
+            my = (e.clientY / window.innerHeight - 0.5) * 2;
+          },
+          { passive: true }
+        );
+
+        const clock = new THREE.Clock();
+        function tick() {
+          const t = clock.getElapsedTime();
+          const p = geo.attributes.position.array;
+          for (let i = 0; i < COUNT; i++) {
+            p[i * 3 + 1] += spd[i] * 0.035;
+            p[i * 3] += Math.sin(t * 0.5 + pha[i]) * 0.006;
+            if (p[i * 3 + 1] > 22) {
+              p[i * 3 + 1] = -22;
+              p[i * 3] = (Math.random() - 0.5) * 60;
+            }
+          }
+          geo.attributes.position.needsUpdate = true;
+          points.rotation.y = t * 0.012;
+          camera.position.x += (mx * 2.4 - camera.position.x) * 0.04;
+          camera.position.y += (-my * 1.6 - camera.position.y) * 0.04;
+          camera.lookAt(0, 0, 0);
+          haze.material.opacity = 0.12 + Math.sin(t * 0.6) * 0.04;
+          renderer.render(scene, camera);
+          requestAnimationFrame(tick);
+        }
+        tick();
+
+        window.addEventListener("resize", () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight, false);
+        });
+      }
+    </script>
+  </body>
+</html>
