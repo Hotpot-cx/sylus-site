@@ -5779,3 +5779,102 @@ html.theme-abyss body .footer {
 .gold-text {
   color: var(--gold-2);
 }
+
+/* ===== 光手章节（深渊主题专用背景） ===== */
+.interlude {
+  position: relative;
+  min-height: min(66vh, 620px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
+  background: radial-gradient(88% 78% at 50% 54%, #0a0510 0%, #040308 72%);
+}
+
+.interlude-hands {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: none;
+  pointer-events: none;
+}
+
+html.theme-abyss body .interlude-hands {
+  display: block;
+}
+
+.interlude-hands img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(1150px, 94%);
+  height: auto;
+  transform: translate(-50%, -50%) scale(var(--hs, 1.02));
+  mix-blend-mode: screen;
+  opacity: 0;
+  filter: blur(5px) saturate(1.05);
+  will-change: opacity, transform;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+html.theme-abyss body .interlude-hands::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 70% at 50% 50%, transparent 34%, rgba(4, 3, 8, 0.72) 92%),
+    linear-gradient(180deg, rgba(4, 3, 8, 0.72) 0%, transparent 26%, transparent 70%, rgba(4, 3, 8, 0.9) 100%);
+  pointer-events: none;
+}
+
+.interlude-copy {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 22px;
+}
+
+.interlude-kicker {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(255, 148, 164, 0.85);
+}
+
+.interlude-quote {
+  margin: 22px 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(24px, 3.2vw, 44px);
+  line-height: 1.7;
+  letter-spacing: 0.06em;
+  color: #fbf7fa;
+  text-shadow: 0 0 70px rgba(255, 226, 234, 0.35), 0 2px 24px rgba(4, 3, 8, 0.9);
+}
+
+.interlude-src {
+  display: block;
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.24em;
+  color: var(--ink-3);
+}
+
+@media (max-width: 760px) {
+  .interlude {
+    min-height: 62vh;
+  }
+  .interlude-hands img {
+    width: 172%;
+    filter: blur(4px) saturate(1.05);
+  }
+  .interlude-quote {
+    font-size: 22px;
+  }
+}

@@ -693,3 +693,50 @@ document.querySelectorAll(".diy-tab").forEach((tab) => {
     if (grid) grid.classList.add("active");
   });
 });
+
+// ===== 光手章节背景（深渊主题）=====
+(function () {
+  const wrap = document.getElementById("interludeHands");
+  if (!wrap) return;
+  const imgs = Array.prototype.slice.call(wrap.querySelectorAll("img"));
+  const SEQ = [0, 1, 2, 3, 3, 2, 1, 0];
+  const SLOT = 1.8;
+  const N = SEQ.length;
+  const cycle = N * SLOT;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const tri = (x, c, w) => {
+    const d = Math.abs(x - c) / w;
+    const v = Math.max(0, 1 - d);
+    return v * v * (3 - 2 * v);
+  };
+
+  function weights(p) {
+    const out = [0, 0, 0, 0];
+    for (let j = 0; j < N; j++) {
+      const w = tri(p, j + 0.5, 1.15);
+      const f = SEQ[j];
+      if (w > out[f]) out[f] = w;
+    }
+    const sum = out.reduce((a, b) => a + b, 0) || 1;
+    if (sum > 1) for (let i = 0; i < 4; i++) out[i] /= sum;
+    return out;
+  }
+
+  if (reduce) {
+    imgs[3].style.opacity = "1";
+    return;
+  }
+
+  const t0 = performance.now();
+  function tick(now) {
+    requestAnimationFrame(tick);
+    if (!document.documentElement.classList.contains("theme-abyss")) return;
+    const p = (((now - t0) / 1000) % cycle) / SLOT;
+    const w = weights(p);
+    for (let i = 0; i < 4; i++) imgs[i].style.opacity = w[i].toFixed(3);
+    const ap = p <= 3 ? p / 3 : p <= 4.6 ? 1 : Math.max(0, (N - p) / (N - 4.6));
+    wrap.style.setProperty("--hs", (1.02 + Math.min(1, Math.max(0, ap)) * 0.05).toFixed(4));
+  }
+  requestAnimationFrame(tick);
+})();
