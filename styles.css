@@ -5878,3 +5878,119 @@ html.theme-abyss body .interlude-hands::after {
     font-size: 22px;
   }
 }
+/* ===== 前线 · 官方动态折叠 ===== */
+.frontline-item.is-extra {
+  display: none;
+}
+
+.frontline-col--official.is-open .frontline-item.is-extra {
+  display: block;
+  animation: fl-fade 0.4s ease both;
+}
+
+@keyframes fl-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.frontline-more {
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px dashed rgba(var(--gold-rgb), 0.35);
+  background: rgba(var(--panel-rgb), 0.42);
+  color: var(--gold-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.frontline-more:hover {
+  border-color: var(--gold);
+  background: rgba(var(--gold-rgb), 0.1);
+  color: var(--gold-3);
+}
+
+.frontline-more .fm-count {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--ink-3);
+}
+
+.frontline-more::after {
+  content: "↓";
+  font-size: 12px;
+  line-height: 1;
+}
+
+.frontline-col--official.is-open .frontline-more::after {
+  content: "↑";
+}
+/* ===== 排期表 · 往年年份折叠 ===== */
+tr.sched-extra {
+  display: none;
+}
+
+.schedule-fold.is-open tr.sched-extra {
+  display: table-row;
+}
+
+.schedule-fold.is-open tr.sched-extra td {
+  animation: fl-fade 0.4s ease both;
+}
+
+.schedule-more {
+  width: 100%;
+  margin: 10px 0 26px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px dashed rgba(var(--gold-rgb), 0.32);
+  background: rgba(var(--panel-rgb), 0.38);
+  color: var(--gold-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.schedule-more:hover {
+  border-color: var(--gold);
+  background: rgba(var(--gold-rgb), 0.1);
+  color: var(--gold-3);
+}
+
+.schedule-more .sm-count {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--ink-3);
+}
+
+.schedule-more::after {
+  content: "↓";
+  font-size: 12px;
+  line-height: 1;
+}
+
+.schedule-more[aria-expanded="true"]::after {
+  content: "↑";
+}

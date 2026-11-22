@@ -740,3 +740,36 @@ document.querySelectorAll(".diy-tab").forEach((tab) => {
   }
   requestAnimationFrame(tick);
 })();
+// ===== 前线：官方动态折叠 / 展开 =====
+(function () {
+  const col = document.querySelector(".frontline-col--official");
+  const btn = document.getElementById("frontlineMore");
+  if (!col || !btn) return;
+  const label = btn.querySelector(".fm-label");
+  const count = btn.querySelector(".fm-count");
+  const total = col.querySelectorAll(".frontline-item").length;
+  const collapsedText = count ? count.textContent : "";
+  btn.addEventListener("click", () => {
+    const open = col.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    if (label) label.textContent = open ? "收起" : "展开全部";
+    if (count) count.textContent = open ? "已显示全部 " + total + " 条" : collapsedText;
+  });
+})();
+// ===== 排期表：往年年份折叠 / 展开 =====
+(function () {
+  document.querySelectorAll(".schedule-more").forEach((btn) => {
+    const wrap = document.getElementById(btn.dataset.fold);
+    if (!wrap) return;
+    const label = btn.querySelector(".sm-label");
+    const count = btn.querySelector(".sm-count");
+    const collapsedText = count ? count.textContent : "";
+    const total = wrap.querySelectorAll("tbody tr").length;
+    btn.addEventListener("click", () => {
+      const open = wrap.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      if (label) label.textContent = open ? "收起" : "展开全部";
+      if (count) count.textContent = open ? "共 " + total + " 条记录" : collapsedText;
+    });
+  });
+})();
