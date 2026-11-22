@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN" class="theme-abyss">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>光手背景实验 | 秦彻</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&family=Noto+Sans+SC:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: #050408; color: #ece9ef; font-family: "Noto Sans SC", sans-serif; }
+      body { overflow-x: hidden; }
+
+      /* 全局场景 */
+      .stage {
+        position: relative;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .stage::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        background:
+          radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(5, 4, 8, 0.72) 88%),
+          linear-gradient(180deg, rgba(5, 4, 8, 0.65), transparent 30%, transparent 70%, rgba(5, 4, 8, 0.85));
+      }
+
+      .hand {
+        position: absolute;
+        z-index: 1;
+        mix-blend-mode: screen;
+        will-change: transform, opacity;
+        pointer-events: none;
+        user-select: none;
+      }
+      .hand-soft {
+        position: absolute;
+        z-index: 0;
+        mix-blend-mode: screen;
+        filter: blur(26px);
+        opacity: 0.55;
+        pointer-events: none;
+      }
+
+      /* 双手相向 */
+      .h-l { width: min(42vw, 520px); left: 4vw; top: 24%; transform: rotate(-8deg); animation: reachL 8s ease-in-out infinite; }
+      .h-r { width: min(42vw, 520px); right: 4vw; top: 30%; transform: scaleX(-1) rotate(-8deg); animation: reachR 8s ease-in-out infinite; }
+      .h-l-soft { width: min(42vw, 520px); left: 4vw; top: 24%; animation: glowPulse 8s ease-in-out infinite; }
+      .h-r-soft { width: min(42vw, 520px); right: 4vw; top: 30%; animation: glowPulse 8s ease-in-out infinite; }
+
+      @keyframes reachL {
+        0%, 100% { transform: rotate(-8deg) translateX(-18px) translateY(6px); opacity: 0.82; }
+        46% { transform: rotate(-5deg) translateX(26px) translateY(-8px); opacity: 1; }
+        54% { transform: rotate(-5deg) translateX(24px) translateY(-7px); opacity: 1; }
+      }
+      @keyframes reachR {
+        0%, 100% { transform: scaleX(-1) rotate(-8deg) translateX(-18px) translateY(6px); opacity: 0.82; }
+        46% { transform: scaleX(-1) rotate(-5deg) translateX(26px) translateY(-8px); opacity: 1; }
+        54% { transform: scaleX(-1) rotate(-5deg) translateX(24px) translateY(-7px); opacity: 1; }
+      }
+      @keyframes glowPulse {
+        0%, 100% { opacity: 0.35; }
+        50% { opacity: 0.7; }
+      }
+
+      /* 文案 */
+      .copy {
+        position: relative;
+        z-index: 4;
+        text-align: center;
+        padding: 0 24px;
+      }
+      .copy .k {
+        font-family: "DM Mono", monospace;
+        font-size: 9.5px;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: rgba(255, 140, 155, 0.9);
+      }
+      .copy h1 {
+        margin: 14px 0 0;
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: clamp(38px, 7vw, 96px);
+        letter-spacing: 0.04em;
+        line-height: 1;
+        color: #fff;
+        text-shadow: 0 0 60px rgba(255, 255, 255, 0.25);
+      }
+      .copy h1 em { font-style: italic; color: #ffd9de; }
+      .copy p {
+        margin: 18px auto 0;
+        max-width: 520px;
+        font-size: 12.5px;
+        line-height: 2;
+        letter-spacing: 0.06em;
+        color: rgba(230, 225, 235, 0.66);
+      }
+
+      .note {
+        position: fixed;
+        left: 50%;
+        bottom: 14px;
+        transform: translateX(-50%);
+        z-index: 9;
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: #0e0409;
+        background: #e8394f;
+        padding: 7px 14px;
+        white-space: nowrap;
+      }
+      .back {
+        position: fixed;
+        left: 16px;
+        top: 14px;
+        z-index: 9;
+        font-family: "DM Mono", monospace;
+        font-size: 9.5px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(236, 233, 239, 0.6);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 107, 125, 0.4);
+        padding-bottom: 2px;
+      }
+      .back:hover { color: #fff; }
+      @media (prefers-reduced-motion: reduce) {
+        .hand, .hand-soft { animation: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="back" href="index.html">← 返回主站</a>
+
+    <section class="stage">
+      <img class="hand-soft h-l-soft" src="images/hand_light_soft.webp" alt="" aria-hidden="true" />
+      <img class="hand-soft h-r-soft" src="images/hand_light_soft.webp" alt="" aria-hidden="true" />
+      <img class="hand h-l" src="images/hand_light.webp" alt="" aria-hidden="true" />
+      <img class="hand h-r" src="images/hand_light.webp" alt="" aria-hidden="true" />
+
+      <div class="copy">
+        <div class="k">Ambience Study · 01</div>
+        <h1>Reach <em>for me.</em></h1>
+        <p>发光手 · 黑场 · 慢速相向呼吸<br />用于首屏或活动页的背景层（纯 CSS + 单张光层）</p>
+      </div>
+    </section>
+
+    <div class="note">背景实验 · 光手层</div>
+  </body>
+</html>
