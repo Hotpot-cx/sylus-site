@@ -575,18 +575,18 @@ if (mascot) {
 }
 
 const dialogueMap = {
-  home: "嘎！欢迎来到 N109 区！11.17 五星「炽光淋漓」限时复刻开启，冠军戒指想要吗！",
-  event: "嘎嘎！两池并行：11.17~11.24 炽光淋漓复刻 UP，还有 11.06~11.24 的自选混池「待异梦重启」！",
+  home: "嘎！欢迎来到 N109 区！11.25 主线分线「深渊回望之下」更新，五星「深渊回望」免费领！",
+  event: "嘎嘎！11.25 分线剧情更新 + 危域寻隙免费五星，复刻和混池 11.24 就收尾了，别错过！",
   blend: "嘎？！这杯「酌光特调」闻着就上头……深红石榴、曼陀罗、肉桂，还有一点首领天赋！",
-  cards: "嘎嘎！这里收录了老大从上线到现在的所有卡面！复刻的「炽光淋漓」和新的「悖序牵引」都在！",
+  cards: "嘎嘎！这里收录了老大从上线到现在的所有卡面！新的「深渊回望」红瞳那张太杀了！",
   story: "嘎嘎！这是秦彻老大的故事！暗点首领可不是好惹的！",
   stories: "嘎！这些剧情每一段我都见证了，那天的风很大……",
   birthday: "嘎嘎！！老大的生日派对！蛋糕分我一块！",
   mephisto: "嘎？！这页写的不就是我吗！等等……还有那两个小鬼？！",
   fanart: "嘎嘎！有人在画老大！让我看看帅不帅！",
-  schedule: "嘎嘎！11.17 炽光淋漓复刻到 11.24，混池也在同步进行，之后还有主分线更新和周年庆，本鸦把历法背熟了！",
+  schedule: "嘎嘎！11.24 复刻混池收尾，11.25 分线更新 + 免费五星，12.06 上许愿商店，本鸦把历法背熟了！",
   diy: "嘎！拼豆、吧唧、痛包……小狸花们动起手来，本鸦给你们加油！",
-  frontline: "嘎！前线速报！炽光淋漓复刻的实机 PV 出来了，老大戴冠军戒指的样子有点过分！",
+  frontline: "嘎！前线速报！深渊回望的物料出来了——血火里的红瞳，本鸦吓到羽毛都炸了！",
   discuss: "嘎！在聊什么？让本鸦也听听！",
 };
 let lastSection = "";
@@ -621,18 +621,18 @@ if (mascot) {
   showSpeech(dialogueMap.home);
 }
 
-// ===== Theme Switcher（赤墨 / 象牙 / 赛博）=====
+// ===== Theme Switcher（赤墨 / 象牙 / 深渊）=====
 (function () {
   const THEME_KEY = "sylus-theme";
-  const DEFAULT_THEME = "cyber"; // 活动期默认赛博；换成 "scarlet" 即默认日常红金
-  const VALID = ["scarlet", "ivory", "cyber"];
+  const DEFAULT_THEME = "abyss"; // 活动期默认深渊（主线分线色系）；换成 "scarlet" 即默认日常红金
+  const VALID = ["scarlet", "ivory", "abyss"];
   const btn = document.getElementById("themeBtn");
   const menu = document.getElementById("themeMenu");
   const switcher = document.getElementById("themeSwitcher");
 
   function current() {
     const cls = document.documentElement.className;
-    const m = cls.match(/theme-(scarlet|ivory|cyber)/);
+    const m = cls.match(/theme-(scarlet|ivory|abyss)/);
     return m ? m[1] : DEFAULT_THEME;
   }
 

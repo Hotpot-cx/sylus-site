@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" class="theme-cyber">
+<html lang="zh-CN" class="theme-abyss">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,9 +20,10 @@
     <script>
       (function () {
         try {
-          var t = localStorage.getItem("sylus-theme") || "cyber";
+          var t = localStorage.getItem("sylus-theme") || "abyss";
+          if (t === "cyber") t = "abyss";
           document.documentElement.className =
-            t === "ivory" ? "theme-ivory" : t === "cyber" ? "theme-cyber" : "theme-scarlet";
+            t === "ivory" ? "theme-ivory" : t === "abyss" ? "theme-abyss" : "theme-scarlet";
         } catch (e) {
           document.documentElement.className = "theme-scarlet";
         }
@@ -499,7 +500,7 @@
             <div class="theme-menu" id="themeMenu" hidden role="menu" aria-label="配色方案">
               <button type="button" data-set-theme="scarlet" role="menuitem"><i class="sw sw-scarlet"></i>赤墨 · 日常</button>
               <button type="button" data-set-theme="ivory" role="menuitem"><i class="sw sw-ivory"></i>象牙 · 浅色</button>
-              <button type="button" data-set-theme="cyber" role="menuitem"><i class="sw sw-cyber"></i>赛博 · 活动期</button>
+              <button type="button" data-set-theme="abyss" role="menuitem"><i class="sw sw-abyss"></i>深渊 · 主线分线</button>
             </div>
           </div>
         </div>
@@ -605,17 +606,17 @@
     <script>
       (function () {
         var KEY = "sylus-theme";
-        var VALID = ["scarlet", "ivory", "cyber"];
+        var VALID = ["scarlet", "ivory", "abyss"];
         var btn = document.getElementById("themeBtn");
         var menu = document.getElementById("themeMenu");
         var switcher = document.getElementById("themeSwitcher");
 
         function current() {
-          var m = document.documentElement.className.match(/theme-(scarlet|ivory|cyber)/);
-          return m ? m[1] : "cyber";
+          var m = document.documentElement.className.match(/theme-(scarlet|ivory|abyss)/);
+          return m ? m[1] : "abyss";
         }
         function apply(t, persist) {
-          if (VALID.indexOf(t) === -1) t = "cyber";
+          if (VALID.indexOf(t) === -1) t = "abyss";
           document.documentElement.className = "theme-" + t;
           if (persist) {
             try { localStorage.setItem(KEY, t); } catch (e) {}

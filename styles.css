@@ -107,6 +107,16 @@
   --font-wide: "Anybody", "Inter", sans-serif;
 }
 
+/* 站酷小薇体（ZCOOL XiaoWei）缺「回」字形，会渲染成实心方块；
+   给同族补一枚本地衬线字形，只作用于 U+56DE 这一个字。 */
+@font-face {
+  font-family: "ZCOOL XiaoWei";
+  src: local("Noto Serif SC"), local("Source Han Serif SC"), local("Songti SC"), local("SimSun"),
+    local("Microsoft YaHei"), local("PingFang SC");
+  unicode-range: U+56DE;
+  font-display: swap;
+}
+
 html {
   scroll-behavior: smooth;
   background: var(--bg-deep);
@@ -4621,31 +4631,31 @@ html.theme-ivory body .hero-eyebrow {
 }
 
 /* ===== Cyber theme (赛博 · 活动期) ===== */
-html.theme-cyber body {
-  --bg: #05060e;
-  --bg-deep: #02030a;
-  --surface: #080b16;
-  --surface-2: #0a0f1e;
-  --surface-3: #0e1526;
-  --bordeaux: #170a2e;
-  --claret: #1e1140;
-  --ruby: #6d28d9;
-  --ruby-bright: #a855f7;
-  --gold: #35e6e0;
-  --gold-2: #7ff5f0;
-  --gold-3: #dbfcff;
-  --ink: #e8f4ff;
-  --ink-2: #a5b6d0;
-  --ink-3: #64748b;
-  --on-gold: #04121a;
-  --line: rgba(127, 245, 240, 0.18);
-  --line-soft: rgba(214, 252, 255, 0.07);
-  --red-glow: rgba(168, 85, 247, 0.14);
-  --glass-bg: rgba(5, 9, 18, 0.45);
-  --glass-bg-light: rgba(9, 14, 26, 0.34);
-  --glass-border: rgba(127, 245, 240, 0.16);
-  --glass-border-glow: rgba(168, 85, 247, 0.34);
-  --shadow-glow: 0 0 0 1px rgba(127, 245, 240, 0.18), 0 26px 70px rgba(23, 10, 46, 0.6);
+html.theme-abyss body {
+  --bg: #06080f;
+  --bg-deep: #020409;
+  --surface: #090d17;
+  --surface-2: #0c111f;
+  --surface-3: #101728;
+  --bordeaux: #1a0810;
+  --claret: #260b16;
+  --ruby: #5a1020;
+  --ruby-bright: #6b7dff;
+  --gold: #e8394f;
+  --gold-2: #ff6b7d;
+  --gold-3: #ffd2d8;
+  --ink: #f0f2f8;
+  --ink-2: #a7afc2;
+  --ink-3: #646d80;
+  --on-gold: #14030a;
+  --line: rgba(255, 107, 125, 0.2);
+  --line-soft: rgba(220, 230, 255, 0.07);
+  --red-glow: rgba(232, 57, 79, 0.16);
+  --glass-bg: rgba(6, 8, 16, 0.46);
+  --glass-bg-light: rgba(9, 13, 23, 0.36);
+  --glass-border: rgba(255, 107, 125, 0.16);
+  --glass-border-glow: rgba(107, 125, 255, 0.32);
+  --shadow-glow: 0 0 0 1px rgba(255, 107, 125, 0.18), 0 26px 70px rgba(18, 4, 9, 0.6);
   --primary-red: var(--ruby-bright);
   --light-red: var(--ruby-bright);
   --dark-red: var(--bordeaux);
@@ -4656,153 +4666,162 @@ html.theme-cyber body {
   --text-muted: var(--ink-3);
   --border: var(--line-soft);
   --border-light: var(--line);
-  --border-hover: rgba(168, 85, 247, 0.32);
+  --border-hover: rgba(255, 107, 125, 0.34);
   --surface-light: var(--surface-2);
   --surface-raised: var(--surface-2);
-  --accent-purple: #2a1257;
-  --bordeaux-rgb: 23, 10, 46;
-  --claret-rgb: 30, 17, 64;
-  --ruby-rgb: 109, 40, 217;
-  --ruby-bright-rgb: 168, 85, 247;
-  --gold-rgb: 53, 230, 224;
-  --gold-2-rgb: 127, 245, 240;
-  --gold-3-rgb: 219, 252, 255;
-  --ink-rgb: 232, 244, 255;
-  --ink-2-rgb: 165, 182, 208;
-  --deep-rgb: 2, 3, 10;
-  --panel-rgb: 6, 9, 18;
-  --raised-rgb: 12, 16, 30;
-  --base-rgb: 5, 6, 14;
-  --deeper-rgb: 10, 6, 20;
-  --blend-rgb: 8, 26, 44;
+  --accent-purple: #2a1838;
+  --bordeaux-rgb: 26, 8, 16;
+  --claret-rgb: 38, 11, 22;
+  --ruby-rgb: 90, 16, 32;
+  --ruby-bright-rgb: 107, 125, 255;
+  --gold-rgb: 232, 57, 79;
+  --gold-2-rgb: 255, 107, 125;
+  --gold-3-rgb: 255, 210, 216;
+  --ink-rgb: 240, 242, 248;
+  --ink-2-rgb: 167, 175, 194;
+  --deep-rgb: 2, 4, 9;
+  --panel-rgb: 7, 9, 17;
+  --raised-rgb: 13, 16, 28;
+  --base-rgb: 6, 8, 15;
+  --deeper-rgb: 12, 6, 14;
+  --blend-rgb: 22, 8, 20;
   background: var(--bg);
   color: var(--ink);
 }
 
-html.theme-cyber body::before {
+html.theme-abyss body::before {
   background:
-    radial-gradient(1100px 620px at 82% -6%, rgba(53, 230, 224, 0.16), transparent 62%),
-    radial-gradient(900px 580px at 6% 100%, rgba(139, 92, 246, 0.24), transparent 66%);
+    radial-gradient(1100px 620px at 82% -6%, rgba(232, 57, 79, 0.18), transparent 62%),
+    radial-gradient(900px 580px at 6% 100%, rgba(107, 125, 255, 0.2), transparent 66%);
 }
 
-html.theme-cyber body .dragon-scale-bg {
+html.theme-abyss body .dragon-scale-bg {
   background-image:
-    repeating-linear-gradient(115deg, rgba(157, 123, 255, 0.05) 0 1px, transparent 1px 9px),
-    repeating-linear-gradient(-115deg, rgba(53, 230, 224, 0.05) 0 1px, transparent 1px 11px);
+    repeating-linear-gradient(115deg, rgba(232, 57, 79, 0.05) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(-115deg, rgba(107, 125, 255, 0.05) 0 1px, transparent 1px 11px);
 }
 
-html.theme-cyber body .global-bg-slide.active {
-  filter: saturate(0.5) contrast(1.12) brightness(0.42) hue-rotate(-12deg);
+html.theme-abyss body .global-bg-slide.active {
+  filter: saturate(0.5) contrast(1.16) brightness(0.4) hue-rotate(-6deg);
 }
 
-html.theme-cyber body .global-bg-overlay {
+html.theme-abyss body .global-bg-overlay {
   background:
-    radial-gradient(120% 80% at 50% 0%, rgba(5, 6, 14, 0.45), rgba(5, 6, 14, 0.9) 62%, var(--bg-deep) 100%),
-    linear-gradient(180deg, rgba(23, 10, 46, 0.5), rgba(2, 3, 10, 0.9));
+    radial-gradient(120% 80% at 50% 0%, rgba(6, 8, 15, 0.42), rgba(6, 8, 15, 0.9) 62%, var(--bg-deep) 100%),
+    linear-gradient(180deg, rgba(26, 8, 16, 0.52), rgba(2, 4, 9, 0.9));
 }
 
-html.theme-cyber body .hero-bg {
-  filter: saturate(0.62) contrast(1.15) brightness(0.4) hue-rotate(-10deg);
+html.theme-abyss body .hero-bg {
+  filter: saturate(0.68) contrast(1.16) brightness(0.4) hue-rotate(-4deg);
 }
 
-html.theme-cyber body .hero-overlay {
+html.theme-abyss body .hero-overlay {
   background:
-    radial-gradient(90% 70% at 78% 22%, rgba(53, 230, 224, 0.2), transparent 60%),
-    linear-gradient(100deg, rgba(2, 3, 10, 0.96) 8%, rgba(5, 6, 14, 0.72) 48%, rgba(23, 10, 46, 0.62) 100%);
+    radial-gradient(90% 70% at 78% 22%, rgba(232, 57, 79, 0.22), transparent 60%),
+    linear-gradient(100deg, rgba(2, 4, 9, 0.96) 8%, rgba(6, 8, 15, 0.7) 48%, rgba(26, 8, 16, 0.7) 100%);
 }
 
-html.theme-cyber body .hero-title {
-  animation: cyber-pulse 6.5s ease-in-out infinite;
+html.theme-abyss body .hero-title {
+  animation: abyss-pulse 6.5s ease-in-out infinite;
 }
 
-@keyframes cyber-pulse {
+@keyframes abyss-pulse {
   0%,
   100% {
-    text-shadow: 0 0 42px rgba(53, 230, 224, 0.24), 0 0 110px rgba(139, 92, 246, 0.28);
+    text-shadow: 0 0 42px rgba(232, 57, 79, 0.26), 0 0 110px rgba(107, 125, 255, 0.24);
   }
   50% {
-    text-shadow: 0 0 66px rgba(53, 230, 224, 0.4), 0 0 150px rgba(139, 92, 246, 0.4);
+    text-shadow: 0 0 66px rgba(232, 57, 79, 0.42), 0 0 150px rgba(107, 125, 255, 0.34);
   }
 }
 
-html.theme-cyber body .hero-bottom-fade {
+html.theme-abyss body .hero-bottom-fade {
   background: linear-gradient(to top, var(--bg) 6%, transparent);
 }
 
-html.theme-cyber body .nav-preheat {
-  background: linear-gradient(90deg, #170a2e, #1e1140 42%, #0e8c97 72%, #170a2e);
-  border-bottom-color: rgba(120, 200, 255, 0.28);
-  color: #eafcff;
+html.theme-abyss body .nav-preheat {
+  background: linear-gradient(90deg, #1a0810, #3b0d1a 42%, #931b2f 72%, #1a0810);
+  border-bottom-color: rgba(255, 120, 140, 0.32);
+  color: #ffeef0;
 }
 
-html.theme-cyber body .feather svg {
-  fill: rgba(160, 220, 255, 0.16);
+html.theme-abyss body .feather svg {
+  fill: rgba(255, 170, 185, 0.14);
 }
 
-/* 酌光特调：跟着主题换成青紫，但保留海报本身的画 */
-html.theme-cyber body .blend-wrap {
+/* 酌光特调：换成血色 / 暗夜 */
+html.theme-abyss body .blend-wrap {
   background:
-    radial-gradient(90% 70% at 88% 12%, rgba(53, 230, 224, 0.26), transparent 62%),
-    linear-gradient(155deg, #061622 0%, #0b2b3a 34%, #140b2c 78%, #05060e 100%);
+    radial-gradient(90% 70% at 88% 12%, rgba(232, 57, 79, 0.24), transparent 62%),
+    linear-gradient(155deg, #100612 0%, #33091a 34%, #141033 78%, #06080f 100%);
 }
 
-html.theme-cyber body .blend-menu-head,
-html.theme-cyber body .blend-quote,
-html.theme-cyber body .blend-recipe li {
-  color: #eaf7ff;
+html.theme-abyss body .blend-menu-head,
+html.theme-abyss body .blend-quote,
+html.theme-abyss body .blend-recipe li {
+  color: #ffeef1;
 }
 
-html.theme-cyber body .blend-visual-badge {
-  color: #0a0714;
-  background: rgba(196, 176, 255, 0.92);
+html.theme-abyss body .blend-visual-badge {
+  color: #1a0409;
+  background: rgba(255, 190, 200, 0.92);
 }
 
-html.theme-cyber body .blend-visual::after {
-  background: linear-gradient(90deg, rgba(6, 22, 34, 0.85) 0%, rgba(6, 22, 34, 0.1) 34%, transparent 60%);
+html.theme-abyss body .blend-visual::after {
+  background: linear-gradient(90deg, rgba(16, 6, 18, 0.85) 0%, rgba(16, 6, 18, 0.1) 34%, transparent 60%);
 }
 
-html.theme-cyber body .blend-demon {
-  background: radial-gradient(circle at 34% 30%, #a9fffa, #2fb6c9 52%, #5b3ba8);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset -6px -8px 18px rgba(10, 20, 40, 0.45);
+html.theme-abyss body .blend-demon {
+  background: radial-gradient(circle at 34% 30%, #ff9aa8, #c8253f 52%, #3b1d63);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset -6px -8px 18px rgba(30, 6, 12, 0.45);
 }
 
-html.theme-cyber body .blend-demon::before,
-html.theme-cyber body .blend-demon::after {
-  background: linear-gradient(180deg, #a9fffa, #4b2a86);
+html.theme-abyss body .blend-demon::before,
+html.theme-abyss body .blend-demon::after {
+  background: linear-gradient(180deg, #ff9aa8, #4a2a86);
 }
 
-html.theme-cyber body .blend-meter.m-heart .glyphs b {
-  color: #b9a8ff;
-  text-shadow: 0 0 14px rgba(157, 123, 255, 0.7);
+html.theme-abyss body .blend-meter.m-heart .glyphs b {
+  color: #ff9aa8;
+  text-shadow: 0 0 14px rgba(232, 57, 79, 0.7);
 }
 
-html.theme-cyber body .status-badge.upcoming {
+/* 深渊主题：进行中 = 实心血红，即将开启 = 描边 */
+html.theme-abyss body .status-badge.live {
+  color: var(--on-gold);
   background: linear-gradient(120deg, var(--gold-2), var(--gold));
-  border-color: var(--gold-3);
-  box-shadow: 0 0 16px rgba(157, 123, 255, 0.4);
+  border: 1px solid var(--gold-3);
+  box-shadow: 0 0 16px rgba(var(--gold-rgb), 0.5);
 }
 
-html.theme-cyber body .schedule-table tbody tr.is-live {
-  background: rgba(14, 140, 151, 0.18);
+html.theme-abyss body .status-badge.upcoming {
+  color: var(--gold-2);
+  background: rgba(var(--gold-rgb), 0.12);
+  border: 1px solid rgba(var(--gold-rgb), 0.5);
+  box-shadow: none;
 }
 
-html.theme-cyber body .event-card--gold {
-  background: linear-gradient(140deg, rgba(20, 16, 48, 0.8), rgba(5, 6, 14, 0.95) 60%);
+html.theme-abyss body .schedule-table tbody tr.is-live {
+  background: rgba(130, 22, 42, 0.22);
 }
 
-html.theme-cyber body .ai-badge,
-html.theme-cyber body .hero-ticker-label,
-html.theme-cyber body .btn-primary {
+html.theme-abyss body .event-card--gold {
+  background: linear-gradient(140deg, rgba(38, 11, 22, 0.82), rgba(6, 8, 15, 0.95) 60%);
+}
+
+html.theme-abyss body .ai-badge,
+html.theme-abyss body .hero-ticker-label,
+html.theme-abyss body .btn-primary {
   color: var(--on-gold);
 }
 
-html.theme-cyber body ::selection {
-  background: rgba(53, 230, 224, 0.35);
-  color: #eafcff;
+html.theme-abyss body ::selection {
+  background: rgba(232, 57, 79, 0.35);
+  color: #ffeef1;
 }
 
-html.theme-cyber body .footer {
-  background: linear-gradient(180deg, rgba(5, 6, 14, 0.4), var(--bg-deep));
+html.theme-abyss body .footer {
+  background: linear-gradient(180deg, rgba(6, 8, 15, 0.4), var(--bg-deep));
 }
 
 /* ===== Theme switcher（配色切换） ===== */
@@ -4874,8 +4893,8 @@ html.theme-cyber body .footer {
   background: linear-gradient(135deg, #fffaf3, #d9c4a8);
 }
 
-.theme-menu .sw-cyber {
-  background: linear-gradient(135deg, #35e6e0, #8b5cf6);
+.theme-menu .sw-abyss {
+  background: linear-gradient(135deg, #ff3b57 0%, #7a1a2b 52%, #4d5bff 100%);
 }
 
 /* ===== 展览厅（二创投稿展厅） ===== */

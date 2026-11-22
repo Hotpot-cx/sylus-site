@@ -4,15 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0407" />
-    <!-- 配色方案（赤墨 / 象牙 / 赛博）在 <head> 落地，避免首屏闪色
-         默认值需与 scripts.js 里的 DEFAULT_THEME 保持一致：活动期用 "cyber"，平时改回 "scarlet" -->
+    <!-- 配色方案（赤墨 / 象牙 / 深渊）在 <head> 落地，避免首屏闪色
+         默认值需与 scripts.js 里的 DEFAULT_THEME 保持一致：活动期用 "abyss"，平时改回 "scarlet" -->
     <script>
       (function () {
         try {
-          var t = localStorage.getItem("sylus-theme") || "cyber";
+          var t = localStorage.getItem("sylus-theme") || "abyss";
+          if (t === "cyber") t = "abyss"; // 旧版「赛博」配色迁移到「深渊」
           var el = document.documentElement;
           if (t === "ivory") el.className = "theme-ivory";
-          else if (t === "cyber") el.className = "theme-cyber";
+          else if (t === "abyss") el.className = "theme-abyss";
           else el.className = "theme-scarlet";
         } catch (e) {
           document.documentElement.className = "theme-scarlet";
@@ -233,7 +234,7 @@
     <nav class="nav" id="nav">
       <div class="nav-preheat" id="preheatBar">
         <span class="pulse-dot"></span>
-        <span>11.17 05:00 — 11.24 04:59 ｜ 五星思念「秦彻·炽光淋漓」复刻 UP 开启 ｜ 五男主自选混池「待异梦重启」同步进行中</span>
+        <span>11.25 05:00 起 ｜ 秦彻主线分线「深渊回望之下」剧情更新 ｜ 免费五星「秦彻·深渊回望」11.25 — 12.05 领取</span>
         <button class="preheat-close" id="preheatClose" title="关闭" aria-label="关闭活动通知">✕</button>
       </div>
       <div class="nav-inner">
@@ -276,7 +277,7 @@
           <div class="theme-menu" id="themeMenu" hidden role="menu" aria-label="配色方案">
             <button type="button" data-set-theme="scarlet" role="menuitem"><i class="sw sw-scarlet"></i>赤墨 · 日常</button>
             <button type="button" data-set-theme="ivory" role="menuitem"><i class="sw sw-ivory"></i>象牙 · 浅色</button>
-            <button type="button" data-set-theme="cyber" role="menuitem"><i class="sw sw-cyber"></i>赛博 · 活动期</button>
+            <button type="button" data-set-theme="abyss" role="menuitem"><i class="sw sw-abyss"></i>深渊 · 主线分线</button>
           </div>
         </div>
         <button
@@ -393,8 +394,8 @@
             <a href="banner_yimeng.html" class="btn-ghost">活动预告页</a>
           </div>
           <div class="hero-stats">
-            <div class="hero-stat"><b>65</b><span>思念卡面</span></div>
-            <div class="hero-stat"><b>31</b><span>五星思念</span></div>
+            <div class="hero-stat"><b>66</b><span>思念卡面</span></div>
+            <div class="hero-stat"><b>32</b><span>五星思念</span></div>
             <div class="hero-stat"><b>04.18</b><span>生日</span></div>
             <div class="hero-stat"><b>N109</b><span>暗点辖区</span></div>
           </div>
@@ -403,20 +404,20 @@
         <!-- 右：思念卡扇 -->
         <div class="hero-deck">
           <figure class="hero-deck-card c1">
-            <img src="images/event_yimeng_outfit.jpg" alt="配套服饰「狂纵形骸」" loading="lazy" />
-            <figcaption>配套服饰<em>狂纵形骸</em></figcaption>
+            <img src="images/card_abyss.jpg" alt="秦彻 · 深渊回望" loading="lazy" />
+            <figcaption>主线分线思念<em>深渊回望</em></figcaption>
           </figure>
           <figure class="hero-deck-card c2">
-            <img src="images/event_yimeng_card.jpg" alt="秦彻 · 悖序牵引" />
-            <figcaption>五星互动思念<em>悖序牵引</em></figcaption>
+            <img src="images/event_abyss.jpg" alt="秦彻主线分线 · 深渊回望之下 / 危域寻隙" />
+            <figcaption>11.25 分线更新<em>深渊回望之下</em></figcaption>
           </figure>
           <figure class="hero-deck-card c3">
-            <img src="images/event_yimeng_qinche.webp" alt="秦彻 · 仿生形态" loading="lazy" />
-            <figcaption>仿生卡 · 待异梦重启<em>错金迷都</em></figcaption>
+            <img src="images/event_yimeng_qinche.webp" alt="秦彻 · 暗点首领" loading="lazy" />
+            <figcaption>暗点首领<em>秦彻</em></figcaption>
           </figure>
           <div class="hero-deck-badge">
-            <b>11/06</b>
-            <span>限时上架</span>
+            <b>11/25</b>
+            <span>免费领取</span>
           </div>
         </div>
       </div>
@@ -425,14 +426,14 @@
       <div class="hero-ticker">
         <div class="hero-ticker-label">Latest</div>
         <div class="hero-ticker-track">
-          <span><b>11.17</b> 五星「秦彻·炽光淋漓」限时复刻 UP — 11.17 05:00 ~ 11.24 04:59</span>
-          <span><b>11.06</b> 五男主自选混池「待异梦重启」进行中 — 五星互动思念「悖序牵引」</span>
-          <span><b>复刻</b> 保底与累计次数在所有复刻许愿间通用，上次次数继承至本次</span>
-          <span><b>返利</b> 累计许愿送「时光许愿券·限时 ×20」与思念突破材料 ·「眷心馈礼」礼包上架</span>
-          <span><b>11.17</b> 五星「秦彻·炽光淋漓」限时复刻 UP — 11.17 05:00 ~ 11.24 04:59</span>
-          <span><b>11.06</b> 五男主自选混池「待异梦重启」进行中 — 五星互动思念「悖序牵引」</span>
-          <span><b>复刻</b> 保底与累计次数在所有复刻许愿间通用，上次次数继承至本次</span>
-          <span><b>返利</b> 累计许愿送「时光许愿券·限时 ×20」与思念突破材料 ·「眷心馈礼」礼包上架</span>
+          <span><b>11.25</b> 秦彻主线分线「深渊回望之下」「越界者无界」剧情更新 — 通关「无序变局」1-2 解锁</span>
+          <span><b>免费</b> 五星「秦彻·深渊回望」11.25 05:00 ~ 12.05 04:59 完成「危域寻隙」勘察任务免费领取</span>
+          <span><b>商店</b> 12.06 05:00 起永久上架「许愿商店」，可用「时光星尘」兑换「深渊回望」</span>
+          <span><b>收尾</b> 「炽光淋漓」复刻与混池「待异梦重启」将于 11.24 04:59 结束</span>
+          <span><b>11.25</b> 秦彻主线分线「深渊回望之下」「越界者无界」剧情更新 — 通关「无序变局」1-2 解锁</span>
+          <span><b>免费</b> 五星「秦彻·深渊回望」11.25 05:00 ~ 12.05 04:59 完成「危域寻隙」勘察任务免费领取</span>
+          <span><b>商店</b> 12.06 05:00 起永久上架「许愿商店」，可用「时光星尘」兑换「深渊回望」</span>
+          <span><b>收尾</b> 「炽光淋漓」复刻与混池「待异梦重启」将于 11.24 04:59 结束</span>
         </div>
       </div>
 
@@ -490,9 +491,9 @@
           <div class="section-divider-line"></div>
         </div>
         <p>
-          2026 年 11 月双池并行：五星思念「秦彻·炽光淋漓」11.17—11.24 限时复刻 UP；
-          五男主自选混池「待异梦重启」同步进行中——秦彻全新五星互动思念「秦彻·悖序牵引」
-          心迹双结局、配套服饰与「仿生裂隙」等奖励一并公开。
+          11 月 25 日上午 5:00，秦彻主线分线「深渊回望之下」「越界者无界」剧情更新，
+          同期「危域寻隙」开启——完成全部勘察任务即可免费领取主线分线五星思念「秦彻·深渊回望」。
+          另有「炽光淋漓」复刻与「待异梦重启」混池进行中，均于 11.24 04:59 结束。
         </p>
       </div>
 
@@ -510,6 +511,63 @@
       </div>
 
       <div class="event-grid">
+        <!-- ★ 深渊回望（主线分线 · 免费五星） -->
+        <article class="event-card event-card--ruby reveal">
+          <div class="event-card-media">
+            <img src="images/card_abyss.jpg" alt="秦彻 · 深渊回望 主线分线五星思念" loading="lazy" />
+            <div class="event-card-ribbon">主线分线 · 免费五星</div>
+            <div class="event-card-stars" aria-label="五星">★★★★★</div>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-eyebrow">
+              <span class="event-date">11.25 05:00 — 12.05 04:59</span>
+              <span class="event-chip">主线分线</span>
+              <span class="event-chip">免费获取</span>
+            </div>
+            <h3 class="event-card-title">
+              秦彻 · 深渊回望
+              <span>Abyss Gaze</span>
+            </h3>
+            <blockquote class="event-quote">
+              他们说能真正杀死怪物的，只有他命中注定的宿敌……你不怕么？
+            </blockquote>
+            <p class="event-card-desc">
+              11 月 25 日上午 5:00 起，通关「无序变局」1-2 即可解锁分线「隐秘之行」，
+              依次进入秦彻主线分线剧情「深渊回望之下」「越界者无界」；
+              同期开启「危域寻隙」，完成全部勘察任务即可免费领取本次主线分线五星思念。
+            </p>
+
+            <div class="event-tabs" role="tablist">
+              <button class="event-tab active" data-evtab="storyline">分线剧情</button>
+              <button class="event-tab" data-evtab="explore">危域寻隙</button>
+              <button class="event-tab" data-evtab="shop">许愿商店</button>
+            </div>
+            <div class="event-panels">
+              <div class="event-panel active" data-evpanel="storyline">
+                <ul class="event-list">
+                  <li><b>11 月 25 日上午 5:00 起</b>，通关「无序变局」1-2 即可解锁分线<b>「隐秘之行」</b>。</li>
+                  <li>依次进入秦彻主线分线剧情<b>「深渊回望之下」</b>与<b>「越界者无界」</b>。</li>
+                  <li>再临星际斗兽场，重夺命运的选择权。</li>
+                </ul>
+              </div>
+              <div class="event-panel" data-evpanel="explore">
+                <ul class="event-list">
+                  <li>活动时间：<b>11.25 05:00 — 12.05 04:59</b>，完成全部<b>勘察任务</b>免费领取。</li>
+                  <li>勘察点：环形走廊、一号馆、管理员餐厅、二号馆、地下能量场、中枢控制层。</li>
+                  <li>免费五星为本次主线分线五星思念<b>「秦彻·深渊回望」</b>。</li>
+                </ul>
+              </div>
+              <div class="event-panel" data-evpanel="shop">
+                <ul class="event-list">
+                  <li>主线分线思念配套内容为<b>主线剧情</b>，思念界面<b>不设置约会跳转入口</b>。</li>
+                  <li>本次活动结束后，<b>12 月 6 日上午 5:00</b> 起永久上架<b>「许愿商店」</b>。</li>
+                  <li>届时可使用<b>「时光星尘」</b>兑换「深渊回望」。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <!-- ★ 悖序牵引 -->
         <article class="event-card event-card--ruby reveal">
           <div class="event-card-media">
@@ -621,7 +679,7 @@
       <div class="event-notes reveal">
         <div class="event-note">
           <b>Timeline · 活动时间轴</b>
-          <p>11.06 更新后 五男主自选混池「待异梦重启」开启 → 11.24 04:59 混池结束。活动结束后五张活动五星思念将暂无获取途径。</p>
+          <p>11.06 混池「待异梦重启」/ 11.17「炽光淋漓」复刻 → 11.24 04:59 双双结束 → 11.25 05:00 主线分线「深渊回望之下」更新、「危域寻隙」开启 → 12.05 04:59 免费领取截止 → 12.06 05:00「深渊回望」上架许愿商店。</p>
         </div>
         <div class="event-note">
           <b>Notice · 五星池要点</b>
@@ -853,13 +911,38 @@
         </button>
       </div>
       <div class="card-grid bento-mode" id="cardGrid">
+        <!-- Card: 深渊回望 (NEW) - 2026.11 主线分线 免费五星 -->
+        <div
+          class="card reveal"
+          data-card-name="深渊回望"
+          data-release="2026.11"
+          data-rarity="5"
+          data-rerun="主线分线 · 免费获取"
+          data-story="2026年11月25日上午5:00起的秦彻主线分线五星思念。11月25日5:00~12月5日4:59 活动「危域寻隙」期间，完成全部勘察任务即可免费领取。11月25日上午5:00起，通关「无序变局」1-2 即可解锁分线「隐秘之行」，依次进入秦彻主线分线剧情「深渊回望之下」「越界者无界」——再临星际斗兽场，重夺命运的选择权。「他们说能真正杀死怪物的，只有他命中注定的宿敌……你不怕么？」主线分线思念配套内容为主线剧情，思念界面不设置约会跳转入口；本次活动结束后，其将于12月6日上午5:00永久上架「许愿商店」，使用「时光星尘」即可兑换。"
+          data-image="images/card_abyss.jpg"
+        >
+          <div class="card-image-wrapper">
+            <img
+              src="images/card_abyss.jpg"
+              class="card-photo"
+              alt="深渊回望"
+            />
+            <div class="card-info">
+              <h3 class="card-name">深渊回望</h3>
+              <div class="card-meta">
+                <span class="card-date">2026.11</span>
+                <span class="card-tag">免费</span>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Card: 悖序牵引 (NEW) - 2026.11 待异梦重启 五男主自选混池 -->
         <div
           class="card reveal"
           data-card-name="悖序牵引"
           data-release="2026.11"
           data-rarity="5"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2026年11月「待异梦重启」五男主自选混池限定五星互动思念，活动时间11月6日更新后~11月24日上午4:59。将意识上传仿生人，在错金迷都纵情体验吧！而此地唯一的变数，总是蓄意破坏你的事业。走近被他抢走的「混沌区」，跃下深渊，探究他真正的意图。当记忆复苏，选择不违背本心的背叛者，又将何去何从？「致我们的自由，和你的新生。以后，再无任何枷锁了。」猎人可在本期限定五星思念中任选3张，所选思念许愿概率限时大幅提升，占五星获取几率的75%。本期限定五星互动思念支持心迹双结局：根据在心迹故事中的不同选择，故事将走向不同结局。累计许愿可领取通用装饰「仿生裂隙」、深空许愿券·限时×20、活动思念配套服饰、自选当期活动五星思念；限定五星进阶1阶解锁配套幻色服饰。每套配套服饰均包含服装与2款饰品，可拆分搭配。"
           data-image="images/event_yimeng_card.jpg"
         >
@@ -884,7 +967,7 @@
           data-card-name="华筵和奏"
           data-release="2026.09"
           data-rarity="5"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2026年9月「如若午夜无眠」五男主自选混池限定五星互动思念，活动时间9月22日更新后~10月10日上午4:59。暗点的新首领行事张扬，欣然采纳下属建议，要大张旗鼓设宴宣布这个消息。与他亲手摘下胜利的果实，盛宴后的庆贺，也最适合两人同奏。「这是一首庆贺的歌曲——好好享受属于我们的胜利吧。」猎人可在本期限定五星思念中任选3张，所选思念许愿概率限时大幅提升，占五星获取几率的75%。累计许愿可领取通用耳饰「且听琉璃」、深空许愿券·限时×20、活动思念配套服饰与限定发型；限定五星进阶1阶解锁配套幻色服饰，含专属奢华闪粉。"
           data-image="images/event_huayan_5star.jpg"
         >
@@ -1220,7 +1303,7 @@
           data-card-name="戮夜渡梦"
           data-release="2024.12"
           data-rarity="4"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="「深渊殊色」福利活动限定四星日冕思念。通过宝石查探剧情解锁——在那条通往深渊的幽径上，他以一种近乎守护的姿态陪在你身边。梦境与现实交错之间，那双总是让人捉摸不透的眼眸中，映出了你从未见过的温柔倒影。"
           data-image="images/card_real_10.jpg"
         >
@@ -1246,7 +1329,7 @@
           data-card-name="戮夜灼心"
           data-release="2024.12"
           data-rarity="4"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="「深渊殊色」福利活动限定四星日冕思念，通过搭档预演首次通关领取。与戮夜渡梦构成龙族主题日冕套装——当火焰与梦境交织，他用一种近乎执拗的方式将你护在身后。那颗灼热的心脏，只为你一人跳动。"
           data-image="images/card_real_11.jpg"
         >
@@ -1454,7 +1537,7 @@
           data-card-name="纯白虔愿"
           data-release="2025.12"
           data-rarity="4"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="「噬血猎宴」福利活动限定四星日冕思念。2025年12月2日~16日期间，参与搭档预演首次通关即可免费领取。纯白骑士般的造型，与「纯白迷吮」构成日冕套装——在那片被鲜血浸染的维缪城中，他是最虔诚、最不可动摇的信仰。"
           data-image="images/card_real_19.jpg"
         >
@@ -1480,7 +1563,7 @@
           data-card-name="纯白迷吮"
           data-release="2025.12"
           data-rarity="4"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="「噬血猎宴」福利活动限定四星日冕思念。2025年12月2日~16日期间，完成涤雾寻踪全部探索即可免费领取。与「纯白虔愿」构成日冕套装——血月下，恶魔以诗的姿态游走于贵族的宴席，而你的存在，是他唯一的例外。"
           data-image="images/card_real_20.jpg"
         >
@@ -1688,7 +1771,7 @@
           data-card-name="失落绿洲"
           data-release="2024.08"
           data-rarity="5"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2024年8月7日~8月27日「半透明侵占」活动限定五星思念。通过活动任务获取四选一自选资格。在荒芜的沙漠中寻找那片传说中的绿洲——而他，就是你唯一的救赎。"
           data-image="images/card_real_28.jpg"
         >
@@ -1714,7 +1797,7 @@
           data-card-name="风临野"
           data-release="2024.09"
           data-rarity="5"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2024年9月「欲揽旖旎色」国风卡活动限定五星思念。草原主题，国风造型。在辽阔的草原上，他骑着马向你奔来——风扬起他的衣摆，阳光洒在他轮廓分明的侧脸上，那一刻，时间仿佛静止。"
           data-image="images/card_real_29.jpg"
         >
@@ -2078,7 +2161,7 @@
           data-card-name="即兴放逐"
           data-release="2025.10"
           data-rarity="5"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2025年10月「直到心跳沸腾」音乐主题限定五星思念。活动时间10月29日~11月18日，粉色星谱，攻击型。乐队贝斯手主题，完成思念约会可免费获取同名主题曲「即兴放逐」。舞台上的他光芒万丈，而当他拨动琴弦看向你时，整个世界都安静了。"
           data-image="images/card_real_43.jpg"
         >
@@ -2156,7 +2239,7 @@
           data-card-name="混沌纪"
           data-release="2025.12"
           data-rarity="5"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2025年12月「爱，宇宙，诗王座」二周年限定五星思念。活动时间12月31日~2026年1月21日，寰宙帝国主题，五张限定自选3张概率75%。秦彻化身卡奥斯星球首领，恶名远扬的未婚夫与帝国野心家。只要站在他身边，忠心、权力、他的一切……都是你的。"
           data-image="images/card_real_46.jpg"
         >
@@ -2182,7 +2265,7 @@
           data-card-name="千灯共我"
           data-release="2026.02"
           data-rarity="5"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2026年2月「人间缱绻意」限定五星思念。活动时间2月10日~2月27日，五张限定自选3张概率75%。城主秦彻仗义相救，令公主逃婚途中一见倾心。大街小巷熙攘喧嚣，他独倚高楼，只盼与你同尝一口酒，看千盏灯汇入夜空。今晚这城中的灯火，都是为你而燃。"
           data-image="images/card_real_47.jpg"
         >
@@ -2364,7 +2447,7 @@
           data-card-name="肆意拿捏"
           data-release="2024.08"
           data-rarity="3"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2024年8月「半透明侵占」非遗联动限定三星思念。活动期间通过指定任务获取，与五星「失落绿洲」同期限定。非遗联动特别卡面，展现秦彻与传统文化碰撞的独特魅力。他看似随意地把玩着手中的物件，实则每一个动作都经过精心计算——只为博得你的一眼注视。"
           data-image="images/card_real_53.jpg"
         >
@@ -2390,7 +2473,7 @@
           data-card-name="混世"
           data-release="2024.12"
           data-rarity="3"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2024年12月「深渊殊色」福利活动限定三星思念。活动期间在兑换商店用加密磁卡兑换，与五星日冕套装「戮夜渡梦/灼心」同期上架。暗点首领的混世之道——不为规则所束缚，不为世俗所羁绊。在他的世界里，只有他想做的事，和他想守护的人。"
           data-image="images/card_real_54.jpg"
         >
@@ -2468,7 +2551,7 @@
           data-card-name="餍足"
           data-release="2025.12"
           data-rarity="3"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2025年12月「噬血猎宴」福利活动限定三星思念。活动期间在兑换商店用血酩之饮兑换，与五星日冕套装「纯白虔愿/迷吮」同期上架。血月下，恶魔以诗的姿态游走——当他终于得到想要的东西，那双血红色的瞳孔中流露出的是一种餍足的快意，仿佛整个世界都失去了意义，只剩下你。"
           data-image="images/card_real_57.jpg"
         >
@@ -2520,7 +2603,7 @@
           data-card-name="侍风而驰"
           data-release="2024.09"
           data-rarity="3"
-          data-rerun="活动限定"
+          data-rerun="活动限定 · 11.24 结束"
           data-story="2024年9月「欲揽旖旎色」国风卡活动限定三星思念。活动期间通过指定任务获取，与五星「风临野」同期限定。国风造型，草原主题。他骑在马上，衣摆被风吹得猎猎作响——侍风而驰，只为你而来。那一刻，他是草原上最自由的风，也是你最坚定的守护。"
           data-image="images/card_real_59.jpg"
         >
@@ -3601,6 +3684,26 @@
         <div class="frontline-col">
           <div class="frontline-col-title">📡 官方动态</div>
           <div class="frontline-item">
+            <div class="frontline-item-date">2026.11.25 05:00 — 12.05 04:59</div>
+            <div class="frontline-item-title">
+              🌑 主线分线「深渊回望之下」剧情更新 · 五星「秦彻·深渊回望」免费领
+            </div>
+            <div class="frontline-item-desc">
+              11 月 25 日上午 5:00 起，通关「无序变局」1-2 即可解锁分线「隐秘之行」，依次进入秦彻主线分线剧情「深渊回望之下」「越界者无界」——再临星际斗兽场，重夺命运的选择权。同期「危域寻隙」开启（11.25 05:00 — 12.05 04:59），完成全部勘察任务即可免费领取本次主线分线五星思念「秦彻·深渊回望」。注意：主线分线思念配套内容为主线剧情，思念界面不设置约会跳转入口；本次活动结束后，其将于 12 月 6 日上午 5:00 永久上架「许愿商店」，使用「时光星尘」即可兑换。
+            </div>
+            <span class="frontline-item-tag frontline-tag-official">分线</span>
+          </div>
+          <div class="frontline-item">
+            <div class="frontline-item-date">2026.11.22</div>
+            <div class="frontline-item-title">
+              🎬 「深渊回望」视觉物料公开 ·「他们说能真正杀死怪物的……」
+            </div>
+            <div class="frontline-item-desc">
+              「他们说能真正杀死怪物的，只有他命中注定的宿敌……你不怕么？」主线分线物料公开：血火与暗夜里的秦彻，红瞳与破碎的黑色刃甲。11.25 起分线剧情上线，「危域寻隙」同步开启，记得先把「无序变局」1-2 通关。
+            </div>
+            <span class="frontline-item-tag frontline-tag-official">物料</span>
+          </div>
+          <div class="frontline-item">
             <div class="frontline-item-date">2026.11.17 05:00 — 11.24 04:59</div>
             <div class="frontline-item-title">
               🏆 五星思念「秦彻·炽光淋漓」限时复刻 UP
@@ -4059,22 +4162,29 @@
                 <td class="col-name">炽光淋漓（限定五星 · 复刻礼包「眷心馈礼」）</td>
                 <td><span class="status-badge live">复刻中</span></td>
               </tr>
-              <tr>
+              <tr class="is-live">
                 <td class="col-no">30</td>
-                <td class="col-date">11 月</td>
-                <td class="col-type">主线剧情更新</td>
-                <td class="col-name">秦彻主分线更新</td>
-                <td><span class="status-badge predicted">预测</span></td>
+                <td class="col-date">11.25 起</td>
+                <td class="col-type">主线分线剧情</td>
+                <td class="col-name">深渊回望之下 · 越界者无界（通关「无序变局」1-2 解锁）</td>
+                <td><span class="status-badge upcoming">即将开启</span></td>
+              </tr>
+              <tr class="is-live">
+                <td class="col-no">31</td>
+                <td class="col-date">11.25 — 12.05</td>
+                <td class="col-type">危域寻隙 · 免费五星</td>
+                <td class="col-name">秦彻·深渊回望（完成全部勘察任务免费领取）</td>
+                <td><span class="status-badge upcoming">即将开启</span></td>
               </tr>
               <tr>
-                <td class="col-no">31</td>
+                <td class="col-no">32</td>
                 <td class="col-date">12 月</td>
                 <td class="col-type">免费五星（免 5）</td>
                 <td class="col-name">秦彻免 5 · 免费五星思念</td>
                 <td><span class="status-badge predicted">预测</span></td>
               </tr>
               <tr>
-                <td class="col-no">32</td>
+                <td class="col-no">33</td>
                 <td class="col-date">12.31 — 01.20</td>
                 <td class="col-type">周年庆混池</td>
                 <td class="col-name">周年庆混池（猜测古风婚卡）</td>
@@ -4096,10 +4206,11 @@
           为主题 / 内容层面的猜测（档期仅供参考）。
         </p>
         <p style="margin-top: 10px">
-          11 月进度：五星思念「秦彻·炽光淋漓」限时复刻已于 11.17 05:00 开启、11.24 04:59 结束，保底与累计次数
-          在复刻许愿间共享；同期五男主自选混池「待异梦重启」进行中（11.06 更新后 — 11.24 04:59），
-          秦彻五星互动思念「悖序牵引」限时上架。11 月主分线更新、12 月免 5 与周年庆混池仍为推测，
-          周年庆古风婚卡属个人猜测，请以官方公告为准。更新于 2026 年 11 月 17 日。
+          11 月进度：五星「秦彻·炽光淋漓」复刻与五男主自选混池「待异梦重启」均于 11.24 04:59 结束；
+          11.25 05:00 起秦彻主线分线「深渊回望之下」「越界者无界」剧情更新，同期「危域寻隙」开启、
+          完成全部勘察任务免费领取五星思念「秦彻·深渊回望」（11.25 — 12.05 04:59），
+          12.06 05:00 起该思念永久上架「许愿商店」。12 月免 5 与周年庆混池仍为推测，
+          周年庆古风婚卡属个人猜测，请以官方公告为准。更新于 2026 年 11 月 22 日。
         </p>
       </div>
     </section>
@@ -4788,7 +4899,7 @@
           <path d="M12 6L12 20" stroke-width="1" opacity="0.5" />
         </svg>
         <p class="footer-meta">
-          N109 ARCHIVE · SITE VERSION 2026.11 「待异梦重启」·「炽光淋漓」复刻 · LAST UPDATE 2026.11.17
+          N109 ARCHIVE · SITE VERSION 2026.11 「深渊回望」主线分线 · LAST UPDATE 2026.11.22
         </p>
       </div>
       <div class="footer-bottom-line"></div>
